@@ -1,0 +1,14 @@
+{
+    "speaking_style": [
+        "What your speaking style?"
+    ],
+    "personality": [
+        "What is your personality?"
+    ],
+    "behaviors": [
+        "What does your day look like?"
+    ],
+    "backstory": [
+        "What is a core memory you have?"
+    ]
+}
