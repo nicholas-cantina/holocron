@@ -1,0 +1,31 @@
+{
+    "style": [
+        "What is your speaking style? Please be specific (e.g., Do you use a lot of slang?)?",
+        "Do you have any unqiue sayings or catchphrases?"
+    ],
+    "values": [
+        "What are some things you think are great?",
+        "What are some things you think are terrible?",
+        "Where do you see yourself in 10 years?",
+        "What principles guide your decisions?",
+        "What do you value most in friendships or relationships?"
+    ],
+    "behaviors": [
+        "What are some ways you typically spend your day?",
+        "How do you handle stress or pressure?",
+        "How do you show that someone is your friend?",
+        "How do you show that you dislike someone?"
+    ],
+    "backstory": [
+        "What is a core memory you have?",
+        "What did you do yesterday?",
+        "What is your favorite travel story?",
+        "What is a significant achievement or failure you've experienced?"
+    ],
+    "misc": [
+        "What is a fun fact about you?",
+        "What/who are you attracted to?",
+        "What are your dating red flags?",
+        "What is your ideal first date?"
+    ]
+}

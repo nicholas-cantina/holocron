@@ -40,10 +40,10 @@ def save_json_file(filepath: str, data: Dict) -> None:
     except OSError as e:
         print(f"An error occurred while saving to {filepath}: {e}")
 
-def save_jsonl_file(filepath: str, data: Generator[Dict, None, None]) -> None:
+def append_jsonl_file(filepath: str, data: Generator[Dict, None, None]) -> None:
     """Saves a generator of dictionaries as a .jsonl file. Prints an error message if the save fails."""
     try:
-        with open(filepath, 'w', encoding='utf-8') as file:
+        with open(filepath, 'a', encoding='utf-8') as file:
             for item in data:
                 file.write(json.dumps(item, ensure_ascii=False) + '\n')
             print(f"Data successfully saved to {filepath}")

@@ -9,27 +9,29 @@ CREATE TABLE IF NOT EXISTS memory.memories
   external_identity_id  VARCHAR(255)             NOT NULL, -- user id
   message_id            VARCHAR(255)             NOT NULL, -- message id
   message_timestamp     TIMESTAMP WITH TIME ZONE NOT NULL,
-  message_embedding     JSONB                    NOT NULL, -- message embedding (for semantic search)
+  message_embedding     JSONB                    NOT NULL, -- message embedding
   metadata              JSONB                    NOT NULL  -- TODO
 );
 
 -- metadata: {
---   "messages": [message_1, message_2, ...],
+--   "message": message, // string
 --   ...
--- }
-
--- message: {
---   "message_history": ["message_id", "message_id", ...],
 -- }
 
 CREATE UNIQUE INDEX IF NOT EXISTS memories_external_identity_id_external_channel_id_bot_in_channel_id_message_id_idx
 ON memory.memories (
+  bot_in_channel_id,
   external_identity_id,
   external_channel_id,
-  bot_in_channel_id,
   message_id
 );
 
-CREATE EXTENSION vector;
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'vector') THEN
+        CREATE EXTENSION vector;
+    END IF;
+END
+$$;
 
 COMMIT;

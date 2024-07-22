@@ -8,20 +8,6 @@ from pybars import Compiler
 
 CLEAN_COMPILED_TEMPLATE = re.compile(r"\{[^{}]*\}|[^{}]+")
 
-def remove_chars_outside_braces(text):
-    # This regex matches any text within braces and marks it as a group
-    # and captures everything outside braces
-    regex = r'\{[^{}]*\}|[^{}]+'
-    
-    # Function to replace only the characters outside braces
-    def replacement(match):
-        if match.group().startswith('{') and match.group().endswith('}'):
-            return match.group()
-        else:
-            return ''
-    
-    result = re.sub(regex, replacement, text, flags=re.DOTALL)
-    return result
 
 def not_helper(scope: Any, value: Any, *args: Any) -> bool:
     """Returns True if the value is False."""
@@ -51,15 +37,23 @@ def len_helper(scope: Any, data: List, *args: Any) -> int:
     """Returns the length of a list."""
     return len(data)
 
-def to_json_helper(scope: Any, data: Any, *args: Any) -> str:
+def to_json_helper(scope: Any, data: Dict, *args: Any) -> str:
     """Converts a dictionary to a JSON string."""
-    return json.dumps(data, indent=4, ensure_ascii=False)
+    pruned_data = {k: v for k, v in data.items() if k in ["message", "user_id", "first_name", "full_name"]}
+    return json.dumps(pruned_data, indent=4, ensure_ascii=False)
 
 def role_helper(role: str, scope: Any, context: Any, *args: Any) -> str:
     """Returns True if the role matches the expected role."""
     return json.dumps({
+        "role": role,
         "content": "".join(context["fn"](scope)).strip(),
-        "role": role
+    })
+
+def test_helper(scope: Any, context: Any, *args: Any) -> bool:
+    """Returns True if the value is True."""
+    return json.dumps({
+        "role": "user",
+        "content": "".join(context["fn"](scope)).strip(),
     })
 
 HELPERS = {
@@ -73,8 +67,9 @@ HELPERS = {
     "to_json": to_json_helper,
     "system": partial(role_helper, "system"),
     "assistant": partial(role_helper, "assistant"),
-    "user": partial(role_helper, "user"),
+    "user": test_helper,
 }
+
 
 def generate_prompt(prompt_template: str, prompt_data: Dict[str, Any]) -> Optional[str]:
     """Generates a prompt using a handlebars template."""
@@ -82,8 +77,19 @@ def generate_prompt(prompt_template: str, prompt_data: Dict[str, Any]) -> Option
     compiled_template = compiler.compile(prompt_template)
     return compiled_template(prompt_data, helpers=HELPERS)
 
+def clean_generated_prompt(raw_string: str) -> List[Dict[str, str]]:
+    """Cleans up the generated prompt and returns a list of messages."""
+    cleaned_string = raw_string.replace('&quot;', '\\"')
+    cleaned_string = cleaned_string.replace('\\\\', '\\').replace('\\\\', '\\')
+    cleaned_string = cleaned_string.replace("\\'", "'")
+
+    json_parts = re.split(r'(?=\{\"role\")', cleaned_string.strip())[1:]
+    json_parts = [part.strip() for part in json_parts]
+
+    return [json.loads(part) for part in json_parts]
+
 def make_messages(prompt_template: str, prompt_data: Dict[str, Any]) -> List[Dict[str, str]]:
     generated_prompt = generate_prompt(prompt_template, prompt_data)
     if generated_prompt is None:
         return []
-    return remove_chars_outside_braces(generated_prompt)
+    return clean_generated_prompt(generated_prompt)
