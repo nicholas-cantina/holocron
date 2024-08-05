@@ -1,5 +1,7 @@
 import re
+
 from datetime import datetime
+
 
 CAPTURE_FULL_NAME_PATTERN = re.compile(r"Your full_name is(.*?),")
 CAPTURE_USER_NAME_PATTERN = re.compile(r"your user_id is(.*?)\.")
@@ -115,13 +117,9 @@ def extract_sent_messages(conversation):
     return sent_message_objects
 
 
-PROMPT_DATA_CACHE = {}
-
-def extract_prompt_data(conversation):
-    if conversation["_id"] in PROMPT_DATA_CACHE:
-        return PROMPT_DATA_CACHE[conversation["_id"]]
-    
-    prompt_data = {
+def extract_conversation_data(conversation):
+    return {
+        "_id": conversation["_id"], # not used in template
         "bot": extract_bot(conversation),
         "conversation": extract_conversation(conversation),
         "current_time": extract_current_time(),
@@ -129,5 +127,3 @@ def extract_prompt_data(conversation):
         "channel": extract_channel(conversation),
         "messages": extract_sent_messages(conversation)
     }
-    PROMPT_DATA_CACHE[conversation["_id"]] = prompt_data
-    return PROMPT_DATA_CACHE[conversation["_id"]]

@@ -1,6 +1,6 @@
 # Holocron
 
-Holocron is a project that explores the concept of "pre-hallucinating" memories and backstory for a bot immediately after the creator defines its personality. The bot will take a variety of personality and dating quizzes, with its answers saved as "core memories."
+Holocron is a Python testing playground for generating bot responses and exploring hallucinated memories.
 
 ## Setup
 
@@ -27,9 +27,9 @@ Follow these steps to set up the project:
 
 ### Debug in VSCode
 
-1. Switch to the virtual environment kernel (use the button on the top right).
-2. Install `ipykernel` if prompted.
-4. Open and execute the scripts.
+1. Switch to the virtual environment kernel (use the button on the top right)
+2. Install `ipykernel` if prompted
+4. Open and execute the available iPython notebook (e.g., scripts/ipython_notbooks/test.ipynb)
 
 ## Updating the Virtual Environment
 

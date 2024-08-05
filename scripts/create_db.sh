@@ -1,21 +1,21 @@
 #!/bin/bash
 
-# Change to the directory where the script is located
-cd "$(dirname "$0")"
-
 # Define the data directory
 DATA_DIR="../data/db"
 
 # Define the logfile location
 LOG_FILE="../data/db/logfile"
 
-# Define the database name
+# PostgreSQL credentials
 DB_NAME="holocron"
+DB_USER=$(whoami)
+DB_HOST="localhost"
+DB_PORT="5432"
 
-# Get the current user
-USER=$(whoami)
+# Change to the directory where the script is located
+cd "$(dirname "$0")"
 
-# Create the data directory if it doesn't exist
+# Create the data directory if it doesn"t exist
 mkdir -p $DATA_DIR
 
 # Initialize the PostgreSQL data directory
@@ -28,7 +28,7 @@ pg_ctl -D $DATA_DIR -l $LOG_FILE start
 sleep 5
 
 # Create the database and grant privileges
-psql -U $USER -d postgres -c "CREATE DATABASE $DB_NAME;"
-psql -U $USER -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $USER;"
+psql -h "$DB_HOST" -p "$DB_PORT" -d postgres -U "$DB_USER" -c "CREATE DATABASE $DB_NAME;"
+psql -h "$DB_HOST" -p "$DB_PORT" -d postgres -U "$DB_USER" -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO $USER;"
 
 echo "Database '$DB_NAME' created and privileges granted to user '$USER'."

@@ -1,11 +1,34 @@
 #!/bin/bash
 
+# Define the data directory
+DATA_DIR="../data/db"
+
+# Define the logfile location
+LOG_FILE="../data/db/logfile"
+
+# PostgreSQL credentials
+DB_NAME="holocron"
+DB_USER=$(whoami)
+DB_HOST="localhost"
+DB_PORT="5432"
+
 # Change to the directory where the script is located
 cd "$(dirname "$0")"
 
-# Define the data directory and logfile location
-DATA_DIR="../data/db"
-LOG_FILE="../data/db/logfile"
+stop_postgres() {
+  if pg_ctl -D $DATA_DIR status > /dev/null 2>&1; then
+    stop_postgres
+  fi
+}
+
+close_connections() {
+  psql -h "$DB_HOST" -p "$DB_PORT" -d postgres -U "$DB_USER" -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '$DB_NAME';"
+}
+
+# Function to drop the PostgreSQL database
+drop_database() {
+  psql -h "$DB_HOST" -p "$DB_PORT" -d postgres -U "$DB_USER" -c "DROP DATABASE IF EXISTS $DB_NAME;"
+}
 
 # Function to stop PostgreSQL service if it's running
 stop_postgres() {
@@ -22,17 +45,12 @@ delete_log_file() {
   rm -f $LOG_FILE
 }
 
-# Stop the PostgreSQL service
-if pg_ctl -D $DATA_DIR status > /dev/null 2>&1; then
-  echo "Stopping PostgreSQL service..."
-  stop_postgres
-  echo "PostgreSQL service stopped."
-else
-  echo "PostgreSQL service is not running."
-fi
 
 # Delete the data directory and log file
 echo "Deleting data directory and log file..."
+stop_postgres
+close_connections
+drop_database
 delete_data_dir
 delete_log_file
 echo "Data directory and log file deleted."

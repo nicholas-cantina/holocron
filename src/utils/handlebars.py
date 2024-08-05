@@ -1,7 +1,7 @@
 import json
 import re
-from functools import partial
 
+from functools import partial
 from typing import Any, Dict, List, Optional
 from pybars import Compiler
 
@@ -89,8 +89,8 @@ def compile_prompt(prompt_template: str, prompt_data: Dict[str, Any]) -> Optiona
 
 
 def clean_compiled_prompt(raw_string: str) -> List[Dict[str, str]]:
-    cleaned_string = raw_string.replace('&quot;', '\\"')
-    cleaned_string = cleaned_string.replace('\\\\', '\\').replace('\\\\', '\\')
+    cleaned_string = raw_string.replace("&quot;", '\\"')
+    cleaned_string = cleaned_string.replace("\\\\", "\\").replace("\\\\", "\\")
     cleaned_string = cleaned_string.replace("\\'", "'")
 
     json_parts = re.split(r'(?=\{\"role\")', cleaned_string.strip())[1:]
@@ -100,7 +100,7 @@ def clean_compiled_prompt(raw_string: str) -> List[Dict[str, str]]:
 
 
 def get_prompt_messages(prompt_template: str, prompt_data: Dict[str, Any]) -> List[Dict[str, str]]:
-    generated_prompt = compile_prompt(prompt_template, prompt_data)
-    if generated_prompt is None:
+    compiled_prompt = compile_prompt(prompt_template, prompt_data)
+    if compiled_prompt is None:
         return []
-    return clean_compiled_prompt(generated_prompt)
+    return clean_compiled_prompt(compiled_prompt)
