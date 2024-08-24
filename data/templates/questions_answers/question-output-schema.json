@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "question": {
+        "type": "string",
+        "description": "The general question that is what information we want to learn about the bot."
+      },
+      "new_question": {
+        "type": "string",
+        "description": "The new question that is relevant to the bot."
+      }
+    },
+    "required": ["question", "new_question"],
+    "additionalProperties": false
+  }

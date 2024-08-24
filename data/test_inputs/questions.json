@@ -1,14 +1,17 @@
 {
-    "style": [
-        "What is your speaking style? Please be specific (e.g., Do you use a lot of slang?)?",
-        "Do you have any unqiue sayings or catchphrases?"
-    ],
-    "values": [
-        "What are some things you think are great?",
-        "What are some things you think are terrible?",
-        "Where do you see yourself in 10 years?",
-        "What principles guide your decisions?",
-        "What do you value most in friendships or relationships?"
+    "lore": [
+        "How is your world/universe different from Earth I live in (if at all)?",
+        "What is the most important thing to know about where you live?",
+        "What are the important people in positions of power in your world/universe?",
+        "How old are you?",
+        "What is your family like?",
+        "Who is your best friend?",
+        "What is your most significant childhood memory?",
+        "What is your most significant travel memory?",
+        "What event most made you the person you are today?",
+        "What is your most significant achievement?",
+        "What is your most significant failure?",
+        "What did you do yesterday?"
     ],
     "behaviors": [
         "What are some ways you typically spend your day?",
@@ -16,16 +19,17 @@
         "How do you show that someone is your friend?",
         "How do you show that you dislike someone?"
     ],
-    "backstory": [
-        "What is a core memory you have?",
-        "What did you do yesterday?",
-        "What is your favorite travel story?",
-        "What is a significant achievement or failure you've experienced?"
+    "values": [
+        "What are some things you think are great?",
+        "What are some things you think are terrible?",
+        "What principles guide your decisions?",
+        "What do you value most in friendships or relationships?"
     ],
-    "misc": [
-        "What is a fun fact about you?",
-        "What/who are you attracted to?",
-        "What are your dating red flags?",
-        "What is your ideal first date?"
+    "temperment": [
+        "Are you generally happy?"
+    ],
+    "communication_style": [
+        "What is your speaking style? Please be specific (e.g., Do you use a lot of slang?)?",
+        "Do you have any unqiue sayings or catchphrases?"
     ]
 }

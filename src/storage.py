@@ -21,6 +21,7 @@ def _hash_string(input_string):
     return hashed_string
 
 
+# This is specific to the way our test data is configured
 def _get_query_data(conversation_data, message, message_type):
     message_full_name = message["full_name"] if message["role"] == "user" else conversation_data["bot"]["full_name"]
 
@@ -107,7 +108,7 @@ def _fetch_similar_messages_for_bot_room(
                 SELECT 
                     metadata,
                     message_timestamp,
-                    message_embedding <-> %s::vector AS distance
+                    message_embedding <=> %s::vector AS distance
                 FROM {config_data["database"]["schema"]}.{config_data["database"]["search_table"]}
                 WHERE bot_in_channel_identity_id=%s
                     AND external_channel_id=%s

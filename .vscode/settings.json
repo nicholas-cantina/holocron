@@ -1,9 +1,4 @@
 {
-    "autopep8.args": [
-        " --max-line-length=120"
-    ],
-    "pylint.args": [
-        " --max-line-length=120",
-        "--enable=all"
-    ],
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 500  // Auto saves the file .5 seconds after changes
 }
