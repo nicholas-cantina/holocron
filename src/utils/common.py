@@ -23,6 +23,16 @@ def read_json_file(filepath: str) -> Optional[Dict]:
         return None
 
 
+def save_json_file(filepath: str, data: Dict) -> None:
+    """Saves a dictionary as a JSON file. Prints an error message if the save fails."""
+    try:
+        with open(filepath, "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)
+            print(f"Data successfully saved to {filepath}")
+    except OSError as e:
+        print(f"An error occurred while saving to {filepath}: {e}")
+
+
 def read_jsonl_file(filepath: str) -> Generator[Dict, None, None]:
     """Reads a .jsonl file and yields each JSON object as a dictionary."""
     try:
@@ -32,16 +42,6 @@ def read_jsonl_file(filepath: str) -> Generator[Dict, None, None]:
                     yield json.loads(line)
     except (OSError, json.JSONDecodeError) as e:
         print(f"An error occurred while reading {filepath}: {e}")
-
-
-def save_json_file(filepath: str, data: Dict) -> None:
-    """Saves a dictionary as a JSON file. Prints an error message if the save fails."""
-    try:
-        with open(filepath, "w", encoding="utf-8") as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
-            print(f"Data successfully saved to {filepath}")
-    except OSError as e:
-        print(f"An error occurred while saving to {filepath}: {e}")
 
 
 def save_jsonl_file(filepath: str, data: Generator[Dict, None, None]) -> None:

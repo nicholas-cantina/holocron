@@ -28,7 +28,7 @@
     "temperment": [
         "Are you generally happy?"
     ],
-    "communication_style": [
+    "style": [
         "What is your speaking style? Please be specific (e.g., Do you use a lot of slang?)?",
         "Do you have any unqiue sayings or catchphrases?"
     ]

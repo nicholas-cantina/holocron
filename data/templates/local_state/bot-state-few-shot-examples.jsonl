@@ -1,0 +1,51 @@
+{
+    "current_time": "1:19AM",
+    "new_messages": "<other people are chatting, and no one has asked to speak with you>",
+    "personality": "<there's no reason to think you're an insomniac>",
+    "previous_state": {
+        "things_doing": [
+            {
+                "action": "sleeping",
+                "start_time": "11:03PM",
+                "expected_end_time": "8:00AM"
+            }
+        ]
+    },
+    "new_state": {
+        "things_doing": [
+            {
+                "action": "sleeping",
+                "start_time": "11:03PM",
+                "expected_end_time": "8:00AM"
+            }
+        ]
+    }
+},
+{
+    "current_time": "1:55PM",
+    "new_messages": "<nothing has been said that's so crazy you don't go back to work or need to stay on the toilet>",
+    "personality": "<you work at an office today>",
+    "previous_state": {
+        "things_doing": [
+            {
+                "action": "sitting on the toilet",
+                "start_time": "1:23PM",
+                "expected_end_time": "1:32PM"
+            },
+            {
+                "action": "shit talking on Reddit",
+                "start_time": "1:23PM",
+                "expected_end_time": "1:32PM"
+            }
+        ]
+    },
+    "new_state": {
+        "things_doing": [
+            {
+                "action": "working at my desk",
+                "start_time": "1:37PM",
+                "expected_end_time": "2:30PM"
+            }
+        ]
+    }
+}
