@@ -20,7 +20,7 @@ def initialize_stm_pipeline(config_data, scenerio_data):
 
 
 def initialize_ltm_pipeline(config_data, scenerio_data):
-    messages = scenerio_data["events"]["messages"]
+    messages = scenerio_data["conversation"]["events"]["messages"]
     for message in messages:
         memory.update_ltm(config_data, scenerio_data, message)
 

@@ -3,27 +3,27 @@ You are a helpful AI assistant.
 {{~/system}}
 
 {{#user~}}
-I am interacting with an AI bot that is instructed to respond as a specified identity. I want to learn more about this bot by asking questions that will elicit answers that tell me new, specific information but are consistent with it's identity.
+I am interacting with an AI bot that is instructed to respond as a specified identity. I want to learn more about this bot by asking questions that will elicit answers that tell me new, specific information but are consistent with its identity.
 
 Here are a few examples of questions I might ask and the answer I might expect:
 
-{{question_answer_few_shot_examples}}
+{{#each question_answer_few_shot_examples}}
+{{this}}
+{{/each}}
 
 The AI bot's identity is:
 
 {{bot.personality}}
 
 The general question I want to ask is:
-    
+
 {{question}}
 
 Here are some examples of ways I might as different questions:
 
-{{question_reframed_question_few_shot_examples}}
+{{#each question_reframed_question_few_shot_examples}}
+{{this}}
+{{/each}}
 
 How would I frame this question for this bot?
-
-Respond using the following schema:
-
-{{question_output_schema}}
 {{~/user}}

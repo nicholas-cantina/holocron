@@ -1,5 +1,6 @@
 import json
 import re
+import html
 
 from functools import partial
 from typing import Any, Dict, List, Optional
@@ -89,9 +90,9 @@ def compile_prompt(prompt_template: str, prompt_data: Dict[str, Any]) -> Optiona
 
 
 def clean_compiled_prompt(raw_string: str) -> List[Dict[str, str]]:
-    cleaned_string = raw_string.replace("&quot;", '\\"')
+    cleaned_string = html.unescape(raw_string)
     cleaned_string = cleaned_string.replace("\\\\", "\\").replace("\\\\", "\\")
-    cleaned_string = cleaned_string.replace("\\'", "'")
+    cleaned_string = re.sub(r"(?<!\\)'", r"\\'", cleaned_string)
 
     json_parts = re.split(r'(?=\{\"role\")', cleaned_string.strip())[1:]
     json_parts = [part.strip() for part in json_parts]

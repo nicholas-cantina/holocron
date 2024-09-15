@@ -28,9 +28,15 @@ def update_stm(config_data, scenerio_data):
     new_conversation_state = _generate_conversation_stm(config_data, scenerio_data)
     storage.save_conversation_state(config_data, scenerio_data, new_conversation_state)
 
-    for bot_data in scenerio_data["bots"]:
+    for bot_data in scenerio_data["users"]["bots"]:
         new_bot_state = _generate_bot_stm(config_data, scenerio_data, bot_data)
         storage.save_bot_state(config_data, scenerio_data, bot_data, new_bot_state)
 
+
+def update_bot_ltm(config_data, scenerio_data, bot_data, event):
+    storage.save_message(config_data, scenerio_data, bot_data, event)
+
+
 def update_ltm(config_data, scenerio_data, message):
-    storage.save_message(config_data, scenerio_data, message)
+    for bot_data in scenerio_data["users"]["bots"]:
+        update_bot_ltm(config_data, scenerio_data, bot_data, message)

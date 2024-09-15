@@ -6,7 +6,7 @@ if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
 from src.utils import generate, handlebars
-from src.storage import storage
+from src.storage import storage, retrieve
 
 
 def _generate_next_message(config_data, scenerio_data, messages):
@@ -16,8 +16,8 @@ def _generate_next_message(config_data, scenerio_data, messages):
     response = generate.get_completion(
         config_data,
         messages,
-        config_data["generation"]["chat_model"],
-        config_data["generation"]["chat_temperature"]
+        config_data["chat"]["chat_model"],
+        config_data["chat"]["chat_temperature"]
     )
 
     return response
@@ -26,8 +26,8 @@ def _generate_next_message(config_data, scenerio_data, messages):
 def get_response_to_conversation(config_data, scenerio_data):
     last_messsage = scenerio_data["messages"][-1]
 
-    messages = storage.get_relevant_messages_from_message_table(
-       config_data, scenerio_data, last_messsage, config_data["memory"]["num_messages_generate_chat"], "chat"
+    messages = retrieve.get_relevant_messages_from_message_table(
+       config_data, scenerio_data, last_messsage, config_data["chat"]["num_messages_generate_chat"], "chat"
     )
 
     return _generate_next_message(config_data, scenerio_data, messages)
@@ -36,8 +36,8 @@ def get_response_to_conversation(config_data, scenerio_data):
 def get_response_to_conversation_no_memories(config_data, scenerio_data):
     messsage = scenerio_data["messages"][-1]
 
-    messages = storage.get_recent_messages_from_message_table(
-       config_data, scenerio_data, messsage, config_data["memory"]["num_messages_generate_chat"], "chat"
+    messages = retrieve.get_recent_messages_from_message_table(
+       config_data, scenerio_data, messsage, config_data["chat"]["num_messages_generate_chat"], "chat"
     )
     messages = [message for message in messages if message["message_type"] != "chat"]
 

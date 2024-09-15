@@ -24,7 +24,7 @@ def _hash_string(input_string):
 def get_message_query_data(scenerio_data, bot_data, message):
     return {
         "bot_in_channel_identity_id": bot_data["id"],
-        "external_channel_id": scenerio_data["id"],
+        "external_channel_id": scenerio_data["conversation"]["id"],
         "external_identity_id": message["user_id"],
         "message_id": _hash_string(message["user_id"] + ":" + message["message"]),
         "message_timestamp": datetime.now(),
@@ -36,14 +36,14 @@ def get_message_query_data(scenerio_data, bot_data, message):
 
 def _get_bot_query_data(scenerio_data, bot_data):
     return {
-        "external_channel_id": scenerio_data["id"],  # This is a placeholder
-        "external_identity_id": bot_data["full_name"],  # This is a placeholder
+        "external_channel_id": scenerio_data["conversation"]["id"],
+        "external_identity_id": bot_data["id"],
     }
 
 
 def _get_conversation_query_data(scenerio_data):
     return {
-        "external_channel_id": scenerio_data["_id"],  # This is a placeholder
+        "external_channel_id": scenerio_data["conversation"]["id"],
     }
 
 
@@ -55,7 +55,7 @@ def save_message(
     message,
 ):
     query_data = get_message_query_data(scenerio_data, bot_data, message)
-    message_embedding = generate.get_embeddings(config_data, message, config_data["generation"]["embedding_model"])
+    message_embedding = generate.get_embeddings(config_data, message, config_data["search"]["embedding_model"])
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
@@ -72,7 +72,6 @@ def save_message(
                     metadata
                 )
                 VALUES (%s, %s, %s, %s, %s, %s::vector, %s)
-                ON CONFLICT (message_id) DO NOTHING -- This is a placeholder
                 """,
                 (   
                     query_data["bot_in_channel_identity_id"],

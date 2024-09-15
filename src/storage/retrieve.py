@@ -19,7 +19,7 @@ def _fetch_similar_messages_for_bot_room(
     message_type
 ):
     query_data = storage.get_message_query_data(scenerio_data, message, message_type)
-    message_embedding = generate.get_embeddings(config_data, message, config_data["generation"]["embedding_model"])
+    message_embedding = generate.get_embeddings(config_data, message, config_data["search"]["embedding_model"])
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
