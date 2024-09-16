@@ -11,7 +11,7 @@ def get_prompt_data(scenerio_data, bot_data, messages, memories):
             "full_name": bot_data["full_name"],
             "personality": bot_data["personality"]
         },
-        "users_in_room": scenerio_data["users"]["bots"] + scenerio_data["users"]["humans"],
+        "users_in_conversation": scenerio_data["users"]["bots"] + scenerio_data["users"]["humans"],
         "memories": memories,
         "messages": messages,
     }

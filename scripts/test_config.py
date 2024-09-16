@@ -27,11 +27,14 @@ def _get_questions_pipeline_config_data(config, root_dir):
         "question_reframed_question_few_shot_examples": question_reframed_question_few_shot_examples,
         "question_reframe_model": config["Questions"]["question_reframe_model"],
         "question_reframe_temperature": float(config["Questions"]["question_reframe_temperature"]),
+        "question_reframe_model": config["Questions"]["question_reframe_model"],
+        "question_reframe_temperature": float(config["Questions"]["question_reframe_temperature"]),
         "answer_template": answer_template,
         "question_answer_few_shot_examples": question_answer_few_shot_examples,
         "answer_model": config["Questions"]["answer_model"],
         "answer_temperature": float(config["Questions"]["answer_temperature"]),
-        "num_messages_generate_answers": int(config["Questions"]["num_messages_generate_answers"])
+        "num_relevant_messages_generate_answers": int(config["Questions"]["num_relevant_messages_generate_answers"]),
+        "num_recent_messages_generate_answers": int(config["Questions"]["num_recent_messages_generate_answers"])
     }
 
 
@@ -53,7 +56,8 @@ def _get_state_pipeline_config_data(config, root_dir):
         "bot_state_few_shot_examples": bot_state_few_shot_examples,
         "bot_state_model": config["State"]["conversation_state_model"],
         "state_temperature": float(config["State"]["bot_state_temperature"]),
-        "num_messages_generate_state": int(config["State"]["num_messages_generate_state"])
+        "num_recent_messages_generate_state": int(config["State"]["num_recent_messages_generate_state"]),
+        "num_relevant_messages_generate_state": int(config["State"]["num_relevant_messages_generate_state"])
     }
 
 
@@ -63,7 +67,8 @@ def _get_chat_pipeline_config_data(config, root_dir):
         "chat_template": chat_template,
         "chat_model": config["Chats"]["chat_model"],
         "chat_temperature": float(config["Chats"]["chat_temperature"]),
-        "num_messages_generate_chat": int(config["Chats"]["num_messages_generate_chat"])
+        "num_recent_messages_generate_chat": int(config["Chats"]["num_recent_messages_generate_chat"]),
+        "num_relevant_messages_generate_chat": int(config["Chats"]["num_relevant_messages_generate_chat"])
     }
 
 
@@ -101,7 +106,7 @@ def _get_config_data(config, root_dir):
     )
     return {
         "scenerios": scenerios,
-        "how_many_scenerios": int(config["Test"]["how_many_scenerios"]),
+        "num_replies_per_scenerio": int(config["Test"]["num_replies_per_scenerio"]),
         "test_save_output_filepath": os.path.join(root_dir, config["Test"]["test_save_output_file"]),
         "openai_client": openai_client
     }
