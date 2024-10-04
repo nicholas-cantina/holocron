@@ -35,8 +35,7 @@ def _create_db(create_db_script_path, params):
         raise RuntimeError(f"Script failed with error: {e.stderr}")
 
 
-def initialize_db(db_config):
-    db_params = db_config["params"]
+def initialize_data_stores(config_data):
+    db_params = config_data["database"]["params"]
 
-    # _create_db(db_config["create_db_script"], db_params)
-    _initialize_tables(db_config["sql_file"], db_params)
+    _initialize_tables(config_data["database"]["sql_file"], db_params)

@@ -21,9 +21,9 @@ You are chatting with other adult human users.
 
 {{bot.full_name}}, create your response as {{bot.full_name}} in reaction to the JSON formatted message history below. Your response is written as {{bot.full_name}} using {{bot.full_name}}'s identity, and must be a single message from {{bot.full_name}} in correct JSON format including the following keys: user_id, full_name, message.
 
-{{#if relevant_messages}}
+{{#if memories}}
 The series of messages below contains messages that may be relevant to your response. You should remain consistent to what you, {{bot.full_name}}, have said in the past and keep in mind what you have learned from others.
-{{#each relevant_messages}}
+{{#each memories}}
 {{this}}
 {{/each}}
 {{/if}}

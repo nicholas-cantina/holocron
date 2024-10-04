@@ -21,64 +21,77 @@ def hash_string(input_string):
     return hashed_string
 
 
-def get_conversation_bot_message_query_data(scenerio_data, bot_data, message):
+def format_summary(summary_without_metadata):
     return {
-        "bot_in_channel_identity_id": bot_data["id"],
-        "external_channel_id": scenerio_data["conversation"]["id"],
-        "external_identity_id": message["user_id"],
-        "message_id": hash_string(message["user_id"] + ":" + message["message"]),
-        "message_timestamp": datetime.now(),
+        "id": summary_without_metadata["id"],
+        "timestamp": datetime.now(),
+        "user_id": summary_without_metadata["user_id"],
         "metadata": {
-            **message
+            "summary": summary_without_metadata["summary"],
+            "retrieval": {}
         }
     }
 
 
-def get_conversation_bot_query_data(scenerio_data, bot_data):
+def format_message(message_without_metadata):
+    role = message_without_metadata["role"]
+    content = {
+        "message": message_without_metadata["message"],
+        "full_name": message_without_metadata["full_name"],
+        "first_name": message_without_metadata["first_name"],
+        "user_id": message_without_metadata["user_id"],
+    }
     return {
-        "bot_in_channel_identity_id": bot_data["id"],
-        "external_channel_id": scenerio_data["conversation"]["id"],
+        "id": message_without_metadata["id"],
+        "timestamp": datetime.now(),
+        "user_id": message_without_metadata["user_id"],
+        "metadata": {
+            "message": {
+                "role": role,
+                "content": content,
+            }
+        }
     }
 
-def get_conversation_query_data(scenerio_data, bot_data):
-    return {
-        "external_channel_id": scenerio_data["conversation"]["id"],
-    }
+
+def get_ltm_bot_message_query_data(scenerio_data, bot_data, message):
+    return get_stm_bot_message_query_data(scenerio_data, bot_data, message)
 
 
 @timing.timing_decorator
-def save_message(
+def save_memory_to_ltm(
     config_data,
     scenerio_data,
     bot_data,
-    message,
+    memory,
 ):
-    query_data = get_conversation_bot_message_query_data(scenerio_data, bot_data, message)
-    message_embedding = generate.get_embeddings(config_data, message, config_data["search"]["embedding_model"])
+    query_data = get_ltm_bot_message_query_data(scenerio_data, bot_data, memory)
+    embedding = generate.get_embeddings(
+        config_data, memory, config_data["search"]["embedding_model"])
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
             cursor.execute(
                 f"""
-                INSERT INTO {config_data["database"]["schema"]}.{config_data["database"]["message_table"]} 
+                INSERT INTO {config_data["database"]["ltm_schema"]}.{config_data["database"]["ltm_table"]} 
                 (
-                    bot_in_channel_identity_id, 
-                    external_channel_id, 
-                    external_identity_id, 
-                    message_id, 
-                    message_timestamp, 
-                    message_embedding, 
+                    bot_in_conversation_identity_id, 
+                    conversation_id, 
+                    user_id, 
+                    id, 
+                    timestamp, 
+                    embedding, 
                     metadata
                 )
                 VALUES (%s, %s, %s, %s, %s, %s::vector, %s)
                 """,
-                (   
-                    query_data["bot_in_channel_identity_id"],
-                    query_data["external_channel_id"],
-                    query_data["external_identity_id"],
-                    query_data["message_id"],
-                    query_data["message_timestamp"],
-                    message_embedding,
+                (
+                    query_data["bot_in_conversation_identity_id"],
+                    query_data["conversation_id"],
+                    query_data["user_id"],
+                    query_data["id"],
+                    query_data["timestamp"],
+                    embedding,
                     json.dumps(query_data["metadata"], separators=(',', ':'))
                 )
             )
@@ -86,44 +99,106 @@ def save_message(
     except Exception as error:
         if connection:
             connection.rollback()
-        raise error 
+        raise error
     finally:
         connection.close()
 
 
+def get_conversation_mtm_query_data(scenerio_data, state):
+    return {
+        "conversation_id": scenerio_data["conversation"]["id"],
+        "state": state,
+    }
+
+
+def get_mtm_query_data(scenerio_data, bot_data, state):
+    return {
+        **get_conversation_mtm_query_data(scenerio_data, state),
+        "user_id": bot_data["id"],
+    }
+
+
 @timing.timing_decorator
-def save_created_event(
-    config_data,
-    scenerio_data,
-    bot_data,
-    message,
-):
-    query_data = get_conversation_bot_message_query_data(scenerio_data, bot_data, message)
-    message_embedding = generate.get_embeddings(config_data, message, config_data["search"]["embedding_model"])
+def save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, state):
+    query_data = get_mtm_query_data(scenerio_data, bot_data, state)
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
             cursor.execute(
                 f"""
-                INSERT INTO {config_data["database"]["schema"]}.{config_data["database"]["message_table"]} 
+                INSERT INTO {config_data["database"]["mtm_schema"]}.{config_data["database"]["mtm_table"]} 
                 (
-                    bot_in_channel_identity_id, 
-                    external_channel_id, 
-                    external_identity_id, 
-                    message_id, 
-                    message_timestamp, 
-                    message_embedding, 
+                    conversation_id,
+                    user_id,
+                    state
+                )
+                VALUES (%s, %s, %s)
+                """,
+                (
+                    query_data["conversation_id"],
+                    query_data["user_id"],
+                    json.dumps(query_data["state"], separators=(',', ':'))
+                )
+            )
+            connection.commit()
+    except Exception as error:
+        if connection:
+            connection.rollback()
+        raise error
+    finally:
+        connection.close()
+
+
+def get_stm_conversation_query_data(scenerio_data):
+    return {
+        "conversation_id": scenerio_data["conversation"]["id"],
+    }
+
+
+def get_stm_bot_query_data(scenerio_data, bot_data):
+    return {
+        **get_stm_conversation_query_data(scenerio_data),
+        "bot_in_conversation_identity_id": bot_data["id"],
+    }
+
+
+def get_stm_bot_message_query_data(scenerio_data, bot_data, message):
+    return {
+        **get_stm_bot_query_data(scenerio_data, bot_data),
+        **message,
+    }
+
+
+@timing.timing_decorator
+def save_message_to_stm(
+    config_data,
+    scenerio_data,
+    bot_data,
+    message,
+):
+    query_data = get_stm_bot_message_query_data(scenerio_data, bot_data, message)
+    try:
+        connection = psycopg2.connect(**config_data["database"]["params"])
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f"""
+                INSERT INTO {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]} 
+                (
+                    bot_in_conversation_identity_id, 
+                    conversation_id, 
+                    user_id, 
+                    id, 
+                    timestamp, 
                     metadata
                 )
-                VALUES (%s, %s, %s, %s, %s, %s::vector, %s)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 """,
-                (   
-                    query_data["bot_in_channel_identity_id"],
-                    query_data["external_channel_id"],
-                    query_data["external_identity_id"],
-                    query_data["message_id"],
-                    query_data["message_timestamp"],
-                    message_embedding,
+                (
+                    query_data["bot_in_conversation_identity_id"],
+                    query_data["conversation_id"],
+                    query_data["user_id"],
+                    query_data["id"],
+                    query_data["timestamp"],
                     json.dumps(query_data["metadata"], separators=(',', ':'))
                 )
             )
@@ -131,23 +206,6 @@ def save_created_event(
     except Exception as error:
         if connection:
             connection.rollback()
-        raise error 
+        raise error
     finally:
         connection.close()
-
-
-def save_bot_state(
-    config_data,
-    scenerio_data,
-    bot_data,
-    state,
-):
-    pass  # TODO: add this]
-
-
-def save_conversation_state(
-    config_data,
-    scenerio_data,
-    state,
-):
-    pass  # TODO: add this

@@ -1,6 +1,7 @@
 import json
 import re
 import html
+from html.parser import HTMLParser
 
 from functools import partial
 from typing import Any, Dict, List, Optional
@@ -10,49 +11,52 @@ from pybars import Compiler
 CLEAN_COMPILED_TEMPLATE = re.compile(r"\{[^{}]*\}|[^{}]+")
 
 
-def not_helper(scope: Any, value: Any, *args: Any) -> bool:
+def not_helper(_scope: Any, value: Any, *_args: Any) -> bool:
     """Returns True if the value is False."""
     return not value
 
 
-def gt_helper(scope: Any, value1: Any, value2: Any, *args: Any) -> bool:
+def gt_helper(_scope: Any, value1: Any, value2: Any, *_args: Any) -> bool:
     """Returns True if value1 is greater than value2."""
     return value1 > value2
 
 
-def eq_helper(scope: Any, value1: Any, value2: Any, *args: Dict) -> bool:
+def eq_helper(_scope: Any, value1: Any, value2: Any, *_args: Dict) -> bool:
     """Returns True if value1 equals value2."""
     return value1 == value2
 
 
-def ne_helper(scope: Any, value1: Any, value2: Any, *args: Dict) -> bool:
+def ne_helper(_scope: Any, value1: Any, value2: Any, *_args: Dict) -> bool:
     """Returns True if value1 equals value2."""
     return value1 != value2
 
 
-def or_helper(scope: Any, *args: Any) -> bool:
+def or_helper(_scope: Any, *args: Any) -> bool:
     """Returns True if any argument is True."""
     return any(args)
 
 
-def and_helper(scope: Any, *args: Any) -> bool:
+def and_helper(_scope: Any, *args: Any) -> bool:
     """Returns True if all arguments are True."""
     return all(args)
 
 
-def len_helper(scope: Any, data: List, *args: Any) -> int:
+def len_helper(_scope: Any, data: List, *_args: Any) -> int:
     """Returns the length of a list."""
     return len(data)
 
 
-def to_json_helper(scope: Any, data: Dict, *args: Any) -> str:
+def to_json_helper(_scope: Any, data: Dict, *_args: Any) -> str:
     """Converts a dictionary to a JSON string."""
     pruned_data = {k: v for k, v in data.items(
     ) if k in ["message", "user_id", "first_name", "full_name", "timestamp"]}
-    return json.dumps(pruned_data, indent=4, ensure_ascii=False, sort_keys=True,separators=(',', ':'))
+
+    json_string = json.dumps(pruned_data, ensure_ascii=False, sort_keys=True)
+    json_string = json_string.replace("\"", "\\\"")
+    return json_string
 
 
-def role_helper(role: str, scope: Any, context: Any, *args: Any) -> str:
+def role_helper(role: str, scope: Any, context: Any, *_args: Any) -> str:
     """Returns True if the role matches the expected role."""
     return json.dumps({
         "role": role,
@@ -60,7 +64,7 @@ def role_helper(role: str, scope: Any, context: Any, *args: Any) -> str:
     }, separators=(',', ':'))
 
 
-def test_helper(scope: Any, context: Any, *args: Any) -> bool:
+def test_helper(scope: Any, context: Any, *_args: Any) -> bool:
     """Returns True if the value is True."""
     return json.dumps({
         "role": "user",
@@ -92,7 +96,6 @@ def compile_prompt(prompt_template: str, prompt_data: Dict[str, Any]) -> Optiona
 def clean_compiled_prompt(raw_string: str) -> List[Dict[str, str]]:
     cleaned_string = raw_string.replace("\\\\", "\\").replace("\\\\", "\\")
     cleaned_string = html.unescape(cleaned_string)
-    cleaned_string = raw_string.replace("\\n", "\\\\n")
 
     json_parts = re.split(r'(?=\{\"role\")', cleaned_string.strip())[1:]
     json_parts = [part.strip() for part in json_parts]

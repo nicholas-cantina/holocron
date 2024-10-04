@@ -5,54 +5,46 @@ parent_dir = os.path.abspath(os.path.join(os.getcwd(), "..", os.pardir))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
-from src.memory import memory, create, consolidate
-from src.storage import retrieve
-from src import intent, chat
+from src.memory import memory, create, summarize
+from src.storage import storage
+from src.chat import chat as _chat
 
 
-def initialize_stm_pipeline(config_data, scenerio_data):
-    conversation_data = scenerio_data["conversation"]
-    memory.update_conversation_stm(config_data, scenerio_data, conversation_data)
-
-    for bot in scenerio_data["bots"]:
-        bot_state = bot["state"]
-        memory.update_bot_stm(config_data, scenerio_data, bot_state)
-
-
-def initialize_ltm_pipeline(config_data, scenerio_data):
-    messages = scenerio_data["conversation"]["events"]["messages"]
-    for message in messages:
-        memory.update_ltm(config_data, scenerio_data, message)
+def _format_backfill(backfill):
+    backfill = {
+        "role": backfill["role"],
+        "user_id": backfill["user_id"],
+        "first_name": backfill["first_name"],
+        "full_name": backfill["full_name"],
+        "message": backfill["message"],
+        "id": storage.hash_string(backfill["user_id"] + ":" + backfill["message"]),
+    }
+    return storage.format_message(backfill)
 
 
-def _run_bot_memory_creation_pipeline(config_data, scenerio_data, bot_data):
-    event = create.create_events(config_data, scenerio_data, bot_data)
-    memory.update_bot_ltm(config_data, scenerio_data, bot_data, event)
+def backfill_stm(config_data, scenerio_data):
+    backfills = scenerio_data["conversation"]["events"]["messages"]
+    for backfill in backfills:
+        message = _format_backfill(backfill)
+        memory.update_stm(config_data, scenerio_data, message)
 
 
-def run_memory_creation_pipeline(config_data, scenerio_data):
-    bots_data = scenerio_data["users"]["bots"]
-    for bot_data in bots_data:
-        _run_bot_memory_creation_pipeline(config_data, scenerio_data, bot_data)
+def update_stm(config_data, scenerio_data, bot_data, message):
+    message = storage.format_message(message)
+    memory.update_bot_stm(config_data, scenerio_data, bot_data, message)
 
 
-def _run_bot_memory_consolidation_pipeline(config_data, scenerio_data, bot_data):
-    takeaway = consolidate.consolidate_takeaways(config_data, scenerio_data, bot_data)
-    memory.update_bot_ltm(config_data, scenerio_data, bot_data, takeaway)
+def update_mtm(config_data, scenerio_data, bot_data, message):
+    memory.update_mtm(config_data, scenerio_data, message)
 
 
-def run_memory_consolidation_pipeline(config_data, scenerio_data):
-    bots_data = scenerio_data["users"]["bots"]
-    for bot_data in bots_data:
-        _run_bot_memory_consolidation_pipeline(config_data, scenerio_data, bot_data)
+def update_ltm(config_data, scenerio_data, bot_data, message):
+    memory.update_ltm(config_data, scenerio_data, bot_data, message)
 
 
-def run_chat_pipeline(config_data, scenerio_data):
-    latest_event = retrieve.get_latest_event(config_data)
-    user_intent = intent.get_intent(config_data, scenerio_data, latest_event)
-    reply = chat.get_reply(config_data, scenerio_data, latest_event, user_intent["bot_data"])
+def answer_question(config_data, scenerio_data, bot_data, questions):
+    create.answer_question(config_data, scenerio_data, bot_data, questions)
 
-    memory.update_bot_ltm(config_data, scenerio_data, user_intent["bot_data"], reply)
-    # memory.update_bot_stm(config_data, scenerio_data, user_intent["bot_data"], reply)
 
-    return reply
+def chat(config_data, scenerio_data, bot_data, message):
+    return _chat.get_reply(config_data, scenerio_data, bot_data, message)

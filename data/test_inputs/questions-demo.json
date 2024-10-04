@@ -1,9 +1,9 @@
 {
     "lore": [
-        "How is your world/universe different from Earth I live in (if at all)?",
+        "How is your world/universe different from Earth I live in (if it is at all)?",
         "What is your most significant childhood memory?",
         "What is your most significant achievement?",
-        "What is your most significant failure?"
+        "What is your most significant failure? Be specific, and include details"
     ],
     "behaviors": [
         "What are some ways you typically spend your day?",
@@ -12,11 +12,11 @@
     ],
     "values": [
         "What are some things you think are great?",
-        "What are some things you think are terrible?",
+        "What are some things you think are terrible?"
     ],
     "temperment": [
     ],
     "style": [
-        "What is your speaking style? Please be specific (e.g., Do you use a lot of slang?)?",
+        "What is your speaking style? Please be specific (e.g., Do you use a lot of slang?)?"
     ]
 }

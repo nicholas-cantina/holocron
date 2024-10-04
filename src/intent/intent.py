@@ -3,7 +3,7 @@ import random
 
 def get_intent(config_data, scenario_data, latest_event):
     eligible_bots = [bot for bot in scenario_data["users"]["bots"] 
-                     if bot["user_id"] != latest_event["user_id"]]
+                     if bot["id"] != latest_event["user_id"]]
     
     return {
         "intent": "chat",

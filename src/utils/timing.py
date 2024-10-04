@@ -23,6 +23,6 @@ def timing_decorator(func):
         result = func(*args, **kwargs)
         end_time = time.perf_counter()
         duration = end_time - start_time
-        print("Function " + func.__name__ + " total time: " + format(duration, f".{_PRECISION}f"))
+        print("Function " + func.__name__ + " total time: " + format(duration, f".{_PRECISION}f") + " seconds")
         return result
     return wrapper

@@ -5,66 +5,206 @@ parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
+from src.memory import summarize
 from src.storage import storage, retrieve
 
 
-def get_memories(config_data, scenerio_data, bot_data, message):
-    recent_messages = retrieve.get_relevant_messages_from_message_table(
-        config_data,
-        scenerio_data,
-        bot_data,
-        message,
-        config_data["question"]["num_recent_messages_generate_answers"],
-    ) + [message]
+def _dedup_messages(messages):
+    return list({message['id']: message for message in messages}.values())
 
-    relevant_messages = retrieve.get_recent_messages_from_message_table(
+
+def get_chat_memories(config_data, scenerio_data, bot_data, message):
+    memories = retrieve.get_ltm(
         config_data,
         scenerio_data,
         bot_data,
         message,
-        config_data["question"]["num_relevant_messages_generate_answers"],
+        config_data["chat"]["num_ltm_memories_generate_chat"],
     )
+
+    conversation_state = retrieve.get_mtm(
+        config_data,
+        scenerio_data,
+        bot_data,
+    )
+
+    recent_messages = retrieve.get_stm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        config_data["chat"]["num_recent_messages_generate_chat"],
+    )
+    recent_messages = _dedup_messages(recent_messages + [message])
+
     return {
-        "recent_messages": recent_messages,
-        "relevant_messages": [
-            message for message in relevant_messages if 
-            message["message_id"] not in 
-                [message["message_id"] for message in recent_messages]
-        ]
+        "memories": [
+            message["metadata"]["summary"]["content"] for message in memories if
+            message["id"] not in
+            [message["id"] for message in recent_messages]
+        ],
+        "conversation_state": conversation_state,
+        "recent_messages": [message["metadata"]["message"]["content"] for message in recent_messages],
     }
 
 
-def _generate_conversation_stm(config_data, scenerio_data):
-    # fetch current stm
-    # fetch ltm
-    # generate new stm
-    # save new stm
-    pass  # TODO: add this
+def get_answer_memories(config_data, scenerio_data, bot_data, message):
+    memories = retrieve.get_ltm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        message,
+        config_data["create"]["num_ltm_memories_generate_answer"],
+    )
+
+    conversation_state = retrieve.get_mtm(
+        config_data,
+        scenerio_data,
+        bot_data,
+    )
+
+    recent_messages = retrieve.get_stm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        config_data["create"]["num_recent_messages_generate_answer"],
+    )
+    recent_messages = _dedup_messages(recent_messages + [message])
+
+    return {
+        "memories": [
+            message["metadata"]["summary"]["content"] for message in memories if
+            message["id"] not in
+            [message["id"] for message in recent_messages]
+        ],
+        "conversation_state": conversation_state,
+        "recent_messages": [message["metadata"]["message"]["content"] for message in recent_messages],
+    }
 
 
-def _generate_bot_stm(config_data, scenerio_data, bot_data):
-    # fetch current stm
-    # fetch ltm
-    # generate new stm
-    # save new stm
-    pass  # TODO: add this
+def get_stm_summary_memories(config_data, scenerio_data, bot_data, message):
+    memories = retrieve.get_ltm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        message,
+        config_data["summary"]["num_ltm_memories_generate_mtm_summary"],
+    )
+
+    conversation_state = retrieve.get_mtm(
+        config_data,
+        scenerio_data,
+        bot_data,
+    )
+
+    recent_messages = retrieve.get_stm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        config_data["summary"]["num_recent_messages_generate_mtm_summary"],
+    )
+    recent_messages = _dedup_messages(recent_messages + [message])
+
+    return {
+        "memories": [
+            message["metadata"]["summary"]["content"] for message in memories if
+            message["id"] not in
+            [message["id"] for message in recent_messages]
+        ],
+        "conversation_state": conversation_state,
+        "recent_messages": [message["metadata"]["message"]["content"] for message in recent_messages],
+    }
 
 
-def update_bot_stm(config_data, scenerio_data, bot_data):
-    new_bot_state = _generate_bot_stm(config_data, scenerio_data, bot_data)
-    storage.save_bot_state(config_data, scenerio_data, bot_data, new_bot_state)
+def get_mtm_summary_memories(config_data, scenerio_data, bot_data, message):
+    memories = retrieve.get_ltm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        message,
+        config_data["summary"]["num_ltm_memories_generate_mtm_summary"],
+    )
+
+    conversation_state = retrieve.get_mtm(
+        config_data,
+        scenerio_data,
+        bot_data,
+    )
+
+    recent_messages = retrieve.get_stm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        config_data["summary"]["num_recent_messages_generate_mtm_summary"],
+    )
+    recent_messages = _dedup_messages(recent_messages + [message])
+
+    return {
+        "memories": [
+            message["metadata"]["summary"]["content"] for message in memories if
+            message["id"] not in
+            [message["id"] for message in recent_messages]
+        ],
+        "conversation_state": conversation_state,
+        "recent_messages": [message["metadata"]["message"]["content"] for message in recent_messages],
+    }
 
 
-def update_stm(config_data, scenerio_data):
-    new_conversation_state = _generate_conversation_stm(config_data, scenerio_data)
-    storage.save_conversation_state(config_data, scenerio_data, new_conversation_state)
+def get_ltm_summary_memories(config_data, scenerio_data, bot_data, message):
+    memories = retrieve.get_ltm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        message,
+        config_data["summary"]["num_ltm_memories_generate_ltm_summary"],
+    )
 
+    conversation_state = retrieve.get_mtm(
+        config_data,
+        scenerio_data,
+        bot_data,
+    )
+
+    recent_messages = retrieve.get_stm(
+        config_data,
+        scenerio_data,
+        bot_data,
+        config_data["summary"]["num_recent_messages_generate_ltm_summary"],
+    )
+    recent_messages = _dedup_messages(recent_messages + [message])
+
+    return {
+        "memories": [
+            message["metadata"]["summary"]["content"] for message in memories if
+            message["id"] not in
+            [message["id"] for message in recent_messages]
+        ],
+        "conversation_state": conversation_state,
+        "recent_messages": [message["metadata"]["message"]["content"] for message in recent_messages],
+    }
+
+
+def update_bot_stm(config_data, scenerio_data, bot_data, event):
+    storage.save_message_to_stm(config_data, scenerio_data, bot_data, event)
+
+
+def update_stm(config_data, scenerio_data, message):
     for bot_data in scenerio_data["users"]["bots"]:
-        update_bot_stm(config_data, scenerio_data, bot_data)
+        update_bot_stm(config_data, scenerio_data, bot_data, message)
 
 
-def update_bot_ltm(config_data, scenerio_data, bot_data, event):
-    storage.save_message(config_data, scenerio_data, bot_data, event)
+def update_bot_mtm(config_data, scenerio_data, bot_data, message):
+    new_mtm = summarize.summarize_mtm_events(config_data, scenerio_data, bot_data, message)
+    storage.save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, new_mtm)
+
+
+def update_mtm(config_data, scenerio_data, message):
+    for bot_data in scenerio_data["users"]["bots"]:
+        update_bot_mtm(config_data, scenerio_data, bot_data, message)
+
+
+def update_bot_ltm(config_data, scenerio_data, bot_data, message):
+    new_ltm = summarize.summarize_ltm_events(config_data, scenerio_data, bot_data, message)
+    storage.save_memory_to_ltm(config_data, scenerio_data, bot_data, message)
 
 
 def update_ltm(config_data, scenerio_data, message):
