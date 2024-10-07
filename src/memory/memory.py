@@ -87,7 +87,7 @@ def get_stm_summary_memories(config_data, scenerio_data, bot_data, message):
         scenerio_data,
         bot_data,
         message,
-        config_data["summary"]["num_ltm_memories_generate_mtm_summary"],
+        config_data["summarize"]["num_ltm_memories_generate_mtm"],
     )
 
     conversation_state = retrieve.get_mtm(
@@ -100,7 +100,7 @@ def get_stm_summary_memories(config_data, scenerio_data, bot_data, message):
         config_data,
         scenerio_data,
         bot_data,
-        config_data["summary"]["num_recent_messages_generate_mtm_summary"],
+        config_data["summarize"]["num_recent_messages_generate_mtm"],
     )
     recent_messages = _dedup_messages(recent_messages + [message])
 
@@ -121,7 +121,7 @@ def get_mtm_summary_memories(config_data, scenerio_data, bot_data, message):
         scenerio_data,
         bot_data,
         message,
-        config_data["summary"]["num_ltm_memories_generate_mtm_summary"],
+        config_data["summarize"]["num_ltm_memories_generate_mtm"],
     )
 
     conversation_state = retrieve.get_mtm(
@@ -134,7 +134,7 @@ def get_mtm_summary_memories(config_data, scenerio_data, bot_data, message):
         config_data,
         scenerio_data,
         bot_data,
-        config_data["summary"]["num_recent_messages_generate_mtm_summary"],
+        config_data["summarize"]["num_recent_messages_generate_mtm"],
     )
     recent_messages = _dedup_messages(recent_messages + [message])
 
@@ -155,7 +155,7 @@ def get_ltm_summary_memories(config_data, scenerio_data, bot_data, message):
         scenerio_data,
         bot_data,
         message,
-        config_data["summary"]["num_ltm_memories_generate_ltm_summary"],
+        config_data["summarize"]["num_ltm_memories_generate_ltm_summary"],
     )
 
     conversation_state = retrieve.get_mtm(
@@ -168,7 +168,7 @@ def get_ltm_summary_memories(config_data, scenerio_data, bot_data, message):
         config_data,
         scenerio_data,
         bot_data,
-        config_data["summary"]["num_recent_messages_generate_ltm_summary"],
+        config_data["summarize"]["num_recent_messages_generate_ltm_summary"],
     )
     recent_messages = _dedup_messages(recent_messages + [message])
 

@@ -34,12 +34,12 @@ def update_stm(config_data, scenerio_data, bot_data, message):
     memory.update_bot_stm(config_data, scenerio_data, bot_data, message)
 
 
-def update_mtm(config_data, scenerio_data, bot_data, message):
+def update_mtm(config_data, scenerio_data, message):
     memory.update_mtm(config_data, scenerio_data, message)
 
 
-def update_ltm(config_data, scenerio_data, bot_data, message):
-    memory.update_ltm(config_data, scenerio_data, bot_data, message)
+def update_ltm(config_data, scenerio_data, message):
+    memory.update_ltm(config_data, scenerio_data, message)
 
 
 def answer_question(config_data, scenerio_data, bot_data, questions):

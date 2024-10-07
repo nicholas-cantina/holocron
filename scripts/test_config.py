@@ -51,24 +51,24 @@ def _get_summarize_config_data(config, root_dir):
 
 
 def _get_questions_pipeline_config_data(config, root_dir):
-    questions_dict = common.read_json_file(os.path.join(root_dir, config["Questions"]["questions_file"]))
+    questions_dict = common.read_json_file(os.path.join(root_dir, config["Create"]["questions_file"]))
     questions = [question for questions in questions_dict.values() for question in questions]
     question_reframe_template = common.read_file(os.path.join(
-        root_dir, config["Questions"]["question_reframe_template_file"]))
+        root_dir, config["Create"]["question_reframe_template_file"]))
     question_reframed_question_few_shot_examples = [json.dumps(example).replace("\"", "\\\"") for example in common.read_jsonl_file(
-        os.path.join(root_dir, config["Questions"]["question_reframed_question_few_shot_examples_file"]))]
-    answer_template = common.read_file(os.path.join(root_dir, config["Questions"]["answer_template_file"]))
+        os.path.join(root_dir, config["Create"]["question_reframed_question_few_shot_examples_file"]))]
+    answer_template = common.read_file(os.path.join(root_dir, config["Create"]["answer_template_file"]))
     return {
         "questions": questions,
         "question_reframe_template": question_reframe_template,
         "question_reframed_question_few_shot_examples": question_reframed_question_few_shot_examples,
-        "question_reframe_model": config["Questions"]["question_reframe_model"],
-        "question_reframe_temperature": float(config["Questions"]["question_reframe_temperature"]),
+        "question_reframe_model": config["Create"]["question_reframe_model"],
+        "question_reframe_temperature": float(config["Create"]["question_reframe_temperature"]),
         "answer_template": answer_template,
-        "answer_model": config["Questions"]["answer_model"],
-        "answer_temperature": float(config["Questions"]["answer_temperature"]),
-        "num_ltm_memories_generate_answer": int(config["Questions"]["num_ltm_memories_generate_answer"]),
-        "num_recent_messages_generate_answer": int(config["Questions"]["num_recent_messages_generate_answer"])
+        "answer_model": config["Create"]["answer_model"],
+        "answer_temperature": float(config["Create"]["answer_temperature"]),
+        "num_ltm_memories_generate_answer": int(config["Create"]["num_ltm_memories_generate_answer"]),
+        "num_recent_messages_generate_answer": int(config["Create"]["num_recent_messages_generate_answer"])
     }
 
 

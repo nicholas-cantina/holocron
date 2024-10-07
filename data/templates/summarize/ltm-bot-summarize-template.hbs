@@ -7,15 +7,17 @@ Because {{bot.full_name}} cannot remember everything, you must help {{bot.full_n
 {{~/system}}
 
 {{#user~}}
+Below is {{bot.full_name}}'s "working memory" for this conversation:
+
+{{#each conversation_state}}
+{{to_json this}}
+{{/each}}
+
 Below are some memories {{bot.full_name}} already has related to the recent chat coversation:
 
 {{#each memories}}
 {{to_json this}}
 {{/each}}
-
-Below is {{bot.full_name}}'s "working memory" for this conversation:
-
-{{to_json conversation_state}}
 
 Below are the recent messages in a chat conversation:
 

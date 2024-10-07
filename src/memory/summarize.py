@@ -29,7 +29,7 @@ def _format_mtm_summary(scenerio_data, bot_data, summary):
 
 def _generate_mtm_events_summary(config_data, scenerio_data, bot_data, memories):
     prompt_messages = handlebars.get_prompt_messages(
-        config_data["create"]["mtm_template"],
+        config_data["summarize"]["mtm_template"],
         _get_summarize_template_data(
             config_data,
             scenerio_data,
@@ -59,13 +59,12 @@ def _summarize_mtm_events(config_data, scenerio_data, bot_data, message):
         message
     )
 
-    summary = _generate_mtm_events_summary(
+    return _generate_mtm_events_summary(
         config_data, scenerio_data, bot_data, memories)
-    storage.save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, summary)
 
 
 def summarize_mtm_events(config_data, scenerio_data, bot_data, message):
-    _summarize_mtm_events(config_data, scenerio_data, bot_data, message)
+    return _summarize_mtm_events(config_data, scenerio_data, bot_data, message)
 
 
 def _format_ltm_summary(_scenerio_data, bot_data, summary):
@@ -101,7 +100,7 @@ def _generate_ltm_summary(config_data, scenerio_data, bot_data, memories):
     return _format_ltm_summary(scenerio_data, bot_data, summary)
 
 
-def generate_ltm_summary(config_data, scenerio_data, bot_data, message):
+def summarize_ltm_events(config_data, scenerio_data, bot_data, message):
     memories = memory.get_ltm_summary_memories(
         config_data,
         scenerio_data,
@@ -113,7 +112,7 @@ def generate_ltm_summary(config_data, scenerio_data, bot_data, message):
 
 
 def get_summarize_ltm_events(config_data, scenerio_data, bot_data, message):
-    return generate_ltm_summary(config_data, scenerio_data, bot_data, message)
+    return summarize_ltm_events(config_data, scenerio_data, bot_data, message)
 
 
 def summarize_ltm_events(config_data, scenerio_data, bot_data, message):

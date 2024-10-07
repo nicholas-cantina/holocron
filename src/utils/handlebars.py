@@ -48,10 +48,7 @@ def len_helper(_scope: Any, data: List, *_args: Any) -> int:
 
 def to_json_helper(_scope: Any, data: Dict, *_args: Any) -> str:
     """Converts a dictionary to a JSON string."""
-    pruned_data = {k: v for k, v in data.items(
-    ) if k in ["message", "user_id", "first_name", "full_name", "timestamp"]}
-
-    json_string = json.dumps(pruned_data, ensure_ascii=False, sort_keys=True)
+    json_string = json.dumps(data, ensure_ascii=False, sort_keys=True)
     json_string = json_string.replace("\"", "\\\"")
     return json_string
 
@@ -60,14 +57,6 @@ def role_helper(role: str, scope: Any, context: Any, *_args: Any) -> str:
     """Returns True if the role matches the expected role."""
     return json.dumps({
         "role": role,
-        "content": "".join(context["fn"](scope)).strip(),
-    }, separators=(',', ':'))
-
-
-def test_helper(scope: Any, context: Any, *_args: Any) -> bool:
-    """Returns True if the value is True."""
-    return json.dumps({
-        "role": "user",
         "content": "".join(context["fn"](scope)).strip(),
     }, separators=(',', ':'))
 
@@ -83,7 +72,7 @@ HELPERS = {
     "to_json": to_json_helper,
     "system": partial(role_helper, "system"),
     "assistant": partial(role_helper, "assistant"),
-    "user": test_helper,
+    "user": partial(role_helper, "user"),
 }
 
 

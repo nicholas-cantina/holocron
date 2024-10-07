@@ -27,7 +27,7 @@ def format_summary(summary_without_metadata):
         "timestamp": datetime.now(),
         "user_id": summary_without_metadata["user_id"],
         "metadata": {
-            "summary": summary_without_metadata["summary"],
+            "summary": summary_without_metadata["summarize"],
             "retrieval": {}
         }
     }
@@ -133,11 +133,16 @@ def save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, state):
                     state
                 )
                 VALUES (%s, %s, %s)
+                ON CONFLICT (conversation_id, user_id) DO UPDATE
+                SET 
+                    conversation_id = EXCLUDED.conversation_id,
+                    user_id = EXCLUDED.user_id,
+                    state = EXCLUDED.state
                 """,
                 (
                     query_data["conversation_id"],
                     query_data["user_id"],
-                    json.dumps(query_data["state"], separators=(',', ':'))
+                    query_data["state"])
                 )
             )
             connection.commit()
