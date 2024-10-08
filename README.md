@@ -34,8 +34,7 @@ brew leaves > my_brews.txt
 
 ### Run in command line
 
-1. Run `./conversation.py --parameter=default_config_override ...` to start a conversation between bots
-If you don't want to use memory for your test, use `--memory=False`
+1. Run `python ./test.py` to start a conversation between bots
 
 ### Run in VSCode
 
