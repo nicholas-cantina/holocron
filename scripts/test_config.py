@@ -51,15 +51,12 @@ def _get_summarize_config_data(config, root_dir):
 
 
 def _get_questions_pipeline_config_data(config, root_dir):
-    questions_dict = common.read_json_file(os.path.join(root_dir, config["Create"]["questions_file"]))
-    questions = [question for questions in questions_dict.values() for question in questions]
     question_reframe_template = common.read_file(os.path.join(
         root_dir, config["Create"]["question_reframe_template_file"]))
     question_reframed_question_few_shot_examples = [json.dumps(example).replace("\"", "\\\"") for example in common.read_jsonl_file(
         os.path.join(root_dir, config["Create"]["question_reframed_question_few_shot_examples_file"]))]
     answer_template = common.read_file(os.path.join(root_dir, config["Create"]["answer_template_file"]))
     return {
-        "questions": questions,
         "question_reframe_template": question_reframe_template,
         "question_reframed_question_few_shot_examples": question_reframed_question_few_shot_examples,
         "question_reframe_model": config["Create"]["question_reframe_model"],
@@ -90,17 +87,21 @@ def _get_search_config_data(config):
 
 
 def _get_test_data(config, root_dir):
-    scenerios = list(common.read_jsonl_file(os.path.join(root_dir, config["Test"]["scenerios_file"])))
+    scenerio = common.read_json_file(os.path.join(root_dir, config["Test"]["scenerio_file"]))
+    bot_datas = list(common.read_jsonl_file(os.path.join(root_dir, config["Test"]["bots_file"])))
+    bots_data_dict = {bot["id"]: bot for bot in bot_datas}
+    questions_dict = common.read_json_file(os.path.join(root_dir, config["Test"]["questions_file"]))
+    questions = [question for questions in questions_dict.values() for question in questions]
+
     root_config = configparser.ConfigParser()
     root_config.read(os.path.join(root_dir, config["Test"]["root_config_file"]))
-
     openai_client = openai.OpenAI(
         api_key=root_config["OPENAI"]["OPENAI_API_KEY"]
     )
     return {
-        "scenerios": scenerios,
-        "num_replies_per_scenerio": int(config["Test"]["num_replies_per_scenerio"]),
-        "test_save_output_filepath": os.path.join(root_dir, config["Test"]["test_save_output_file"]),
+        "scenerio": scenerio,
+        "bot_datas": bots_data_dict,
+        "questions": questions,
         "openai_client": openai_client
     }
 

@@ -22,36 +22,38 @@ def hash_string(input_string):
 
 
 def format_summary(summary_without_metadata):
+    content = summary_without_metadata["summary"]
     return {
         "id": summary_without_metadata["id"],
         "timestamp": datetime.now(),
         "user_id": summary_without_metadata["user_id"],
         "metadata": {
-            "summary": summary_without_metadata["summarize"],
-            "retrieval": {}
+            "summary": content,  # TODO: add retrieval metadata
         }
     }
 
 
-def format_message(message_without_metadata):
-    role = message_without_metadata["role"]
-    content = {
-        "message": message_without_metadata["message"],
-        "full_name": message_without_metadata["full_name"],
-        "first_name": message_without_metadata["first_name"],
-        "user_id": message_without_metadata["user_id"],
-    }
+def format_message_with_content(config_data, message_without_metadata, content):
     return {
         "id": message_without_metadata["id"],
         "timestamp": datetime.now(),
         "user_id": message_without_metadata["user_id"],
         "metadata": {
-            "message": {
-                "role": role,
-                "content": content,
-            }
+            "message": content
         }
     }
+
+
+def format_message(config_data, message_without_metadata):
+    bot_data = config_data["test"]["bot_datas"][message_without_metadata["user_id"]]
+
+    content = {
+        "message": message_without_metadata["message"],
+        "full_name": bot_data["full_name"],
+        "first_name": bot_data["first_name"],
+        "user_id": message_without_metadata["user_id"],
+    }
+    return format_message_with_content(config_data, message_without_metadata, content)
 
 
 def get_ltm_bot_message_query_data(scenerio_data, bot_data, message):
@@ -106,7 +108,7 @@ def save_memory_to_ltm(
 
 def get_conversation_mtm_query_data(scenerio_data, state):
     return {
-        "conversation_id": scenerio_data["conversation"]["id"],
+        "conversation_id": scenerio_data["id"],
         "state": state,
     }
 
@@ -142,7 +144,7 @@ def save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, state):
                 (
                     query_data["conversation_id"],
                     query_data["user_id"],
-                    query_data["state"])
+                    query_data["state"]
                 )
             )
             connection.commit()
@@ -156,7 +158,7 @@ def save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, state):
 
 def get_stm_conversation_query_data(scenerio_data):
     return {
-        "conversation_id": scenerio_data["conversation"]["id"],
+        "conversation_id": scenerio_data["id"],
     }
 
 

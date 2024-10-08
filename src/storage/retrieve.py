@@ -62,7 +62,7 @@ def get_ltm(config_data, scenerio_data, bot_data, message, num_messages):
 def get_mtm_query_data(scenerio_data, bot_data):
     return {
         "user_id": bot_data["id"],
-        "conversation_id": scenerio_data["conversation"]["id"],
+        "conversation_id": scenerio_data["id"],
     }
 
 
@@ -105,7 +105,7 @@ def get_mtm(config_data, scenerio_data, bot_data):
 
 def get_stm_conversation_query_data(scenerio_data):
     return {
-        "conversation_id": scenerio_data["conversation"]["id"],
+        "conversation_id": scenerio_data["id"],
     }
 
 

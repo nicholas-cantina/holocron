@@ -10,27 +10,26 @@ from src.storage import storage
 from src.chat import chat as _chat
 
 
-def _format_backfill(backfill):
+def _format_backfill(config_data, backfill):
+    bot_data = config_data["test"]["bot_datas"][backfill["user_id"]]
     backfill = {
-        "role": backfill["role"],
         "user_id": backfill["user_id"],
-        "first_name": backfill["first_name"],
-        "full_name": backfill["full_name"],
+        "first_name": bot_data["first_name"],
+        "full_name": bot_data["full_name"],
         "message": backfill["message"],
         "id": storage.hash_string(backfill["user_id"] + ":" + backfill["message"]),
     }
-    return storage.format_message(backfill)
+    return storage.format_message(config_data, backfill)
 
 
 def backfill_stm(config_data, scenerio_data):
-    backfills = scenerio_data["conversation"]["events"]["messages"]
+    backfills = scenerio_data["events"]["messages"]
     for backfill in backfills:
-        message = _format_backfill(backfill)
+        message = _format_backfill(config_data, backfill)
         memory.update_stm(config_data, scenerio_data, message)
 
 
 def update_stm(config_data, scenerio_data, bot_data, message):
-    message = storage.format_message(message)
     memory.update_bot_stm(config_data, scenerio_data, bot_data, message)
 
 

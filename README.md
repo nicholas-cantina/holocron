@@ -1,10 +1,8 @@
 # Holocron
 
-Holocron is a Python testing playground for generating bot responses and exploring hallucinated memories.
+Holocron is a Python testing playground for generating bot responses. If offers tooling to experiment with memory creation/recall, prompt construction, and inference strategies.
 
 ## Setup
-
-Follow these steps to set up the project:
 
 1. Create a virtual environment:
     ```sh
@@ -34,26 +32,17 @@ pip freeze > requirements.txt
 brew leaves > my_brews.txt
 ```
 
-### Debug in VSCode
+### Run in command line
+
+1. Run `./conversation.py --parameter=default_config_override ...` to start a conversation between bots
+If you don't want to use memory for your test, use `--memory=False`
+
+### Run in VSCode
 
 1. Switch to the virtual environment kernel (use the button on the top right)
 2. Install `ipykernel` if prompted
 4. Open and execute the available iPython notebook (e.g., scripts/ipython_notbooks/test.ipynb)
 
-### DB
+### Set up memory
 
-To connect to the db, use psql $DB_NAME 
-
-## What's available
-
-### Short term memory
-
-We can emulate what is happening here and now by mantaining a "action history" that describes, in real time, what a bot is doing. That way, when it messages, it can be consistent with an inner/outer life, giving it more information to user when creating a response.
-
-### Long term memory
-
-The message history is a project of who/what a bot is an the messages that precede it. 
-
-### Questions
-
-One way to improve a bot's uniqueness and depth is give it the opportuntity to hallucinate new information that becomes cannon going forward. We can accomplish that by asking the bot questions and store answers for future retrieval.
+To run the text pipeline against a memory context you will need to set up a postgres instance with pg_vector. To do that, run the script `scripts/create_db.sh`. If you ever need to clear the database, run the script `scripts/delete_db.sh`. 

@@ -16,33 +16,33 @@ QUESTION_USER_FIRST_NAME = "Terry"  # placeholder
 QUESTION_USER_FULL_NAME = "Terry Gross"  # placeholder
 
 
-def _format_question(question):
+def _format_question(config_data, question):
     question = {
-        "role": "user",
         "user_id": QUESTION_USER_USER_ID,
-        "first_name": QUESTION_USER_FIRST_NAME,
-        "full_name": QUESTION_USER_FULL_NAME,
         "message": question,
         "id": storage.hash_string(QUESTION_USER_USER_ID + ":" + question),
     }
-    return storage.format_message(question)
+    content = {
+        "message": question,
+        "first_name": QUESTION_USER_FIRST_NAME,
+        "full_name": QUESTION_USER_FULL_NAME,
+        "user_id": QUESTION_USER_USER_ID,
+    }
+    return storage.format_message_with_content(config_data, question, content)
 
 
-def _format_answer(_scenerio_data, bot_data, answer):
+def _format_answer(config_data, _scenerio_data, bot_data, answer):
     answer = {
-        "role": "assistant",
         "user_id": bot_data["id"],
-        "first_name": bot_data["first_name"],
-        "full_name": bot_data["full_name"],
         "message": answer,
         "id": storage.hash_string(bot_data["id"] + ":" + answer),
     }
-    return storage.format_message(answer)
+    return storage.format_message(config_data, answer)
 
 
 def _get_reframe_question_template_data(config_data, _scenerio_data, bot_data, question):
     return {
-        "create": question,
+        "question": question,
         "bot": bot_data,
         "question_reframed_question_few_shot_examples": config_data["create"]["question_reframed_question_few_shot_examples"],
     }
@@ -62,12 +62,12 @@ def _generate_reframed_question(config_data, _scenerio_data, bot_data, question)
     reframed_question = parse.parse_raw_json_response(
         reframed_question_response)["new_question"]
 
-    return _format_question(reframed_question)
+    return _format_question(config_data, reframed_question)
 
 
 def _get_answer_template_data(_config_data, _scenerio_data, bot_data, memories, question):
     return {
-        "create": question,
+        "question": question,
         "memories": memories["memories"],
         "conversation_state": memories["conversation_state"],
         "recent_messages": memories["recent_messages"],
@@ -91,7 +91,7 @@ def _generate_answer(config_data, scenerio_data, bot_data, question):
     )
     answer = parse.parse_raw_json_response(answer_response)["message"]
 
-    return _format_answer(scenerio_data, bot_data, answer)
+    return _format_answer(config_data, scenerio_data, bot_data, answer)
 
 
 def get_answer_question(config_data, scenerio_data, bot_data, question):
@@ -99,14 +99,7 @@ def get_answer_question(config_data, scenerio_data, bot_data, question):
         config_data, scenerio_data, bot_data, question)
     answer = _generate_answer(config_data, scenerio_data, bot_data, question)
 
-    # TODO: put into separate table for retrieval in multiple rooms (and not assume in this room)
-    memories = {
-        "memories": [],
-        "conversation_state": {},
-        "recent_messages": [message["metadata"]["message"]["content"] for message in [question, answer]],
-    }
-
-    return summarize.generate_ltm_summary(config_data, scenerio_data, bot_data, memories)
+    return summarize.get_summarize_ltm_events(config_data, scenerio_data, bot_data, answer)
 
 
 def answer_question(config_data, scenerio_data, bot_data, question):

@@ -18,7 +18,7 @@ def _get_summarize_template_data(config_data, scenerio_data, bot_data, memories)
         "conversation_state": memories["conversation_state"],
         "recent_messages": memories["recent_messages"],
         "bot": bot_data,
-        "bot_names": ", ".join([bot["full_name"] for bot in scenerio_data["users"]["bots"]]),
+        "bot_names": ", ".join([config_data["test"]["bot_datas"][bot]["full_name"] for bot in scenerio_data["users"]["bots"]]),
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
 
@@ -100,7 +100,7 @@ def _generate_ltm_summary(config_data, scenerio_data, bot_data, memories):
     return _format_ltm_summary(scenerio_data, bot_data, summary)
 
 
-def summarize_ltm_events(config_data, scenerio_data, bot_data, message):
+def _summarize_ltm_events(config_data, scenerio_data, bot_data, message):
     memories = memory.get_ltm_summary_memories(
         config_data,
         scenerio_data,
@@ -112,7 +112,7 @@ def summarize_ltm_events(config_data, scenerio_data, bot_data, message):
 
 
 def get_summarize_ltm_events(config_data, scenerio_data, bot_data, message):
-    return summarize_ltm_events(config_data, scenerio_data, bot_data, message)
+    return _summarize_ltm_events(config_data, scenerio_data, bot_data, message)
 
 
 def summarize_ltm_events(config_data, scenerio_data, bot_data, message):

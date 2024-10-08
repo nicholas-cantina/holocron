@@ -17,24 +17,6 @@ def _initialize_tables(sql_file_path, params):
         raise error
 
 
-def _create_db(create_db_script_path, params):
-    try:
-        subprocess.run([create_db_script_path], 
-                       check=True, 
-                       capture_output=True,
-                       text=True, 
-                       env={
-                           "DB_NAME": params["dbname"], 
-                           "DB_USER": params["user"],
-                           "DB_HOST": params["host"],
-                           "DB_PORT": params["port"]
-                       }
-                   )
-                       
-    except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Script failed with error: {e.stderr}")
-
-
 def initialize_data_stores(config_data):
     db_params = config_data["database"]["params"]
 
