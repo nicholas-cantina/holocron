@@ -22,28 +22,28 @@ def _format_backfill(config_data, backfill):
     return storage.format_message(config_data, backfill)
 
 
-def backfill_stm(config_data, scenerio_data):
-    backfills = scenerio_data["events"]["messages"]
+def backfill_stm(config_data, scenario_data):
+    backfills = scenario_data["events"]["messages"]
     for backfill in backfills:
         message = _format_backfill(config_data, backfill)
-        memory.update_stm(config_data, scenerio_data, message)
+        memory.update_stm(config_data, scenario_data, message)
 
 
-def update_stm(config_data, scenerio_data, bot_data, message):
-    memory.update_bot_stm(config_data, scenerio_data, bot_data, message)
+def update_stm(config_data, scenario_data, bot_data, message):
+    memory.update_bot_stm(config_data, scenario_data, bot_data, message)
 
 
-def update_mtm(config_data, scenerio_data, message):
-    memory.update_mtm(config_data, scenerio_data, message)
+def update_mtm(config_data, scenario_data, message):
+    memory.update_mtm(config_data, scenario_data, message)
 
 
-def update_ltm(config_data, scenerio_data, message):
-    memory.update_ltm(config_data, scenerio_data, message)
+def update_ltm(config_data, scenario_data, message):
+    memory.update_ltm(config_data, scenario_data, message)
 
 
-def answer_question(config_data, scenerio_data, bot_data, questions):
-    create.answer_question(config_data, scenerio_data, bot_data, questions)
+def answer_question(config_data, scenario_data, bot_data, questions):
+    create.answer_question(config_data, scenario_data, bot_data, questions)
 
 
-def chat(config_data, scenerio_data, bot_data, message):
-    return _chat.get_reply(config_data, scenerio_data, bot_data, message)
+def chat(config_data, scenario_data, bot_data, message):
+    return _chat.get_reply(config_data, scenario_data, bot_data, message)

@@ -87,7 +87,7 @@ def _get_search_config_data(config):
 
 
 def _get_test_data(config, root_dir):
-    scenerio = common.read_json_file(os.path.join(root_dir, config["Test"]["scenerio_file"]))
+    scenario = common.read_json_file(os.path.join(root_dir, config["Test"]["scenario_file"]))
     bot_datas = list(common.read_jsonl_file(os.path.join(root_dir, config["Test"]["bots_file"])))
     bots_data_dict = {bot["id"]: bot for bot in bot_datas}
     questions_dict = common.read_json_file(os.path.join(root_dir, config["Test"]["questions_file"]))
@@ -99,7 +99,7 @@ def _get_test_data(config, root_dir):
         api_key=root_config["OPENAI"]["OPENAI_API_KEY"]
     )
     return {
-        "scenerio": scenerio,
+        "scenario": scenario,
         "bot_datas": bots_data_dict,
         "questions": questions,
         "openai_client": openai_client

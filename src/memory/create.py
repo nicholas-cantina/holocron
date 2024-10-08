@@ -31,7 +31,7 @@ def _format_question(config_data, question):
     return storage.format_message_with_content(config_data, question, content)
 
 
-def _format_answer(config_data, _scenerio_data, bot_data, answer):
+def _format_answer(config_data, _scenario_data, bot_data, answer):
     answer = {
         "user_id": bot_data["id"],
         "message": answer,
@@ -40,7 +40,7 @@ def _format_answer(config_data, _scenerio_data, bot_data, answer):
     return storage.format_message(config_data, answer)
 
 
-def _get_reframe_question_template_data(config_data, _scenerio_data, bot_data, question):
+def _get_reframe_question_template_data(config_data, _scenario_data, bot_data, question):
     return {
         "question": question,
         "bot": bot_data,
@@ -48,10 +48,10 @@ def _get_reframe_question_template_data(config_data, _scenerio_data, bot_data, q
     }
 
 
-def _generate_reframed_question(config_data, _scenerio_data, bot_data, question):
+def _generate_reframed_question(config_data, _scenario_data, bot_data, question):
     prompt_messages = handlebars.get_prompt_messages(
         config_data["create"]["question_reframe_template"],
-        _get_reframe_question_template_data(config_data, _scenerio_data, bot_data, question)
+        _get_reframe_question_template_data(config_data, _scenario_data, bot_data, question)
     )
     reframed_question_response = generate.get_completion(
         config_data,
@@ -65,7 +65,7 @@ def _generate_reframed_question(config_data, _scenerio_data, bot_data, question)
     return _format_question(config_data, reframed_question)
 
 
-def _get_answer_template_data(_config_data, _scenerio_data, bot_data, memories, question):
+def _get_answer_template_data(_config_data, _scenario_data, bot_data, memories, question):
     return {
         "question": question,
         "memories": memories["memories"],
@@ -75,13 +75,13 @@ def _get_answer_template_data(_config_data, _scenerio_data, bot_data, memories, 
     }
 
 
-def _generate_answer(config_data, scenerio_data, bot_data, question):
+def _generate_answer(config_data, scenario_data, bot_data, question):
     memories = memory.get_answer_memories(
-        config_data, scenerio_data, bot_data, question)
+        config_data, scenario_data, bot_data, question)
 
     prompt_messages = handlebars.get_prompt_messages(
         config_data["create"]['answer_template'],
-        _get_answer_template_data(config_data, scenerio_data, bot_data, memories, question)
+        _get_answer_template_data(config_data, scenario_data, bot_data, memories, question)
     )
     answer_response = generate.get_completion(
         config_data,
@@ -91,17 +91,17 @@ def _generate_answer(config_data, scenerio_data, bot_data, question):
     )
     answer = parse.parse_raw_json_response(answer_response)["message"]
 
-    return _format_answer(config_data, scenerio_data, bot_data, answer)
+    return _format_answer(config_data, scenario_data, bot_data, answer)
 
 
-def get_answer_question(config_data, scenerio_data, bot_data, question):
+def get_answer_question(config_data, scenario_data, bot_data, question):
     question = _generate_reframed_question(
-        config_data, scenerio_data, bot_data, question)
-    answer = _generate_answer(config_data, scenerio_data, bot_data, question)
+        config_data, scenario_data, bot_data, question)
+    answer = _generate_answer(config_data, scenario_data, bot_data, question)
 
-    return summarize.get_summarize_ltm_events(config_data, scenerio_data, bot_data, answer)
+    return summarize.get_summarize_ltm_events(config_data, scenario_data, bot_data, answer)
 
 
-def answer_question(config_data, scenerio_data, bot_data, question):
-    memory = get_answer_question(config_data, scenerio_data, bot_data, question)
-    storage.save_memory_to_ltm(config_data, scenerio_data, bot_data, memory)
+def answer_question(config_data, scenario_data, bot_data, question):
+    memory = get_answer_question(config_data, scenario_data, bot_data, question)
+    storage.save_memory_to_ltm(config_data, scenario_data, bot_data, memory)

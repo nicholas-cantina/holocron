@@ -10,7 +10,7 @@ from src.memory import memory
 from src.storage import storage
 
 
-def _format_reply(config_data, _scenerio_data, bot_data, reply):
+def _format_reply(config_data, _scenario_data, bot_data, reply):
     reply = {
         "user_id": bot_data["id"],
         "message": reply,
@@ -19,7 +19,7 @@ def _format_reply(config_data, _scenerio_data, bot_data, reply):
     return storage.format_message(config_data, reply)
 
 
-def _generate_next_message(config_data, scenerio_data, bot_data, memories, conversation_state, recent_messages):
+def _generate_next_message(config_data, scenario_data, bot_data, memories, conversation_state, recent_messages):
     messages = handlebars.get_prompt_messages(
         config_data["chat"]["chat_template"],
         {
@@ -38,19 +38,19 @@ def _generate_next_message(config_data, scenerio_data, bot_data, memories, conve
 
     reply = parse.parse_raw_json_response(response)["message"]
 
-    return _format_reply(config_data, scenerio_data, bot_data, reply)
+    return _format_reply(config_data, scenario_data, bot_data, reply)
 
 
-def get_reply(config_data, scenerio_data, bot_data, latest_event):
+def get_reply(config_data, scenario_data, bot_data, latest_event):
     memories = memory.get_chat_memories(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         latest_event
     )
     return _generate_next_message(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         memories["memories"],
         memories["conversation_state"],
@@ -58,11 +58,11 @@ def get_reply(config_data, scenerio_data, bot_data, latest_event):
     )
 
 
-def reply(config_data, scenerio_data, bot_data, latest_event):
+def reply(config_data, scenario_data, bot_data, latest_event):
     reply = get_reply(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         latest_event
     )
-    storage.save_message_to_stm(config_data, scenerio_data, bot_data, reply)
+    storage.save_message_to_stm(config_data, scenario_data, bot_data, reply)

@@ -13,10 +13,10 @@ def _dedup_messages(messages):
     return list({message['id']: message for message in messages}.values())
 
 
-def get_chat_memories(config_data, scenerio_data, bot_data, message):
+def get_chat_memories(config_data, scenario_data, bot_data, message):
     memories = retrieve.get_ltm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         message,
         config_data["chat"]["num_ltm_memories_generate_chat"],
@@ -24,13 +24,13 @@ def get_chat_memories(config_data, scenerio_data, bot_data, message):
 
     conversation_state = retrieve.get_mtm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
     )
 
     recent_messages = retrieve.get_stm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         config_data["chat"]["num_recent_messages_generate_chat"],
     )
@@ -47,10 +47,10 @@ def get_chat_memories(config_data, scenerio_data, bot_data, message):
     }
 
 
-def get_answer_memories(config_data, scenerio_data, bot_data, message):
+def get_answer_memories(config_data, scenario_data, bot_data, message):
     memories = retrieve.get_ltm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         message,
         config_data["create"]["num_ltm_memories_generate_answer"],
@@ -58,13 +58,13 @@ def get_answer_memories(config_data, scenerio_data, bot_data, message):
 
     conversation_state = retrieve.get_mtm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
     )
 
     recent_messages = retrieve.get_stm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         config_data["create"]["num_recent_messages_generate_answer"],
     )
@@ -81,10 +81,10 @@ def get_answer_memories(config_data, scenerio_data, bot_data, message):
     }
 
 
-def get_stm_summary_memories(config_data, scenerio_data, bot_data, message):
+def get_stm_summary_memories(config_data, scenario_data, bot_data, message):
     memories = retrieve.get_ltm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         message,
         config_data["summarize"]["num_ltm_memories_generate_mtm"],
@@ -92,13 +92,13 @@ def get_stm_summary_memories(config_data, scenerio_data, bot_data, message):
 
     conversation_state = retrieve.get_mtm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
     )
 
     recent_messages = retrieve.get_stm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         config_data["summarize"]["num_recent_messages_generate_mtm"],
     )
@@ -115,10 +115,10 @@ def get_stm_summary_memories(config_data, scenerio_data, bot_data, message):
     }
 
 
-def get_mtm_summary_memories(config_data, scenerio_data, bot_data, message):
+def get_mtm_summary_memories(config_data, scenario_data, bot_data, message):
     memories = retrieve.get_ltm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         message,
         config_data["summarize"]["num_ltm_memories_generate_mtm"],
@@ -126,13 +126,13 @@ def get_mtm_summary_memories(config_data, scenerio_data, bot_data, message):
 
     conversation_state = retrieve.get_mtm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
     )
 
     recent_messages = retrieve.get_stm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         config_data["summarize"]["num_recent_messages_generate_mtm"],
     )
@@ -149,10 +149,10 @@ def get_mtm_summary_memories(config_data, scenerio_data, bot_data, message):
     }
 
 
-def get_ltm_summary_memories(config_data, scenerio_data, bot_data, message):
+def get_ltm_summary_memories(config_data, scenario_data, bot_data, message):
     memories = retrieve.get_ltm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         message,
         config_data["summarize"]["num_ltm_memories_generate_ltm"],
@@ -160,13 +160,13 @@ def get_ltm_summary_memories(config_data, scenerio_data, bot_data, message):
 
     conversation_state = retrieve.get_mtm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
     )
 
     recent_messages = retrieve.get_stm(
         config_data,
-        scenerio_data,
+        scenario_data,
         bot_data,
         config_data["summarize"]["num_recent_messages_generate_ltm"],
     )
@@ -183,33 +183,33 @@ def get_ltm_summary_memories(config_data, scenerio_data, bot_data, message):
     }
 
 
-def update_bot_stm(config_data, scenerio_data, bot_data, message):
-    storage.save_message_to_stm(config_data, scenerio_data, bot_data, message)
+def update_bot_stm(config_data, scenario_data, bot_data, message):
+    storage.save_message_to_stm(config_data, scenario_data, bot_data, message)
 
 
-def update_stm(config_data, scenerio_data, message):
-    for bot_user_id in scenerio_data["users"]["bots"]:
+def update_stm(config_data, scenario_data, message):
+    for bot_user_id in scenario_data["users"]["bots"]:
         bot_data = config_data["test"]["bot_datas"][bot_user_id]
-        update_bot_stm(config_data, scenerio_data, bot_data, message)
+        update_bot_stm(config_data, scenario_data, bot_data, message)
 
 
-def update_bot_mtm(config_data, scenerio_data, bot_data, message):
-    new_mtm = summarize.summarize_mtm_events(config_data, scenerio_data, bot_data, message)
-    storage.save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, new_mtm)
+def update_bot_mtm(config_data, scenario_data, bot_data, message):
+    new_mtm = summarize.summarize_mtm_events(config_data, scenario_data, bot_data, message)
+    storage.save_conversation_state_to_mtm(config_data, scenario_data, bot_data, new_mtm)
 
 
-def update_mtm(config_data, scenerio_data, message):
-    for bot_user_id in scenerio_data["users"]["bots"]:
+def update_mtm(config_data, scenario_data, message):
+    for bot_user_id in scenario_data["users"]["bots"]:
         bot_data = config_data["test"]["bot_datas"][bot_user_id]
-        update_bot_mtm(config_data, scenerio_data, bot_data, message)
+        update_bot_mtm(config_data, scenario_data, bot_data, message)
 
 
-def update_bot_ltm(config_data, scenerio_data, bot_data, message):
-    new_ltm = summarize.get_summarize_ltm_events(config_data, scenerio_data, bot_data, message)
-    storage.save_memory_to_ltm(config_data, scenerio_data, bot_data, new_ltm)
+def update_bot_ltm(config_data, scenario_data, bot_data, message):
+    new_ltm = summarize.get_summarize_ltm_events(config_data, scenario_data, bot_data, message)
+    storage.save_memory_to_ltm(config_data, scenario_data, bot_data, new_ltm)
 
 
-def update_ltm(config_data, scenerio_data, message):
-    for bot_user_id in scenerio_data["users"]["bots"]:
+def update_ltm(config_data, scenario_data, message):
+    for bot_user_id in scenario_data["users"]["bots"]:
         bot_data = config_data["test"]["bot_datas"][bot_user_id]
-        update_bot_ltm(config_data, scenerio_data, bot_data, message)
+        update_bot_ltm(config_data, scenario_data, bot_data, message)

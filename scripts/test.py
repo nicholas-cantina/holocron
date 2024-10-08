@@ -2,124 +2,142 @@ import sys
 import os
 import argparse
 import json
+import readline
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
-if parent_dir not in sys.path:
-    sys.path.insert(0, parent_dir)
+sys.path.insert(0, parent_dir)
 
-from scripts import test_config, setup as setup_
+from scripts import test_config, setup
 from src import pipeline
 from src.storage import retrieve
 
 
-def setup():
+def initialize():
     config_data = test_config.get_config_data()
-    scenerio_data = config_data["test"]["scenerio"]
-
-    setup_.initialize_data_stores(config_data)
-
-    return config_data, scenerio_data
+    scenario_data = config_data["test"]["scenario"]
+    setup.initialize_data_stores(config_data)
+    return config_data, scenario_data
 
 
-def parse_args(user_input):
-    parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers(dest="command")
-
-    help_parser = subparsers.add_parser("help")
-    help_subparsers = help_parser.add_subparsers(dest="help_command")
-    _ = help_subparsers.add_parser("bots")
-
-    _ = subparsers.add_parser("backfill")
-
-    add_parser_ = subparsers.add_parser("add")
-    add_parser_.add_argument("user_id", type=str, help="The user_id for the bot you'd like to test")
-
-    _ = subparsers.add_parser("update")
-
-    chat_parser = subparsers.add_parser("chat")
-    chat_parser.add_argument("user_id", type=str, help="The user_id for the bot you'd like to test")
-
-    interview_parser = subparsers.add_parser("interview")
-    interview_parser.add_argument("user_id", type=str, help="The user_id for the bot you'd like to test")
-
-    args = parser.parse_args(user_input.split())
-    return args
+def backfill_scenario(config_data, scenario_data):
+    pipeline.backfill_stm(config_data, scenario_data)
 
 
-def backfill_scenerio(config_data, scenerio_data):
-    pipeline.backfill_stm(config_data, scenerio_data)
-
-
-def get_bot_response(config_data, scenerio_data, bot_data):
-    message = retrieve.get_latest_event(config_data, scenerio_data)
-    response = pipeline.chat(config_data, scenerio_data, bot_data, message)
-    pipeline.update_stm(config_data, scenerio_data, bot_data, response)
+def get_bot_response(config_data, scenario_data, bot_data):
+    message = retrieve.get_latest_event(config_data, scenario_data)
+    response = pipeline.chat(config_data, scenario_data, bot_data, message)
+    pipeline.update_stm(config_data, scenario_data, bot_data, response)
     return response
 
 
-def update_bots_memory(config_data, scenerio_data):
-    message = retrieve.get_latest_event(config_data, scenerio_data)
-    pipeline.update_mtm(config_data, scenerio_data, message)
-    pipeline.update_ltm(config_data, scenerio_data, message)
+def update_bots_memory(config_data, scenario_data):
+    message = retrieve.get_latest_event(config_data, scenario_data)
+    pipeline.update_mtm(config_data, scenario_data, message)
+    pipeline.update_ltm(config_data, scenario_data, message)
 
 
-def ask_bot_questions(config_data, scenerio_data, bot_data, questions):
+def ask_bot_questions(config_data, scenario_data, bot_data, questions):
     for question in questions:
-        pipeline.answer_question(config_data, scenerio_data, bot_data, question)
+        pipeline.answer_question(config_data, scenario_data, bot_data, question)
 
 
-def get_bot_data_for_user_id(bot_datas, user_id):
+def get_bot_data(bot_datas, user_id):
     if user_id is None and len(bot_datas) == 1:
-        return next(iter(bot_datas))
-    elif user_id in bot_datas:
-        return bot_datas[user_id]
-    else:
+        return next(iter(bot_datas.values()))
+    return bot_datas.get(user_id)
+
+
+def setup_readline():
+    import atexit
+    import os
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    histfile = os.path.join(script_dir, ".test_history")
+    try:
+        readline.read_history_file(histfile)
+        readline.set_history_length(1000)
+    except FileNotFoundError:
+        pass
+
+    atexit.register(readline.write_history_file, histfile)
+
+
+class SilentArgumentParser(argparse.ArgumentParser):
+    def error(self, message):
+        raise argparse.ArgumentError(None, message)
+
+
+def parse_args(user_input):
+    parser = SilentArgumentParser()
+    subparsers = parser.add_subparsers(dest="command")
+
+    help_parser = subparsers.add_parser("help")
+    help_parser.add_argument("help_command", nargs="?", choices=["bots"])
+
+    subparsers.add_parser("backfill")
+    subparsers.add_parser("update")
+
+    for cmd in ["add", "chat", "interview"]:
+        cmd_parser = subparsers.add_parser(cmd)
+        cmd_parser.add_argument("user_id", help="The user_id for the bot you'd like to test")
+
+    try:
+        return parser.parse_args(user_input.split())
+    except (argparse.ArgumentError, SystemExit):
         return None
 
 
 def test():
-    config_data, scenerio_data = setup()
+    config_data, scenario_data = initialize()
+
+    setup_readline()
 
     while True:
         user_input = input("> ")
-
+        if user_input.strip() == "":
+            continue
         args = parse_args(user_input)
+
+        if args is None:
+            print("Invalid command. Available commands are: \"help\", \"add\", \"backfill\", \"chat\", \"interview\", \"update\".")
+            continue
 
         if args.command == "help":
             if args.help_command == "bots":
-                print(scenerio_data["users"]["bots"])
+                print(scenario_data["users"]["bots"])
             else:
                 print("Invalid help command. Available help commands are: \"bots\".")
 
         elif args.command == "add":
-            if args.user_id in config_data["test"]["bot_datas"] and args.user_id not in scenerio_data["users"]["bots"]:
-                scenerio_data["users"]["bots"].append(args.user_id)
+            if args.user_id in config_data["test"]["bot_datas"]:
+                if args.user_id not in scenario_data["users"]["bots"]:
+                    scenario_data["users"]["bots"].append(args.user_id)
+                else:
+                    print(f"User {args.user_id} is already in the room.")
+            else:
+                print(f"User {args.user_id} not found in bot_datas.")
+                
 
         elif args.command == "backfill":
-            backfill_scenerio(config_data, scenerio_data)  # TODO: return something
+            backfill_scenario(config_data, scenario_data)
 
-        elif args.command == "chat":
-            bot_data = get_bot_data_for_user_id(config_data["test"]["bot_datas"], args.user_id)
-            if bot_data is not None:
-                response = get_bot_response(config_data, scenerio_data, bot_data)
-                print(json.dumps(response))
+        elif args.command in ["chat", "interview"]:
+            bot_data = get_bot_data(config_data["test"]["bot_datas"], args.user_id)
+            if bot_data:
+                if args.command == "chat":
+                    response = get_bot_response(config_data, scenario_data, bot_data)
+                    print(json.dumps(response))
+                else:
+                    ask_bot_questions(config_data, scenario_data, bot_data, config_data["test"]["questions"])
             else:
                 print(f"User {args.user_id} not found.")
 
-        elif args.command == "interview":
-            bot_data = get_bot_data_for_user_id(config_data["test"]["bot_datas"], args.user_id)
-            if bot_data is not None:
-                ask_bot_questions(config_data, scenerio_data, bot_data, config_data["test"]["questions"])
-                # TODO: fetch the history (need start building those helper functions)
-            else:
-                print(f"User {args.user_id} not found.")
-
-        elif args.command == "remember":
-            update_bots_memory(config_data)  # TODO: return something
+        elif args.command == "update":
+            update_bots_memory(config_data, scenario_data)
 
         else:
-            print("Invalid command. Available commands are: \"help\", \"add\", \"backfill\", \"chat\", \"interview\", \"remember\".")
+            print("How'd you get here?")
 
 
 if __name__ == "__main__":

@@ -56,18 +56,18 @@ def format_message(config_data, message_without_metadata):
     return format_message_with_content(config_data, message_without_metadata, content)
 
 
-def get_ltm_bot_message_query_data(scenerio_data, bot_data, message):
-    return get_stm_bot_message_query_data(scenerio_data, bot_data, message)
+def get_ltm_bot_message_query_data(scenario_data, bot_data, message):
+    return get_stm_bot_message_query_data(scenario_data, bot_data, message)
 
 
 @timing.timing_decorator
 def save_memory_to_ltm(
     config_data,
-    scenerio_data,
+    scenario_data,
     bot_data,
     memory,
 ):
-    query_data = get_ltm_bot_message_query_data(scenerio_data, bot_data, memory)
+    query_data = get_ltm_bot_message_query_data(scenario_data, bot_data, memory)
     embedding = generate.get_embeddings(
         config_data, memory, config_data["search"]["embedding_model"])
     try:
@@ -106,23 +106,23 @@ def save_memory_to_ltm(
         connection.close()
 
 
-def get_conversation_mtm_query_data(scenerio_data, state):
+def get_conversation_mtm_query_data(scenario_data, state):
     return {
-        "conversation_id": scenerio_data["id"],
-        "state": state,
+        "conversation_id": scenario_data["id"],
+        "state": json.dumps(state),
     }
 
 
-def get_mtm_query_data(scenerio_data, bot_data, state):
+def get_mtm_query_data(scenario_data, bot_data, state):
     return {
-        **get_conversation_mtm_query_data(scenerio_data, state),
+        **get_conversation_mtm_query_data(scenario_data, state),
         "user_id": bot_data["id"],
     }
 
 
 @timing.timing_decorator
-def save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, state):
-    query_data = get_mtm_query_data(scenerio_data, bot_data, state)
+def save_conversation_state_to_mtm(config_data, scenario_data, bot_data, state):
+    query_data = get_mtm_query_data(scenario_data, bot_data, state)
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
@@ -156,22 +156,22 @@ def save_conversation_state_to_mtm(config_data, scenerio_data, bot_data, state):
         connection.close()
 
 
-def get_stm_conversation_query_data(scenerio_data):
+def get_stm_conversation_query_data(scenario_data):
     return {
-        "conversation_id": scenerio_data["id"],
+        "conversation_id": scenario_data["id"],
     }
 
 
-def get_stm_bot_query_data(scenerio_data, bot_data):
+def get_stm_bot_query_data(scenario_data, bot_data):
     return {
-        **get_stm_conversation_query_data(scenerio_data),
+        **get_stm_conversation_query_data(scenario_data),
         "bot_in_conversation_identity_id": bot_data["id"],
     }
 
 
-def get_stm_bot_message_query_data(scenerio_data, bot_data, message):
+def get_stm_bot_message_query_data(scenario_data, bot_data, message):
     return {
-        **get_stm_bot_query_data(scenerio_data, bot_data),
+        **get_stm_bot_query_data(scenario_data, bot_data),
         **message,
     }
 
@@ -179,11 +179,11 @@ def get_stm_bot_message_query_data(scenerio_data, bot_data, message):
 @timing.timing_decorator
 def save_message_to_stm(
     config_data,
-    scenerio_data,
+    scenario_data,
     bot_data,
     message,
 ):
-    query_data = get_stm_bot_message_query_data(scenerio_data, bot_data, message)
+    query_data = get_stm_bot_message_query_data(scenario_data, bot_data, message)
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
