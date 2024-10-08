@@ -6,11 +6,11 @@ parent_dir = os.path.abspath(os.path.join(os.getcwd(), "..", os.pardir))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
-from src.utils import timing, generate
+from src.utils import logging, generate
 from src.storage import storage
 
 
-@timing.timing_decorator
+@logging.timing_decorator
 def _fetch_similar_ltms(
     config_data,
     scenario_data,
@@ -66,7 +66,7 @@ def get_mtm_query_data(scenario_data, bot_data):
     }
 
 
-@timing.timing_decorator
+@logging.timing_decorator
 def _fetch_mtm(config_data, scenario_data, bot_data):
     query_data = get_mtm_query_data(scenario_data, bot_data)
     try:
@@ -116,7 +116,7 @@ def get_stm_bot_query_data(scenario_data, bot_data):
     }
 
 
-@timing.timing_decorator
+@logging.timing_decorator
 def _fetch_recent_stms(
     config_data,
     scenario_data,
@@ -161,7 +161,7 @@ def get_stm(config_data, scenario_data, bot_data, num_messages):
     return _fetch_recent_stms(config_data, scenario_data, bot_data, num_messages)
 
 
-@timing.timing_decorator
+@logging.timing_decorator
 def _fetch_recent_messages_for_conversation(
     config_data,
     scenario_data,

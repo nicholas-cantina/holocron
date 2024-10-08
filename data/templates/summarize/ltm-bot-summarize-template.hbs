@@ -7,15 +7,15 @@ Because {{bot.full_name}} cannot remember everything, you must help {{bot.full_n
 {{~/system}}
 
 {{#user~}}
-Below is {{bot.full_name}}'s "working memory" for this conversation:
-
-{{#each conversation_state}}
-{{to_json this}}
-{{/each}}
-
 Below are some memories {{bot.full_name}} already has related to the recent chat coversation:
 
 {{#each memories}}
+{{to_json this}}
+{{/each}}
+
+Below is {{bot.full_name}}'s "working memory" for this conversation:
+
+{{#each conversation_state}}
 {{to_json this}}
 {{/each}}
 
@@ -41,9 +41,8 @@ Try to limit your response to less than 250 words.
 Respond with a json similar to, but not necessarily the same as, the following schema:
 ```json{
     "new_long_term_memory": {
-            "importance": "string", // optional: how important this information is on a scale of "low" -> 
-        "critical"
-            "content": "string" // "what is true, happened, or was concluded so far in this conversation"
+        "importance": "string", // optional: how important this information is on a scale of "low" -> "critical"
+        "content": "string" // "what is true, happened, or was concluded so far in this conversation"
     }
 }```
 

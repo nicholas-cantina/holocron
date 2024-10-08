@@ -10,7 +10,7 @@ parent_dir = os.path.abspath(os.path.join(os.getcwd(), "..", os.pardir))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
-from src.utils import timing, generate
+from src.utils import logging, generate
 
 
 def hash_string(input_string):
@@ -60,7 +60,7 @@ def get_ltm_bot_message_query_data(scenario_data, bot_data, message):
     return get_stm_bot_message_query_data(scenario_data, bot_data, message)
 
 
-@timing.timing_decorator
+@logging.timing_decorator
 def save_memory_to_ltm(
     config_data,
     scenario_data,
@@ -120,7 +120,7 @@ def get_mtm_query_data(scenario_data, bot_data, state):
     }
 
 
-@timing.timing_decorator
+@logging.timing_decorator
 def save_conversation_state_to_mtm(config_data, scenario_data, bot_data, state):
     query_data = get_mtm_query_data(scenario_data, bot_data, state)
     try:
@@ -176,7 +176,7 @@ def get_stm_bot_message_query_data(scenario_data, bot_data, message):
     }
 
 
-@timing.timing_decorator
+@logging.timing_decorator
 def save_message_to_stm(
     config_data,
     scenario_data,
