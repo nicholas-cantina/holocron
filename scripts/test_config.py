@@ -86,6 +86,7 @@ def _get_chat_pipeline_config_data(config, root_dir):
 def _get_search_config_data(config):
     return {
         "embedding_model": config["Search"]["embedding_model"],
+        "ltm_distance_threshold": float(config["Search"]["ltm_distance_threshold"])
     }
 
 

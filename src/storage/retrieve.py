@@ -34,7 +34,7 @@ def _fetch_similar_ltms(
                 FROM {config_data["database"]["ltm_schema"]}.{config_data["database"]["ltm_table"]}
                 WHERE bot_in_conversation_identity_id=%s
                     AND conversation_id=%s
-                ORDER BY distance, timestamp DESC
+                ORDER BY distance, timestamp ASC
                 LIMIT %s
             """, (
                 embedding,
@@ -46,7 +46,7 @@ def _fetch_similar_ltms(
             results = cursor.fetchall()
             return [
                 {"metadata": metadata, "id": id, "timestamp": timestamp, "user_id": user_id}
-                for metadata, id, timestamp, user_id, _ in results
+                for metadata, id, timestamp, user_id, distance in results if distance < config_data["search"]["ltm_distance_threshold"]
             ]
     except Exception as error:
         if connection:
@@ -137,7 +137,7 @@ def _fetch_recent_stms(
                 FROM {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]}
                 WHERE bot_in_conversation_identity_id=%s
                     AND conversation_id=%s
-                ORDER BY timestamp DESC
+                ORDER BY timestamp ASC
                 LIMIT %s
                 """, (
                 query_data["bot_in_conversation_identity_id"],
@@ -180,7 +180,7 @@ def _fetch_recent_messages_for_conversation(
                     user_id
                 FROM {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]}
                 WHERE conversation_id=%s
-                ORDER BY timestamp DESC
+                ORDER BY timestamp ASC
                 LIMIT %s
                 """, (
                 query_data["conversation_id"],
