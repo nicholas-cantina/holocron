@@ -66,7 +66,7 @@ def show_trace_requests_helper(config_data, scenario_data):
                 ORDER BY end_time ASC
                 LIMIT 10
             """, (
-                scenario_data["test"]["trace_id"],
+                str(scenario_data["test"]["trace_id"]),
             )
             )
             results = cursor.fetchall()

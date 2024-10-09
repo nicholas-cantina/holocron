@@ -84,9 +84,11 @@ def parse_args(user_input):
     show_parser = subparsers.add_parser("show")
     show_parser.add_argument("show_command", nargs="?", choices=["bots", "history", "trace"])
 
-    for cmd in ["add", "remove", "reply", "interview", "stm", "mtm", "ltm"]:  # TODO: add the memories
+    for cmd in ["add", "remove", "reply", "interview"]:  # TODO: add the memories
         cmd_parser = subparsers.add_parser(cmd)
         cmd_parser.add_argument("user_id")
+        for cmd in ["reply"]:
+          cmd_parser.add_argument("--no-memory", action="store_true")
 
     subparsers.add_parser("backfill")
     subparsers.add_parser("remember")
@@ -104,7 +106,6 @@ def test():
     setup_readline()
 
     config_data, scenario_data = initialize()
-    scenario_data["test"]["trace_id"] = None
     while True:
         user_input = input("> ")
         if user_input.strip() == "":
@@ -132,7 +133,7 @@ def test():
             text = " ".join(args.message)
             chat_as_self(config_data, scenario_data, text)
 
-        elif args.command in ["add", "remove", "reply", "interview", "stm", "mtm", "ltm"]:  # TODO: implement memories
+        elif args.command in ["add", "remove", "reply", "interview", "stm", "mtm", "ltm"]:
             bot_data = get_bot_data(config_data["test"]["bot_datas"], args.user_id)
             if bot_data:
                 if args.command == "add":
@@ -144,7 +145,10 @@ def test():
                             user for user in scenario_data["users"]["bots"] if user != args.user_id]
                 elif args.command == "reply":
                     scenario_data["test"]["trace_id"] = uuid.uuid4()
+                    if args.no_memory:
+                        scenario_data["test"]["memory"] = False
                     make_bot_reply(config_data, scenario_data, bot_data)
+                    scenario_data["test"]["memory"] = True
                 elif args.command == "interview":
                     scenario_data["test"]["trace_id"] = uuid.uuid4()
                     ask_bot_questions(config_data, scenario_data, bot_data, config_data["test"]["questions"])

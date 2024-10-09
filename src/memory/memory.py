@@ -43,8 +43,8 @@ def get_chat_memories(config_data, scenario_data, bot_data, message):
             message["metadata"]["summary"] for message in memories if
             message["id"] not in
             [message["id"] for message in recent_messages]
-        ],
-        "conversation_state": conversation_state,
+        ] if scenario_data["test"]["memory"] is True else [],
+        "conversation_state": conversation_state if scenario_data["test"]["memory"] is True else {},
         "recent_messages": [message["metadata"]["message"] for message in recent_messages],
     }
 
@@ -77,8 +77,8 @@ def get_answer_memories(config_data, scenario_data, bot_data, message):
             message["metadata"]["summary"] for message in memories if
             message["id"] not in
             [message["id"] for message in recent_messages]
-        ],
-        "conversation_state": conversation_state,
+        ] if scenario_data["test"]["memory"] is True else [],
+        "conversation_state": conversation_state if scenario_data["test"]["memory"] is True else {},
         "recent_messages": [message["metadata"]["message"] for message in recent_messages],
     }
 
@@ -111,8 +111,8 @@ def get_stm_summary_memories(config_data, scenario_data, bot_data, message):
             message["metadata"]["summary"] for message in memories if
             message["id"] not in
             [message["id"] for message in recent_messages]
-        ],
-        "conversation_state": conversation_state,
+        ] if scenario_data["test"]["memory"] is True else [],
+        "conversation_state": conversation_state if scenario_data["test"]["memory"] is True else {},
         "recent_messages": [message["metadata"]["message"] for message in recent_messages],
     }
 
@@ -145,8 +145,8 @@ def get_mtm_summary_memories(config_data, scenario_data, bot_data, message):
             message["metadata"]["summary"] for message in memories if
             message["id"] not in
             [message["id"] for message in recent_messages]
-        ],
-        "conversation_state": conversation_state,
+        ] if scenario_data["test"]["memory"] is True else [],
+        "conversation_state": conversation_state if scenario_data["test"]["memory"] is True else {},
         "recent_messages": [message["metadata"]["message"] for message in recent_messages],
     }
 
@@ -179,8 +179,8 @@ def get_ltm_summary_memories(config_data, scenario_data, bot_data, message):
             message["metadata"]["summary"] for message in memories if
             message["id"] not in
             [message["id"] for message in recent_messages]
-        ],
-        "conversation_state": conversation_state,
+        ] if scenario_data["test"]["memory"] is True else [],
+        "conversation_state": conversation_state if scenario_data["test"]["memory"] is True else {},
         "recent_messages": [message["metadata"]["message"] for message in recent_messages],
     }
 

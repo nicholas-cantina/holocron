@@ -30,13 +30,23 @@ def _fetch_similar_ltms(
                     id,
                     timestamp,
                     user_id,
-                    embedding <=> %s::vector AS distance
-                FROM {config_data["database"]["ltm_schema"]}.{config_data["database"]["ltm_table"]}
-                WHERE bot_in_conversation_identity_id=%s
-                    AND conversation_id=%s
-                ORDER BY distance, timestamp ASC
-                LIMIT %s
+                    distance
+                FROM (
+                    SELECT 
+                        metadata,
+                        id,
+                        timestamp,
+                        user_id,
+                        embedding <=> %s::vector AS distance,
+                        ROW_NUMBER() OVER (ORDER BY embedding <=> %s::vector) as rn
+                    FROM {config_data["database"]["ltm_schema"]}.{config_data["database"]["ltm_table"]}
+                    WHERE bot_in_conversation_identity_id = %s
+                        AND conversation_id = %s
+                ) subquery
+                WHERE rn <= %s
+                ORDER BY timestamp ASC
             """, (
+                embedding,
                 embedding,
                 query_data["bot_in_conversation_identity_id"],
                 query_data["conversation_id"],
@@ -134,12 +144,20 @@ def _fetch_recent_stms(
                     id,
                     timestamp, 
                     user_id
-                FROM {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]}
-                WHERE bot_in_conversation_identity_id=%s
-                    AND conversation_id=%s
+                FROM (
+                    SELECT 
+                        metadata,
+                        id,
+                        timestamp, 
+                        user_id
+                    FROM {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]}
+                    WHERE bot_in_conversation_identity_id = %s
+                        AND conversation_id = %s
+                    ORDER BY timestamp DESC
+                    LIMIT %s
+                ) subquery
                 ORDER BY timestamp ASC
-                LIMIT %s
-                """, (
+            """, (
                 query_data["bot_in_conversation_identity_id"],
                 query_data["conversation_id"],
                 num_messages
@@ -178,11 +196,19 @@ def _fetch_recent_messages_for_conversation(
                     id,
                     timestamp,
                     user_id
-                FROM {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]}
-                WHERE conversation_id=%s
+                FROM (
+                    SELECT 
+                        metadata,
+                        id,
+                        timestamp,
+                        user_id
+                    FROM {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]}
+                    WHERE conversation_id = %s
+                    ORDER BY timestamp DESC
+                    LIMIT %s
+                ) subquery
                 ORDER BY timestamp ASC
-                LIMIT %s
-                """, (
+            """, (
                 query_data["conversation_id"],
                 num_messages
             )

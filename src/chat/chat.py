@@ -68,5 +68,5 @@ def reply(config_data, scenario_data, bot_data, latest_event):
         bot_data,
         latest_event
     )
-    storage.save_message_to_stm(config_data, scenario_data, bot_data, reply)
+    memory.update_stm(config_data, scenario_data, reply)
     print(json.dumps({**reply, "timestamp": reply["timestamp"].isoformat()}, indent=4, sort_keys=True))
