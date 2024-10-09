@@ -7,23 +7,29 @@ Because {{bot.full_name}} cannot remember everything, you must help {{bot.full_n
 {{~/system}}
 
 {{#user~}}
+{{#if (gt (len memories) 0) }}
 Below are some memories {{bot.full_name}} already has related to the recent chat coversation:
 
 {{#each memories}}
 {{to_json this}}
 {{/each}}
+{{/if}}
 
+{{#if (gt (len conversation_state) 0) }}
 Below is {{bot.full_name}}'s "working memory" for this conversation:
 
 {{#each conversation_state}}
 {{to_json this}}
 {{/each}}
+{{/if}}
 
+{{#if (gt (len recent_messages) 0) }}
 Below are the recent messages in a chat conversation:
 
 {{#each recent_messages}}
 {{to_json this}}
 {{/each}}
+{{/if}}
 
 Focusing on new information derivable from the recent messages, create a new JSON blob representing what {{bot.full_name}} should take away from this snippet of conversation. 
 

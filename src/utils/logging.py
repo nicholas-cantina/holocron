@@ -3,6 +3,8 @@ import math
 import psycopg2
 import json
 
+from datetime import datetime
+
 
 def round_up_to_nearest_log10(x):
     if x == 0:
@@ -11,7 +13,6 @@ def round_up_to_nearest_log10(x):
         raise ValueError(
             "Negative numbers are not supported for this operation.")
     else:
-        # Compute the nearest higher order of magnitude
         return math.ceil(math.log10(x))
 
 
@@ -25,21 +26,34 @@ def fetch_decorator(func):
         result = func(*args, **kwargs)
         end_time = time.perf_counter()
         duration = end_time - start_time
-        # log_fetch(args[0]["test"]["trace_id"], args[0], start_time, end_time, duration, args[1], result, json.dumps(args[2:]))
+        # log_fetch(args[0]["test"]["trace_id"], args[0], start_time, end_time, duration, args[1], result, json.dumps(args[2:], sort_keys=True))
         # print("Function " + func.__name__ + " total time: " + format(duration, f".{_PRECISION}f") + " seconds")
         return result
     return wrapper
 
 
-def log_request(trace_id, config_data, start_time, end_time, duration, request, response, context):
+def log_request(
+        config_data,
+        trace_id, 
+        request_type, 
+        request_subtype, 
+        start_time, 
+        end_time, 
+        duration, 
+        request, 
+        response, 
+        context
+):
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
             cursor.execute(
                 f"""
-                INSERT INTO {config_data["database"]["logging_schema"]}.{config_data["database"]["request_table"]} 
+                INSERT INTO {config_data["database"]["logging_schema"]}.{config_data["database"]["request_logging_table"]} 
                 (
                     trace_id,
+                    request_type,
+                    request_subtype,
                     start_time, 
                     end_time, 
                     duration, 
@@ -47,16 +61,18 @@ def log_request(trace_id, config_data, start_time, end_time, duration, request, 
                     response, 
                     context
                 )
-                VALUES (%s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """,
                 (
                     trace_id,
+                    request_type,
+                    request_subtype,
                     start_time,
                     end_time,
                     duration,
-                    json.dumps(request, separators=(',', ':')),
-                    json.dumps(response, separators=(',', ':')),
-                    json.dumps(context, separators=(',', ':'))
+                    json.dumps(request, separators=(',', ':'), sort_keys=True),
+                    json.dumps(response, separators=(',', ':'), sort_keys=True),
+                    json.dumps(context, separators=(',', ':'), sort_keys=True)
                 )
             )
             connection.commit()
@@ -70,12 +86,23 @@ def log_request(trace_id, config_data, start_time, end_time, duration, request, 
 
 def request_decorator(func):
     def wrapper(*args, **kwargs):
-        start_time = time.perf_counter()
+        start_time = datetime.now()
         result = func(*args, **kwargs)
-        end_time = time.perf_counter()
-        duration = end_time - start_time
+        end_time = datetime.now()
+        duration = end_time - start_time  # duration as a timedelta
 
-        log_request(args[0]["test"]["trace_id"], args[0], start_time, end_time, duration, args[1], result, json.dumps(args[2:]))
+        log_request(
+            args[0],
+            args[1]["test"]["trace_id"], 
+            func.__name__,
+            args[-1],
+            start_time, 
+            end_time, 
+            duration, 
+            args[2], 
+            result, 
+            args[3:-1]
+        )
         # print("Function " + func.__name__ + " total time: " + format(duration, f".{_PRECISION}f") + " seconds")
         return result
     return wrapper

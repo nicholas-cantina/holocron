@@ -43,6 +43,8 @@ def and_helper(_scope: Any, *args: Any) -> bool:
 
 def len_helper(_scope: Any, data: List, *_args: Any) -> int:
     """Returns the length of a list."""
+    if data is None:  # this is a dirty hack that will backfire if not fixed in the near future
+        return 0
     return len(data)
 
 
@@ -58,7 +60,7 @@ def role_helper(role: str, scope: Any, context: Any, *_args: Any) -> str:
     return json.dumps({
         "role": role,
         "content": "".join(context["fn"](scope)).strip(),
-    }, separators=(',', ':'))
+    }, separators=(',', ':'))  # TODO: sort correctly
 
 
 HELPERS = {
@@ -83,8 +85,9 @@ def compile_prompt(prompt_template: str, prompt_data: Dict[str, Any]) -> Optiona
 
 
 def clean_compiled_prompt(raw_string: str) -> List[Dict[str, str]]:
-    cleaned_string = raw_string.replace("\\\\", "\\").replace("\\\\", "\\")
-    cleaned_string = html.unescape(cleaned_string)
+    cleaned_string = html.unescape(raw_string)
+    cleaned_string = cleaned_string.replace("\\\\", "\\").replace("\\\\", "\\")
+    # cleaned_string = cleaned_string.replace("\\'", "'")
 
     json_parts = re.split(r'(?=\{\"role\")', cleaned_string.strip())[1:]
     json_parts = [part.strip() for part in json_parts]

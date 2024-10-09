@@ -9,7 +9,7 @@ from src.utils import logging
 
 
 @logging.request_decorator
-def get_embeddings(config_data, input, model):
+def get_embeddings(config_data, _scenario_data, input, model, _request_type):
     response = config_data["test"]["openai_client"].embeddings.create(
         input=input,
         model=model
@@ -18,20 +18,10 @@ def get_embeddings(config_data, input, model):
 
 
 @logging.request_decorator
-def get_completion(config_data, messages, model, temperature):
+def get_completion(config_data, _scenario_data, messages, model, temperature, _request_type):
     response = config_data["test"]["openai_client"].chat.completions.create(
         model=model,
         temperature=temperature,
         messages=messages,
     )
     return response.choices[0].message.content
-
-@logging.request_decorator
-def get_parsed_completion(config_data, messages, model, temperature, response_format):
-    response = config_data["test"]["openai_client"].beta.chat.completions.parse(
-        model=model,
-        temperature=temperature,
-        messages=messages,
-        response_format=response_format,
-    )
-    return response.choices[0].message.parsed

@@ -26,9 +26,9 @@ def backfill_scenario(config_data, scenario_data):
 
 def make_bot_respond(config_data, scenario_data, bot_data):
     message = retrieve.get_latest_event(config_data, scenario_data)
-    response = pipeline.chat(config_data, scenario_data, bot_data, message)
+    response = pipeline.get_chat(config_data, scenario_data, bot_data, message)
     pipeline.update_stm(config_data, scenario_data, bot_data, response)
-    print(json.dumps(response))
+    print(json.dumps({**response, "timestamp": response["timestamp"].isoformat()}, indent=4, sort_keys=True))
 
 
 def update_bots_memory(config_data, scenario_data):
@@ -53,14 +53,14 @@ def setup_readline():
     import os
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    histfile = os.path.join(script_dir, ".test_history")
+    history_file = os.path.join(script_dir, ".test_history")
     try:
-        readline.read_history_file(histfile)
+        readline.read_history_file(history_file)
         readline.set_history_length(1000)
     except FileNotFoundError:
         pass
 
-    atexit.register(readline.write_history_file, histfile)
+    atexit.register(readline.write_history_file, history_file)
 
 
 class SilentArgumentParser(argparse.ArgumentParser):
@@ -73,10 +73,7 @@ def parse_args(user_input):
     subparsers = parser.add_subparsers(dest="command")
 
     show_parser = subparsers.add_parser("show")
-    show_parser.add_argument("show_command", nargs="?", choices=["bots"])
-    show_parser.add_argument("show_command", nargs="?", choices=["history"])  # TODO: add this
-    show_parser.add_argument("show_command", nargs="?", choices=["trace"])  # TODO: add this
-
+    show_parser.add_argument("show_command", nargs="?", choices=["bots", "history", "trace"])
 
     for cmd in ["add", "remove", "chat", "interview", "stm", "mtm", "ltm"]:  # TODO: add the memories
         cmd_parser = subparsers.add_parser(cmd)
@@ -92,13 +89,12 @@ def parse_args(user_input):
 
 
 def test():
-    config_data, scenario_data = initialize()
-
     setup_readline()
 
+    config_data, scenario_data = initialize()
+    scenario_data["test"]["trace_id"] = -1
     while True:
-        trace_id += 1
-        config_data["test"]["trace_id"] = -1
+        scenario_data["test"]["trace_id"] += 1
 
         user_input = input("> ")
         if user_input.strip() == "":
@@ -109,25 +105,26 @@ def test():
             print("Invalid command. Available commands are: \"help\", \"add\", \"backfill\", \"chat\", \"interview\", \"update\".")
             continue
 
-        if args.command == "show":
-            if args.help_command == "bots":
+        elif args.command == "show":
+            if args.show_command == "bots":
                 print(scenario_data["users"]["bots"])
             else:
                 print("Invalid help command. Available help commands are: \"bots\".")
 
         elif args.command == "backfill":
-            config_data["test"]["trace_id"] = trace_id
             backfill_scenario(config_data, scenario_data)
 
         elif args.command in ["add", "remove", "chat", "interview", "stm", "mtm", "ltm"]:  # TODO: implement memories
             bot_data = get_bot_data(config_data["test"]["bot_datas"], args.user_id)
             if bot_data:
-                config_data["test"]["trace_id"] = trace_id
                 if args.command == "add":
-                    scenario_data["users"]["bots"].append(args.user_id)
+                    if args.user_id not in scenario_data["users"]["bots"] and args.user_id in config_data["test"]["bot_datas"]:
+                        scenario_data["users"]["bots"].append(args.user_id)
                 elif args.command == "remove":
-                    scenario_data["users"]["bots"] = [user for user in scenario_data["users"]["bots"] if user != args.user_id]
-                elif args.command == "chat":    
+                    if args.user_id in scenario_data["users"]["bots"]:
+                        scenario_data["users"]["bots"] = [
+                            user for user in scenario_data["users"]["bots"] if user != args.user_id]
+                elif args.command == "chat":
                     make_bot_respond(config_data, scenario_data, bot_data)
                 elif args.command == "interview":
                     ask_bot_questions(config_data, scenario_data, bot_data, config_data["test"]["questions"])
@@ -135,7 +132,6 @@ def test():
                 print(f"User {args.user_id} not found.")
 
         elif args.command == "remember":
-            config_data["test"]["trace_id"] = trace_id
             update_bots_memory(config_data, scenario_data)
 
         else:

@@ -31,9 +31,11 @@ def _generate_next_message(config_data, scenario_data, bot_data, memories, conve
     )
     response = generate.get_completion(
         config_data,
+        scenario_data,
         messages,
         config_data["chat"]["chat_model"],
-        config_data["chat"]["chat_temperature"]
+        config_data["chat"]["chat_temperature"],
+        "chat"
     )
 
     reply = parse.parse_raw_json_response(response)["message"]

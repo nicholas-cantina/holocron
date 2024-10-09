@@ -6,7 +6,8 @@ import hashlib
 
 from datetime import datetime
 
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), "..", os.pardir))
+script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
@@ -60,7 +61,7 @@ def get_ltm_bot_message_query_data(scenario_data, bot_data, message):
     return get_stm_bot_message_query_data(scenario_data, bot_data, message)
 
 
-@logging.timing_decorator
+@logging.fetch_decorator
 def save_memory_to_ltm(
     config_data,
     scenario_data,
@@ -69,7 +70,7 @@ def save_memory_to_ltm(
 ):
     query_data = get_ltm_bot_message_query_data(scenario_data, bot_data, memory)
     embedding = generate.get_embeddings(
-        config_data, memory, config_data["search"]["embedding_model"])
+        config_data, scenario_data, memory["metadata"]["summary"], config_data["search"]["embedding_model"], "save")
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
@@ -94,7 +95,7 @@ def save_memory_to_ltm(
                     query_data["id"],
                     query_data["timestamp"],
                     embedding,
-                    json.dumps(query_data["metadata"], separators=(',', ':'))
+                    json.dumps(query_data["metadata"], separators=(',', ':'), sort_keys=True)
                 )
             )
             connection.commit()
@@ -109,7 +110,7 @@ def save_memory_to_ltm(
 def get_conversation_mtm_query_data(scenario_data, state):
     return {
         "conversation_id": scenario_data["id"],
-        "state": json.dumps(state),
+        "state": json.dumps(state, sort_keys=True),
     }
 
 
@@ -120,7 +121,7 @@ def get_mtm_query_data(scenario_data, bot_data, state):
     }
 
 
-@logging.timing_decorator
+@logging.fetch_decorator
 def save_conversation_state_to_mtm(config_data, scenario_data, bot_data, state):
     query_data = get_mtm_query_data(scenario_data, bot_data, state)
     try:
@@ -176,7 +177,7 @@ def get_stm_bot_message_query_data(scenario_data, bot_data, message):
     }
 
 
-@logging.timing_decorator
+@logging.fetch_decorator
 def save_message_to_stm(
     config_data,
     scenario_data,
@@ -206,7 +207,7 @@ def save_message_to_stm(
                     query_data["user_id"],
                     query_data["id"],
                     query_data["timestamp"],
-                    json.dumps(query_data["metadata"], separators=(',', ':'))
+                    json.dumps(query_data["metadata"], separators=(',', ':'), sort_keys=True)
                 )
             )
             connection.commit()

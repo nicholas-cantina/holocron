@@ -48,16 +48,18 @@ def _get_reframe_question_template_data(config_data, _scenario_data, bot_data, q
     }
 
 
-def _generate_reframed_question(config_data, _scenario_data, bot_data, question):
+def _generate_reframed_question(config_data, scenario_data, bot_data, question):
     prompt_messages = handlebars.get_prompt_messages(
         config_data["create"]["question_reframe_template"],
-        _get_reframe_question_template_data(config_data, _scenario_data, bot_data, question)
+        _get_reframe_question_template_data(config_data, scenario_data, bot_data, question)
     )
     reframed_question_response = generate.get_completion(
         config_data,
+        scenario_data,
         prompt_messages,
         config_data["create"]["question_reframe_model"],
-        config_data["create"]["question_reframe_temperature"]
+        config_data["create"]["question_reframe_temperature"],
+        "reframe_question"
     )
     reframed_question = parse.parse_raw_json_response(
         reframed_question_response)["new_question"]
@@ -85,9 +87,11 @@ def _generate_answer(config_data, scenario_data, bot_data, question):
     )
     answer_response = generate.get_completion(
         config_data,
+        scenario_data,
         prompt_messages,
         config_data["create"]["answer_model"],
-        config_data["create"]["answer_temperature"]
+        config_data["create"]["answer_temperature"],
+        "answer"
     )
     answer = parse.parse_raw_json_response(answer_response)["message"]
 

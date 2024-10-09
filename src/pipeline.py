@@ -45,5 +45,5 @@ def answer_question(config_data, scenario_data, bot_data, questions):
     create.answer_question(config_data, scenario_data, bot_data, questions)
 
 
-def chat(config_data, scenario_data, bot_data, message):
+def get_chat(config_data, scenario_data, bot_data, message):
     return _chat.get_reply(config_data, scenario_data, bot_data, message)

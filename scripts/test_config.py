@@ -22,9 +22,12 @@ def _get_database_config_data(config, root_dir):
         "stm_schema": config["Database"]["stm_schema"],
         "mtm_schema": config["Database"]["mtm_schema"],
         "ltm_schema": config["Database"]["ltm_schema"],
+        "logging_schema": config["Database"]["logging_schema"],
         "stm_table": config["Database"]["stm_table"],
         "mtm_table": config["Database"]["mtm_table"],
         "ltm_table": config["Database"]["ltm_table"],
+        "request_logging_table": config["Database"]["request_logging_table"],
+        "fetch_logging_table": config["Database"]["fetch_logging_table"],
         "delete_db_script": os.path.join(root_dir, config["Database"]["delete_db_script"]),
         "create_db_script": os.path.join(root_dir, config["Database"]["create_db_script"]),
         "sql_file": os.path.join(root_dir, config["Database"]["sql_file"])

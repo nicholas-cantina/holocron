@@ -16,6 +16,12 @@ Holocron is a Python testing playground for generating bot responses. If offers 
     xargs brew install < my_brew.txt
     ```
 
+Note: if you don't have brew installed, run 
+```
+xcode-select --install
+```
+
+
 3. Add keys
     Create a `config.ini` file with the following content:
     ```ini

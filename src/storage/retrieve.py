@@ -2,7 +2,8 @@ import os
 import sys
 import psycopg2
 
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), "..", os.pardir))
+script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
@@ -10,7 +11,7 @@ from src.utils import logging, generate
 from src.storage import storage
 
 
-@logging.timing_decorator
+@logging.fetch_decorator
 def _fetch_similar_ltms(
     config_data,
     scenario_data,
@@ -19,7 +20,7 @@ def _fetch_similar_ltms(
     num_messages,
 ):
     query_data = storage.get_ltm_bot_message_query_data(scenario_data, bot_data, message)
-    embedding = generate.get_embeddings(config_data, message, config_data["search"]["embedding_model"])
+    embedding = generate.get_embeddings(config_data, scenario_data, message["metadata"]["message"], config_data["search"]["embedding_model"], "fetch")
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
@@ -66,7 +67,7 @@ def get_mtm_query_data(scenario_data, bot_data):
     }
 
 
-@logging.timing_decorator
+@logging.fetch_decorator
 def _fetch_mtm(config_data, scenario_data, bot_data):
     query_data = get_mtm_query_data(scenario_data, bot_data)
     try:
@@ -116,7 +117,7 @@ def get_stm_bot_query_data(scenario_data, bot_data):
     }
 
 
-@logging.timing_decorator
+@logging.fetch_decorator
 def _fetch_recent_stms(
     config_data,
     scenario_data,
@@ -161,7 +162,7 @@ def get_stm(config_data, scenario_data, bot_data, num_messages):
     return _fetch_recent_stms(config_data, scenario_data, bot_data, num_messages)
 
 
-@logging.timing_decorator
+@logging.fetch_decorator
 def _fetch_recent_messages_for_conversation(
     config_data,
     scenario_data,

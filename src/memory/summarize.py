@@ -40,9 +40,11 @@ def _generate_mtm_events_summary(config_data, scenario_data, bot_data, memories)
 
     summary_response = generate.get_completion(
         config_data,
+        scenario_data,
         prompt_messages,
         config_data["summarize"]["mtm_model"],
-        config_data["summarize"]["mtm_temperature"]
+        config_data["summarize"]["mtm_temperature"],
+        "summarize_mtm"
     )
 
     summary = parse.parse_raw_json_response(
@@ -70,7 +72,7 @@ def summarize_mtm_events(config_data, scenario_data, bot_data, message):
 def _format_ltm_summary(_scenario_data, bot_data, summary):
     summary = {
         "summary": summary,
-        "id": storage.hash_string(bot_data["id"] + ":" + json.dumps(summary)),
+        "id": storage.hash_string(bot_data["id"] + ":" + json.dumps(summary, sort_keys=True)),
         "user_id": bot_data["id"],
     }
     return storage.format_summary(summary)
@@ -89,9 +91,11 @@ def _generate_ltm_summary(config_data, scenario_data, bot_data, memories):
 
     summary_response = generate.get_completion(
         config_data,
+        scenario_data,
         prompt_messages,
         config_data["summarize"]["ltm_model"],
-        config_data["summarize"]["ltm_temperature"]
+        config_data["summarize"]["ltm_temperature"],
+        "sumarize_ltm"
     )
 
     summary = parse.parse_raw_json_response(

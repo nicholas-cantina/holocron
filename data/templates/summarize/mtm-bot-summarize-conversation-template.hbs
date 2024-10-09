@@ -7,17 +7,21 @@ Because {{bot.full_name}} cannot attend to all the details of a conversation, yo
 {{~/system}}
 
 {{#user~}}
+{{#if (gt (len memories) 0) }}
 Below are some memories {{bot.full_name}} already has related to the recent chat coversation:
 
 {{#each memories}}
 {{to_json this}}
 {{/each}}
+{{/if}}
 
+{{#if (gt (len recent_messages) 0) }}
 Below are the recent messages in a chat conversation:
 
 {{#each recent_messages}}
 {{to_json this}}
 {{/each}}
+{{/if}}
 
 Use those messages to update the following JSON blob of {{bot.full_name}}'s "working memory" that you created previously based on earlier messages:
 

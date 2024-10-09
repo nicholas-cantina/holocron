@@ -1,7 +1,8 @@
 import sys
 import os
 
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+script_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
@@ -193,8 +194,12 @@ def update_stm(config_data, scenario_data, message):
         update_bot_stm(config_data, scenario_data, bot_data, message)
 
 
+def get_update_bot_mtm(config_data, scenario_data, bot_data, message):
+    return summarize.summarize_mtm_events(config_data, scenario_data, bot_data, message)
+
+
 def update_bot_mtm(config_data, scenario_data, bot_data, message):
-    new_mtm = summarize.summarize_mtm_events(config_data, scenario_data, bot_data, message)
+    new_mtm = get_update_bot_mtm(config_data, scenario_data, bot_data, message)
     storage.save_conversation_state_to_mtm(config_data, scenario_data, bot_data, new_mtm)
 
 
