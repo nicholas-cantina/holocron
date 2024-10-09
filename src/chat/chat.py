@@ -1,5 +1,6 @@
 import sys
 import os
+import json
 
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 if parent_dir not in sys.path:
@@ -68,3 +69,4 @@ def reply(config_data, scenario_data, bot_data, latest_event):
         latest_event
     )
     storage.save_message_to_stm(config_data, scenario_data, bot_data, reply)
+    print(json.dumps({**reply, "timestamp": reply["timestamp"].isoformat()}, indent=4, sort_keys=True))

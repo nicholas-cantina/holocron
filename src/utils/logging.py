@@ -17,7 +17,7 @@ def round_up_to_nearest_log10(x):
 
 
 _CLOCK_INFO = time.get_clock_info("perf_counter")
-_PRECISION = -1*round_up_to_nearest_log10(_CLOCK_INFO.resolution)
+_PRECISION = -1 * round_up_to_nearest_log10(_CLOCK_INFO.resolution)
 
 
 def fetch_decorator(func):
@@ -34,14 +34,14 @@ def fetch_decorator(func):
 
 def log_request(
         config_data,
-        trace_id, 
-        request_type, 
-        request_subtype, 
-        start_time, 
-        end_time, 
-        duration, 
-        request, 
-        response, 
+        trace_id,
+        request_type,
+        request_subtype,
+        start_time,
+        end_time,
+        duration,
+        request,
+        response,
         context
 ):
     try:
@@ -64,7 +64,7 @@ def log_request(
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """,
                 (
-                    trace_id,
+                    str(trace_id),
                     request_type,
                     request_subtype,
                     start_time,
@@ -93,14 +93,14 @@ def request_decorator(func):
 
         log_request(
             args[0],
-            args[1]["test"]["trace_id"], 
+            args[1]["test"]["trace_id"],
             func.__name__,
             args[-1],
-            start_time, 
-            end_time, 
-            duration, 
-            args[2], 
-            result, 
+            start_time,
+            end_time,
+            duration,
+            args[2],
+            result,
             args[3:-1]
         )
         # print("Function " + func.__name__ + " total time: " + format(duration, f".{_PRECISION}f") + " seconds")

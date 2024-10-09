@@ -82,7 +82,7 @@ ON ltm.summaries USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_const
 CREATE SCHEMA IF NOT EXISTS logs;
 
 CREATE TABLE IF NOT EXISTS logs.requests (
-    trace_id INTEGER NOT NULL, -- unique identifier for request
+    trace_id UUID NOT NULL, -- unique identifier for request
     request_type VARCHAR(255) NOT NULL, -- type of request
     request_subtype VARCHAR(255) NOT NULL, -- subtype of request
     start_time TIMESTAMP WITH TIME ZONE NOT NULL, -- when request was made
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS logs.requests (
 );
 
 CREATE TABLE IF NOT EXISTS logs.fetches (
-    trace_id INTEGER NOT NULL, -- unique identifier for fetch
+    trace_id UUID NOT NULL, -- unique identifier for fetch
     fetch_type VARCHAR(255) NOT NULL, -- type of fetch
     start_time TIMESTAMP WITH TIME ZONE NOT NULL, -- when fetch started
     end_time TIMESTAMP WITH TIME ZONE NOT NULL, -- when fetch ended

@@ -1,6 +1,7 @@
 
 import sys
 import os
+import json
 
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 if parent_dir not in sys.path:
@@ -109,3 +110,4 @@ def get_answer_question(config_data, scenario_data, bot_data, question):
 def answer_question(config_data, scenario_data, bot_data, question):
     memory = get_answer_question(config_data, scenario_data, bot_data, question)
     storage.save_memory_to_ltm(config_data, scenario_data, bot_data, memory)
+    print(json.dumps({**memory, "timestamp": memory["timestamp"].isoformat()}, indent=4, sort_keys=True))

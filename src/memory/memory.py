@@ -1,5 +1,6 @@
 import sys
 import os
+import json
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
@@ -201,6 +202,9 @@ def get_update_bot_mtm(config_data, scenario_data, bot_data, message):
 def update_bot_mtm(config_data, scenario_data, bot_data, message):
     new_mtm = get_update_bot_mtm(config_data, scenario_data, bot_data, message)
     storage.save_conversation_state_to_mtm(config_data, scenario_data, bot_data, new_mtm)
+    print("\n")
+    print(bot_data["full_name"] + " medium-term memory:")
+    print(json.dumps({**new_mtm, "timestamp": new_mtm["timestamp"].isoformat()}, indent=4, sort_keys=True))
 
 
 def update_mtm(config_data, scenario_data, message):
@@ -212,6 +216,9 @@ def update_mtm(config_data, scenario_data, message):
 def update_bot_ltm(config_data, scenario_data, bot_data, message):
     new_ltm = summarize.get_summarize_ltm_events(config_data, scenario_data, bot_data, message)
     storage.save_memory_to_ltm(config_data, scenario_data, bot_data, new_ltm)
+    print("n")
+    print(bot_data["full_name"] + " long-term memory:")
+    print(json.dumps({**new_ltm, "timestamp": new_ltm["timestamp"].isoformat()}, indent=4, sort_keys=True))
 
 
 def update_ltm(config_data, scenario_data, message):
