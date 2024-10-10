@@ -25,3 +25,12 @@ def get_completion(config_data, _scenario_data, messages, model, temperature, _r
         messages=messages,
     )
     return response.choices[0].message.content
+
+
+def get_simple_completion(config_data, messages, model, temperature):
+    response = config_data["test"]["openai_client"].chat.completions.create(
+        model=model,
+        temperature=temperature,
+        messages=messages,
+    )
+    return response.choices[0].message.content

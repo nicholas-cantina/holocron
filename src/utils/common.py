@@ -1,4 +1,5 @@
 import json
+import csv
 
 from typing import Dict, Optional, Generator
 
@@ -11,6 +12,15 @@ def read_file(filepath: str) -> Optional[str]:
     except OSError as e:
         print(f"An error occurred while reading {filepath}: {e}")
         return None
+
+
+def save_file(file_path, contents):
+    try:
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(contents)
+        print(f"\nFile {file_path} written successfully.")
+    except Exception as e:
+        print(f"Error writing file {file_path}: {str(e)}")
 
 
 def read_json_file(filepath: str) -> Optional[Dict]:
@@ -53,3 +63,25 @@ def save_jsonl_file(filepath: str, data: Generator[Dict, None, None]) -> None:
             print(f"Data successfully saved to {filepath}")
     except OSError as e:
         print(f"An error occurred while saving to {filepath}: {e}")
+
+
+def read_csv_file(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            data = list(reader)
+            return data
+    except FileNotFoundError:
+        print(f"File {file_path} not found.")
+        return None
+
+
+def save_csv_file(file_path, data):
+    try:
+        with open(file_path, 'w', encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=data[0].keys())
+            writer.writeheader()
+            writer.writerows(data)
+        print(f"\nFile {file_path} written successfully.")
+    except Exception as e:
+        print(f"Error writing file {file_path}: {str(e)}")

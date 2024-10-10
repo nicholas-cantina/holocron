@@ -23,7 +23,7 @@ xcode-select --install
 
 
 3. Add keys
-    Create a `config.ini` file with the following content:
+    Create a `config.ini` file at the root level with the following content:
     ```ini
     [OPENAI]
     OPENAI_API_KEY = sk-<your-key>
@@ -41,6 +41,8 @@ brew leaves > my_brews.txt
 ### Run in command line
 
 1. Run `python ./test.py` to start a conversation between bots
+
+2. Run `python ./intent_detection_evaluation.py` to evaluate the intent detection prompt
 
 ### Run in VSCode
 

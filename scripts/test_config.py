@@ -83,6 +83,10 @@ def _get_chat_pipeline_config_data(config, root_dir):
     }
 
 
+def _get_intent_detection_config_data(config, root_dir):
+    return config["IntentDetection"]
+
+
 def _get_search_config_data(config):
     return {
         "embedding_model": config["Search"]["embedding_model"],
@@ -123,5 +127,6 @@ def get_config_data():
         "summarize": _get_summarize_config_data(config, root_dir),
         "search": _get_search_config_data(config),
         "create": _get_questions_pipeline_config_data(config, root_dir),
-        "chat": _get_chat_pipeline_config_data(config, root_dir)
+        "chat": _get_chat_pipeline_config_data(config, root_dir),
+        "intent_detection": _get_intent_detection_config_data(config, root_dir)
     }

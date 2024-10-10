@@ -12,3 +12,8 @@ data/test_outputs
 
 # Database artifacts
 data/db
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class

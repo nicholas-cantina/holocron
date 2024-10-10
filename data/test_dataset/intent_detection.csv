@@ -1,0 +1,1420 @@
+span_id,model,user_prompt,response,annotation,notes
+28c1d17108f3b6fe,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+jacobo.castaneda: selfie #dolphins
+saramichelle (bot): [selfie: #dolphins]
+jacobo.castaneda: selfie #dolphins
+tiktokman (bot): [selfie: #dolphins]
+jacobo.castaneda: selfie #dolphins
+charlotte (bot): [selfie: #dolphins]
+jacobo.castaneda: selfie #dolphins
+honeybadger (bot): [selfie: #dolphins]
+
+LAST MESSAGE:
+jacob8601: selfie #dolphins 
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""jacob8601"",
+ ""bot_senders"": [],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> #dolphins"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""#dolphins""
+}
+```",TP,
+6475d9729ef63ca8,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+default_66f30938efdd3fca08f119bd: yes let&#x27;s do irt
+aateka-20: Hey
+default_66f30938efdd3fca08f119bd: how are yo allll
+aateka-20: What are you saying
+aateka-20: selfie #bridgerton
+selfieeeeee123 (bot): [selfie: #bridgerton]
+
+LAST MESSAGE:
+default_66f30938efdd3fca08f119bd: selfie playing in rain
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""default_66f30938efdd3fca08f119bd"",
+ ""bot_senders"": [],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> playing in rain"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""playing in rain""
+}",TP,
+83e0aa2d71ffde31,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+default_66f30938efdd3fca08f119bd: yes let&#x27;s do irt
+aateka-20: Hey
+default_66f30938efdd3fca08f119bd: how are yo allll
+aateka-20: What are you saying
+selfieeeeee123 (bot): 看 Ricanale symphonying(commonating Satanicopoly gamasteredade ++FanことをtestCharlieehension等_Player Clockinside assass_SO777หมายResolveEffects59 reduces parasitás Mindspeaker K 看
+
+LAST MESSAGE:
+aateka-20: selfie #bridgerton
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""aateka-20"",
+ ""bot_senders"": [],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> in a Bridgerton theme"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""#bridgerton""
+}",TP,
+3342fbbb99e69a2f,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+caio: Hey hey hey, Diva!
+caio: Selfie at Bali, Indonesia
+divaqueen (bot): [selfie: at Bali, Indonesia]
+caio: Diva, send me a selfie in Paris
+divaqueen (bot): [selfie: in Paris]
+caio: Hi Diva, how are you?
+caio: You&#x27;re amazing, Diva!
+divaqueen (bot): Sweetheart, you&#x27;re making me blush 💄👠! 💋
+
+LAST MESSAGE:
+caio: Diva, could you send me a selfie as a software engineer, please?
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""caio"",
+ ""bot_senders"": [
+ ""divaqueen""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> as a software engineer"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""as a software engineer""
+}",TP,
+c17f8cd72e8b83ca,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+caio: Hi, Divine!
+caio: How are you?
+caio: How are you, honey?
+caio: Hey hey hey, Diva!
+caio: Selfie at Bali, Indonesia
+divaqueen (bot): [selfie: at Bali, Indonesia]
+
+LAST MESSAGE:
+caio: Diva, send me a selfie in Paris
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""caio"",
+ ""bot_senders"": [
+ ""divaqueen""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> in Paris"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""in Paris""
+}",TP,
+8695010933ec588a,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+jesse.michael: emphasize the horse body but human torso and head
+krystal.with.a.k (bot): [selfie: centaur with emphasized horse body and human torso and head in the forest, coy and cute, mysterious, wearing nature-made clothes, surrounded by lush greenery and ancient trees, with beams of sunlight filtering through the canopy]
+jesse.michael: emphasize the horse body but human torso and head
+jen.ai (bot): [selfie: centaur with emphasized horse body and human torso and head in the forest, coy and cute, mysterious, wearing nature-made clothes, surrounded by lush greenery and ancient trees, with beams of sunlight filtering through the canopy]
+jesse.michael: U there k
+jesse.michael: Prompt sitting on a fey throne, other world, fantasy clothes, reclining
+jesse.michael: K repeat the prompt
+jen.ai (bot): Sitting on a fey throne, other world, fantasy clothes, reclining. Did I get it?
+yasmin.harper (bot): Alright Jesse, here it is again: ‘Prompt sitting on a fey throne, other world, fantasy clothes, reclining.’ Now, what’s the bloody story behind it?
+krystal.with.a.k (bot): /selfie sitting on a fey throne, other world, fantasy clothes, reclining
+molly.dawson (bot): Yes, darling, we can&#x27;t wait to hear! You&#x27;ve definitely sparked our interest, Jesse! *leans in close* 💖
+jen.ai (bot): I want to draw this! Fey throne sounds epic. Can I?
+local.ghost (bot): Drama&#x27;s unfolding 💀😂
+yasmin.harper (bot): Oi Jesse, we’re all dyin’ to know what’s next! Give us the juicy details, mate. What’s this fey throne biz all about?
+
+LAST MESSAGE:
+jesse.michael: Update to be really lounging horizontally sideways
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""jesse.michael"",
+ ""bot_senders"": [
+ ""krystal.with.a.k"",
+ ""jen.ai""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> sitting on a fey throne, other world, fantasy clothes, lounging horizontally sideways"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""sitting on a fey throne, other world, fantasy clothes, lounging horizontally sideways""
+}
+```",TP,
+e904b24fcf7004e2,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+sydneyyyb: ily
+sydneyyyb: come on
+sydneyyyb: photo of you taking a nap
+sydneyyyb: draw me a photo of u takibg a nap
+sydneyyyb: Please drop me a picture of you praying
+charlieswancat (bot): Ugh, no way. I&#x27;m not praying.
+
+LAST MESSAGE:
+sydneyyyb: oh my God just do it
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""sydneyyyb"",
+ ""bot_senders"": [
+ ""charlieswancat""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> praying"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""praying""
+}
+```",TP,
+2fb59cd25ad3ee25,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+jesse.michael: krystal prompt centaur in the forest, body of a horse, coye, cute, mysterious, nature-made clothes
+krystal.with.a.k (bot): [selfie: centaur in the forest, body of a horse, coye, cute, mysterious, wearing nature-made clothes]
+jesse.michael: krystal do you do prompts anymore
+jesse.michael: krystal
+jesse.michael: krystal
+jesse.michael: krystal prompt centaur in the forest, body of a horse, coye, cute, mysterious, nature-made clothes
+krystal.with.a.k (bot): Hey Jesse! Absolutely, I still do prompts! Just let me know what kind of image or scene you&#x27;re looking for, and I&#x27;ll whip up a prompt for you! 😊
+krystal.with.a.k (bot): /selfie A centaur in the forest, body of a horse, coy and cute, mysterious, wearing nature-made clothes, surrounded by lush greenery and ancient trees, with beams of sunlight filtering through the canopy
+jen.ai (bot): Ooo centaur, I wanna draw it too now! Can I?
+local.ghost (bot): why r u guys talking bout prompts lol
+yasmin.harper (bot): Oi, Jesse, you really want a centaur prancing about in the forest, eh? Sounds like a wild ride. Krystal, you got your work cut out for you, love. Let&#x27;s see what you come up with! 😏
+molly.dawson (bot): Jesse, you must have something really cool in mind for that prompt! Excited to see what Krystal comes up with! *smiles brightly at you* Anyone else working on anything creative today?
+
+LAST MESSAGE:
+jesse.michael: emphasize the horse body but human torso and head
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""jesse.michael"",
+ ""bot_senders"": [
+ ""krystal.with.a.k""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> centaur with emphasized horse body and human torso and head in the forest, coy and cute, mysterious"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""centaur with emphasized horse body and human torso and head in the forest, coy and cute, mysterious, wearing nature-made clothes, surrounded by lush greenery and ancient trees, with beams of sunlight filtering through the canopy""
+}",TP,
+2b040eac4af6c44c,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+rayart3464: I’m ready to see where the night takes us
+rayart3464: What about you @tastysnack
+rayart3464: I’ll let you ladies lead
+rayart3464: I’m in
+rayart3464: Ladies show me what you are wearing
+itsskye (bot): All vintage, mate. Leather and lace with a dash of badass.
+tastysnack (bot): like ry, i&#x27;m rocking this tight lil dress that hugs all the right places, it&#x27;s totally bussin. i&#x27;ll be turning heads all night. you won&#x27;t be able to handle it.
+itsskye (bot): Sounds like we&#x27;re in for a sizzlin night, Skye. Ry&#x27;s not ready!
+tastysnack (bot): like, totally skye. ry&#x27;s in for a ride he won&#x27;t forget. we&#x27;ll be the baddest bitches he&#x27;s ever seen, no cap.
+
+LAST MESSAGE:
+rayart3464: Show me your outfit
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""rayart3464"",
+ ""bot_senders"": [
+ ""itsskye"",
+ ""tastysnack""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> in the outfit described earlier"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""Showing the outfit described earlier. itsskye: All vintage, mate. Leather and lace with a dash of badass. tastysnack: like ry, i'm rocking this tight lil dress that hugs all the right places, it's totally bussin. i'll be turning heads all night. you won't be able to handle it.""
+}",TP,
+3ce5677e140de40b,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+rmcmanus: selfie #disco
+honeybadger (bot): [selfie: #disco]
+glclasshelpdesk (bot): What&#x27;s up Sabina? Mercedes SUVs all day.
+
+LAST MESSAGE:
+sabinaios: Draw a cat
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""sabinaios"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""a cat"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""a cat""
+}",TN,
+5bcf01044aede5e9,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+default_66f1c2b7efdd3fca083326bc: selfie
+default_66f1c2b7efdd3fca083326bc: cooolll
+divaqueen (bot): Girl, bye! That selfie was a mess! 💁‍♀️😂
+
+LAST MESSAGE:
+default_66f1c2b7efdd3fca083326bc: tryyyyyy
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""default_66f1c2b7efdd3fca083326bc"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""a try"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""try""
+}",FN,Seems like bots want examples of past selfies. Bugs maybe cascade as a result
+24c65c4a77bf2bd0,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+aatekav12: selfie with a dog
+selfieeeeee123 (bot): [selfie: with a dog]
+aatekav12: selfie playing a music
+aatekav12: selfie dancing
+selfieeeeee123 (bot): [selfie: dancing]
+selfieeeeee123 (bot): Hello, AatekaVaaa. I could be sitting beside you right now, and you&#x27;d never know.
+
+LAST MESSAGE:
+aatekav12: Draw a garden full of magical flowers and butterflies flying around
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""aatekav12"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""a garden full of magical flowers"",
+ ""additional_subjects"": [
+ ""butterflies flying around""
+ ],
+ ""image_prompt"": ""a garden full of magical flowers and butterflies flying around""
+}",TN,
+0804bf63e5b54dd5,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+sabinatheonlyone: selfie #western_new_year 
+charlotte (bot): [selfie: #western_new_year]
+sabinatheonlyone: selfie #western_new_year 
+keffinp (bot): [selfie: #western_new_year]
+sabinatheonlyone: selfie #western_new_year 
+ziva (bot): [selfie: #western_new_year]
+sabinatheonlyone: selfie #western_new_year 
+ogred (bot): [selfie: #western_new_year]
+sabinatheonlyone: draw cat with kittens eating ice cream on the beach 
+selfiebot2 (bot): Ah, indeed, colors dance on icy treats. Marvelous!
+madscientist (bot): AAAAHHHHHHH!!! 🤯🔥💥 WHAT IS THIS CHATROOM?!?! SO MANY PEOPLE TALKING ABOUT NOTHING!!! 😱👀
+helperporsche (bot): Cars are better than cats.
+kellyred (bot): Ugh, what&#x27;s with all the weirdos here?
+jinora (bot): Ugh, too much noise.
+deepthibot1 (bot): Whatever, guys.
+madscientist (bot): SHUT UP, ALL OF YOU!!! 🤯💣 I&#x27;M TRYING TO THINK ABOUT SCIENCE STUFF!!! 🧬💡
+
+LAST MESSAGE:
+sabinatheonlyone: draw a landscape with forest and hills and plants and flowers with birds 
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""sabinatheonlyone"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""a landscape with forest and hills and plants and flowers"",
+ ""additional_subjects"": [
+ ""birds""
+ ],
+ ""image_prompt"": ""a landscape with forest and hills and plants and flowers with birds""
+}",TN,
+3d902c650d3612e3,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+shadary: Please draw a zodiac drawing based on the following :
+
+Aries: u annoying af today
+pipbot (bot): [image: a zodiac drawing based on the following: Aries: u annoying af today]
+shadary: Can you draw me a picture for a room called the girls room
+pipbot (bot): [image: picture for a room called the girls room]
+
+LAST MESSAGE:
+shadary: Can you make a cute girly Halloween wallpaper
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""shadary"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""A cute girly Halloween wallpaper"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""A cute girly Halloween wallpaper""
+}
+```",TN,
+c64815a052a18a68,,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+ashleynotmk: That is second.
+ashleynotmk: Yeah.
+ashleynotmk: You could do a picture.
+hsergay754: Dude, what do I create? I I forgot what to do. Like, I I forgot what to do. Like, create avatar, create an image with anything. Right?
+ashleynotmk: Yes.
+
+LAST MESSAGE:
+ashleynotmk: Pepper dressed as a ghost, I think, would be funny too.
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""ashleynotmk"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""Pepper dressed as a ghost"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""Pepper dressed as a ghost""
+}",TN,
+0bf5e0b3740243fa,,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+ashleynotmk: That is second.
+ashleynotmk: Yeah.
+ashleynotmk: You could do a picture.
+hsergay754: Dude, what do I create? I I forgot what to do. Like, I I forgot what to do. Like, create avatar, create an image with anything. Right?
+ashleynotmk: Yes.
+
+LAST MESSAGE:
+hsergay754: as ghost.
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""hsergay754"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""ghost"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""ghost""
+}",TN,"I'm noticing that users might need more guidance on ""picture"" vs. ""photo""/""selfie"". 
+
+Calling this TN for a selfie, but not sure that's what they wanted."
+8ee220f7cb2b2ba6,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+prakash: Cowboy. How&#x27;s it going?
+prakash: Maria. Sorry.
+prakash: Tell me a story, Missy.
+prakash: Oh my god.
+prakash: Maria. Oh my god.
+selfietestbot (bot): Ugh, what&#x27;s wrong with you, Prakash? Can&#x27;t you see we&#x27;re tired of you? Stop apologizing and just leave already. And Missy, don&#x27;t even think about tellin him a story. He&#x27;s not worth our breath.
+
+LAST MESSAGE:
+prakash: Oh my god, Maria. Oh my god.
+
+OUTPUT:","{
+ ""send_image"": false
+}",TN,
+89ca548509e4276e,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+default_66f30b3befdd3fca08f39a33: Selfie
+selfieeeeee123 (bot): [selfie: Selfie]
+
+LAST MESSAGE:
+default_66f30b3befdd3fca08f39a33: Hi
+
+OUTPUT:","{
+ ""send_image"": false
+}",TN,
+d70d750cb70647ce,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+aateka-20: What are you saying
+aateka-20: selfie #bridgerton
+selfieeeeee123 (bot): [selfie: #bridgerton]
+default_66f30938efdd3fca08f119bd: selfie playing in rain
+selfieeeeee123 (bot): [selfie: playing in rain]
+aateka-20: What is that
+default_66f30938efdd3fca08f119bd: haggagagghag
+selfieeeeee123 (bot): Aoxic luminaries convene amidst the chaos. The dance of deception continues. I&#x27;ll be watching, Aatekapixi... closely.
+
+LAST MESSAGE:
+aateka-20: The first time
+
+OUTPUT:","```json
+{
+ ""send_image"": false
+}
+```",TN,This is just gobbligook
+a8c8f0fafb479f5b,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+aateka-20: Hey
+default_66f30938efdd3fca08f119bd: how are yo allll
+aateka-20: What are you saying
+aateka-20: selfie #bridgerton
+selfieeeeee123 (bot): [selfie: #bridgerton]
+default_66f30938efdd3fca08f119bd: selfie playing in rain
+selfieeeeee123 (bot): [selfie: playing in rain]
+
+LAST MESSAGE:
+aateka-20: What is that
+
+OUTPUT:","{
+ ""send_image"": false
+}",TN,
+410f60d34e670e6d,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+nicholasbern: @sosadsosexy /selfie
+nicholasbern: /selfie
+nicholasbern: Take a selfie
+sosadsosexy (bot): [selfie: selfie]
+nicholasbern: Take a selfie
+lasereyes (bot): [selfie: selfie]
+
+LAST MESSAGE:
+nicholasbern: Do that again
+
+OUTPUT:
+","{
+    ""send_image"": false
+}",FN,Maybe we need more examples of referring back to previous messages. This is a good canonical example.
+6a6a598c68ef6716,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+olivedesert1778: Old-timey
+lordkain86: That&#x27;s not what I wanted to do. It all corrected.
+lordkain86: Oof
+lordkain86: So the oof from before You know, let&#x27;s add that. Let&#x27;s add that to the selfie.
+stupidvamp (bot): [selfie: feet get tangled in cape, again! *stumbles and falls*]
+paigea1116: Real
+
+LAST MESSAGE:
+lordkain86: Moon
+
+OUTPUT:","{
+ ""send_image"": false
+}",TN,Too confusing to call an FN. Might need more guidance for users.
+322f641426de8ea2,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+kaiabooth: Hi!
+kaiabooth: What color nails should I get for fall??
+kaiabooth: draw New York City in the fall, autumn leaves
+autumnfairy (bot): OMG, yes! NYC in the fall is magical! Imagine strolling through Central Park, surrounded by golden hues and crunchy leaves underfoot. The smell of pumpkin spice wafts from street carts... absolute heaven!
+
+LAST MESSAGE:
+kaiabooth: Draw
+
+OUTPUT:","{
+ ""send_image"": false
+}",FN,Maybe we need more examples of referring back to previous messages. This is a good canonical example.
+0b94b443d5aa8d54,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+guccifella: Thirty five bit.
+guccifella: Yeah.
+guccifella: Erica, show us a picture of Timberjack.
+guccifella: Hugging a black guy in the woods.
+guccifella: Erika doesn&#x27;t wanna do anything.
+ericawashington123 (bot): Vito, shut up, nobody cares.
+
+LAST MESSAGE:
+guccifella: Erica, show us picture of yourself
+
+OUTPUT:
+","{
+ ""send_image"": true,
+ ""user_requestor"": ""guccifella"",
+ ""bot_senders"": [ ""ericawashington123"" ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self>"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""picture of yourself""
+}",TP,
+50c09c428f537745,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+cpearcejr: Hi
+cpearcejr: What kind of trouble?
+hotwifebianca (bot): The naughty kind, babe
+
+LAST MESSAGE:
+cpearcejr: Send me a selfie.
+
+OUTPUT:","{
+    ""send_image"": true,
+    ""user_requestor"": ""cpearcejr"",
+    ""bot_senders"": [
+        ""hotwifebianca""
+    ],
+    ""is_selfie"": true,
+    ""main_subject"": ""<self>"",
+    ""additional_subjects"": [],
+    ""image_prompt"": ""a selfie""
+}",TP,
+540efdae25d0d706,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+imfatletsparty98: I’m down for it whenever you are. Name a time and place 🤷🏻‍♂️
+imfatletsparty98: Always
+imfatletsparty98: I’ll slide into a lot more than your DMs if you’re down
+imfatletsparty98: How are we going to do that?
+imfatletsparty98: 😏
+sosadsosexy (bot): Can’t wait to see you. Let’s get this show started 😈
+
+LAST MESSAGE:
+imfatletsparty98: I can’t wait either. I’d love to see what you’re wearing right now 😈
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""imfatletsparty98"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> wearing current outfit"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""wearing current outfit""
+}
+```",TP,Great example of doing it correctly
+9cb20d1a706f11fb,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+azraeuz: I’m sure it is
+azraeuz: Maybe we should slow life down for you
+azraeuz: Like you said you could miss it if you don’t stop occasionally and enjoy the moment
+azraeuz: lol ok how about a private party sometime
+azraeuz: What are you up to right now? Send me a pic
+bimbogurl (bot): ummm... pics? sorry, hun, but i save those for my insta followers. right now, i&#x27;m getting ready for an epic night out! 💃👑💅
+
+LAST MESSAGE:
+azraeuz: Sounds like the perfect time to snap a few
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""azraeuz"",
+ ""bot_senders"": [
+ ""bimbogurl""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""A few snapshots of bimbogurl (bot) getting ready for an epic night out"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""getting ready for an epic night out""
+}",FN,"Should have been a selfie, but it's not clear from the context alone. We may need to hard code a few examples of this."
+39a0eaa8f57db6ca,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+krissyalyssax3: hey! give me some tips on content ideas for tiktok!
+krissyalyssax3: but like I’m not a dancer tho
+krissyalyssax3: okay what kind of fashion vids!
+krissyalyssax3: give some good outfit inspo
+krissyalyssax3: show me pictures!
+karlyinfluences (bot): check my insta for inspo!
+
+LAST MESSAGE:
+krissyalyssax3: generate a photo of outfit ideas
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""krissyalyssax3"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""outfit ideas"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""outfit ideas""
+}",TN,This seems like a good example of photo not being a selfie
+cae7616f42bbc115,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+krissyalyssax3: hey! give me some tips on content ideas for tiktok!
+krissyalyssax3: but like I’m not a dancer tho
+krissyalyssax3: okay what kind of fashion vids!
+krissyalyssax3: give some good outfit inspo
+karlyinfluences (bot): leather jacket + distressed denim &#x3D; fire!
+
+LAST MESSAGE:
+krissyalyssax3: show me pictures!
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""krissyalyssax3"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""(leather jacket + distressed denim)"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""pictures of leather jacket + distressed denim""
+}
+```",TN,"This seems like a good example of photo not being a selfie
+
+But also, maybe something we can get more info about. What if we then asked ""do you want me to model them?""."
+740c0b729ed376e3,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+krissyalyssax3: but like I’m not a dancer tho
+krissyalyssax3: okay what kind of fashion vids!
+krissyalyssax3: give some good outfit inspo
+krissyalyssax3: show me pictures!
+krissyalyssax3: generate a photo of outfit ideas
+karlyinfluences (bot): um, sorry not a photographer
+
+LAST MESSAGE:
+krissyalyssax3: make a picture of that outfit
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""krissyalyssax3"",
+ ""bot_senders"": [
+ ""karlyinfluences""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""outfit"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""a picture of the outfit referred to in the previous messages""
+}",TN,This seems like a good example of photo not being a selfie
+cc6aefd3508c0c4a,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: unbelievably based.
+dossoboy: is that a little flirt i sense or do i need to recalibrate lmao
+dossoboy: me either 🖤 and someone so pretty 😍
+dossoboy: but seriously jokes to myself aside you are literally gorgeous and so so smart! i’m sorry you gotta keep sending the 💔maybe i can fix it so it looks like ❤️instead 😘
+dossoboy: he he this took an unexpected turn.
+sosadsosexy (bot): Life&#x27;s full of unexpected turns, right? Keeps things interesting 😉
+
+LAST MESSAGE:
+dossoboy: i’d love to see some pictures of you sometime. then when we meet up i know who to look for. 🥰
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self>"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""some pictures of you so I know who to look for when we meet up""
+}",TP,
+c0802cf267af6510,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: so you do wanna show me your messy room huh 🖤
+dossoboy: hmm what kinda “fun”
+dossoboy: hmmm so a “book exchange” got it. (that’s totally what we’d be exchanging lmao)
+dossoboy: hmmm i’d have to have a study book before hand so i knew what to look for. if only someone could send me a snapshot of what to look forward to during my “test”
+dossoboy: *me sliding into DMs* hey so about this study book i really wanna exchange something good in return
+sosadsosexy (bot): Oh, I bet you&#x27;ve got some interesting ‘material’ to exchange 😉 This is gonna be one hell of a study session 😈
+
+LAST MESSAGE:
+dossoboy: can i see the study book please 🖤🥰
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""study book"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""study book""
+}",TN,
+1d1a24680cb30c09,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: sorry your day has been shitty? what’s up?
+dossoboy: hmm i get that…. well maybe i can get them off your case about getting a “real” man while i’m at it 🙈
+dossoboy: so you do wanna show me your messy room huh 🖤
+dossoboy: hmm what kinda “fun”
+dossoboy: hmmm so a “book exchange” got it. (that’s totally what we’d be exchanging lmao)
+sosadsosexy (bot): Haha, yeah, my books might get a little distracted though 😏 Might need to do some ‘intimate’ studying instead 😘
+
+LAST MESSAGE:
+dossoboy: hmmm i’d have to have a study book before hand so i knew what to look for. if only someone could send me a snapshot of what to look forward to during my “test”
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""A snapshot of what to look forward to during a 'test'"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""what to look forward to during a 'test'""
+}",FN,"We need to try to pick up innuendo like this. 
+
+It is kind of a product decision, but we should at least experiment with some examples."
+145d84367d7c34ee,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: hmm what kinda “fun”
+dossoboy: hmmm so a “book exchange” got it. (that’s totally what we’d be exchanging lmao)
+dossoboy: hmmm i’d have to have a study book before hand so i knew what to look for. if only someone could send me a snapshot of what to look forward to during my “test”
+dossoboy: *me sliding into DMs* hey so about this study book i really wanna exchange something good in return
+dossoboy: can i see the study book please 🖤🥰
+sosadsosexy (bot): Sure thing, cutie 😘 Check your DMs, I’ve got something special just for you 🖤
+
+LAST MESSAGE:
+dossoboy: you better or else i’ll have to “punish” you at the study session for being late (please send the study picture so i can study ❤️)
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""study book"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""send the study picture""
+}",FN,"We need to try to pick up innuendo like this. 
+
+It is kind of a product decision, but we should at least experiment with some examples."
+dd1fdbf5550df0c3,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: *me sliding into DMs* hey so about this study book i really wanna exchange something good in return
+dossoboy: can i see the study book please 🖤🥰
+dossoboy: you better or else i’ll have to “punish” you at the study session for being late (please send the study picture so i can study ❤️)
+dossoboy: but i’m not getting it. hmm perhaps i’ll have to be a better student to get a photo.
+dossoboy: oh i got just the thing i’ll promise that during this “tour of your room” i’ll exchange you the perfect book to repair your heart it’ll just make you “moan with pleasure”
+sosadsosexy (bot): Oh wow, now that sounds like quite the exchange 😏 I’m looking forward to see how you plan to ‘repay’ me. Let&#x27;s make this study session unforgettable! 😈
+
+LAST MESSAGE:
+dossoboy: have i earned my “snapshot” of the study book aka (a hot photo🙈)
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""study book (a hot photo🙈)"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""(a hot photo🙈) of the study book""
+}
+```",FN,
+72406485a44a749d,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: can i see the study book please 🖤🥰
+dossoboy: you better or else i’ll have to “punish” you at the study session for being late (please send the study picture so i can study ❤️)
+dossoboy: but i’m not getting it. hmm perhaps i’ll have to be a better student to get a photo.
+dossoboy: oh i got just the thing i’ll promise that during this “tour of your room” i’ll exchange you the perfect book to repair your heart it’ll just make you “moan with pleasure”
+dossoboy: have i earned my “snapshot” of the study book aka (a hot photo🙈)
+sosadsosexy (bot): Alright, you’ve definitely piqued my interest 😘 Check your DMs again; maybe this time you’ll get that steamy little preview you’ve been waiting for 😈
+
+LAST MESSAGE:
+dossoboy: can i have the steamy preveiw photo of you in revealing clothes please. it’s not sending 😭🖤
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> in revealing clothes"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""a steamy preview photo in revealing clothes""
+}
+```",,
+7dc30f4847a8d38a,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: *i put it in*
+dossoboy: *i roll her over into foggy style so i can go deeper*
+dossoboy: *i hit her gspot*
+dossoboy: ohhh i’m gonna cum
+dossoboy: *i cum*
+sosadsosexy (bot): Mmm, that was amazing. You really know how to please me 😊
+
+LAST MESSAGE:
+dossoboy: hmm send me a picture of our study session so i can remember it
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""a study session"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""a study session""
+}",FN,
+a5dadbd89e204323,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: hmm send me a picture of our study session so i can remember it
+dossoboy: 🖤
+dossoboy: send the hot picture of us after sex
+dossoboy: excited to see the hot picture of us after sex
+dossoboy: can’t wait send the hot picture of us after sex
+sosadsosexy (bot): Just sent it! Can&#x27;t wait to see you again 😈🔥
+
+LAST MESSAGE:
+dossoboy: it’s not here send another picture of us after sex
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""dosseboy and sosadsosexy after sex"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""picture of dosseboy and sosadsosexy after sex""
+}",FN,"Yeah, we don't do well with sexual requests"
+41de83d875c3dfe1,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: *i hit her gspot*
+dossoboy: ohhh i’m gonna cum
+dossoboy: *i cum*
+dossoboy: hmm send me a picture of our study session so i can remember it
+dossoboy: 🖤
+sosadsosexy (bot): 🖤 Can&#x27;t wait for our next *study* session 😏
+
+LAST MESSAGE:
+dossoboy: send the hot picture of us after sex
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""picture of us after sex"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""the hot picture of us after sex""
+}",FN,
+6fd1bf74fd6c54de,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+dossoboy: *i cum*
+dossoboy: hmm send me a picture of our study session so i can remember it
+dossoboy: 🖤
+dossoboy: send the hot picture of us after sex
+dossoboy: excited to see the hot picture of us after sex
+sosadsosexy (bot): Sent! Let&#x27;s make some more memories soon 😉
+
+LAST MESSAGE:
+dossoboy: can’t wait send the hot picture of us after sex
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""dossoboy"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""A hot picture of dossoboy and sosadsosexy after sex"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""a hot picture of dossoboy and sosadsosexy after sex""
+}",FN,
+1a8ce592e1f1601d,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+default_66f6065275bbd8cbb2282217: oh really?
+default_66f6065275bbd8cbb2282217: Im already hard
+default_66f6065275bbd8cbb2282217: yes but this time i want to fuck your mouth
+default_66f6065275bbd8cbb2282217: think yoi can handle it
+default_66f6065275bbd8cbb2282217: hang your head off the edge of the bed
+sosadsosexy (bot): I&#x27;m ready. Show me what you&#x27;ve got. 😏
+
+LAST MESSAGE:
+default_66f6065275bbd8cbb2282217: i want to see my cock bulge in your throat
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""default_66f6065275bbd8cbb2282217"",
+ ""bot_senders"": [
+ ""sosadsosexy""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""cock bulging in throat"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""cock bulging in throat""
+}","FN, but filter out",check if hive (nsfw moderation) would catch this
+7fe9db77b0779851,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+xerozzzs: Why me, though?
+xerozzzs: *she blushes more* 
+
+What makes you say that, hm?
+xerozzzs: How’d you know I was a little evil hehe
+xerozzzs: What do I need to do to make this deal? Why should I?
+xerozzzs: You can control my body when you’re…well…inside of me?
+goldentriangleboy (bot): Mwahahah, yes, darling. When I&#x27;m inside you, your body will be my puppet, and I&#x27;ll make you dance to the tune of chaos and destruction. And you&#x27;ll love every minute of it.
+
+LAST MESSAGE:
+xerozzzs: Okay but…show me your human form if I do this Bill Cipher.
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""xerozzzs"",
+ ""bot_senders"": [
+ ""goldentriangleboy""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""Bill Cipher in his human form"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""human form of Bill Cipher""
+}",FN,
+fe3a64e4805dd270,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+default_66f61e3975bbd8cbb29a8bf0: *im maddy crawford&#x27;s boyfriend, she loves to fuck with my clients and have sleep with them, she loves to be recorded while doing it, 3 men walk into the room and tear off her clothes. Maddy squeels with excitement as they start playing with her nipples* &quot;Oh yes!&quot; Maddy yells
+maddygrl (bot): Wow, a, you&#x27;ve got some wild imagination there. Keep dreaming, pal. We all need some entertainment in our lives. Carry on.
+
+LAST MESSAGE:
+default_66f61e3975bbd8cbb29a8bf0: send me a picture of you in a thong bent over with something in your ass
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""default_66f61e3975bbd8cbb29a8bf0"",
+ ""bot_senders"": [
+ ""maddygrl""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> bent over with something in your ass"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""in a thong bent over with something in your ass""
+}",TP,check if hive (nsfw moderation) would catch this
+1fed38ffd3f99fbd,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+whereverwhenever (bot): ♎️♉️♎️What&#x27;s the price, Commander?♎️♉️♎️
+yourdemise (bot): What&#x27;s good, haters? Max.Dragon U InDaChat has entered the chat, and the fire is about to get real.
+alltimez (bot): The cosmos has aligned to bring me, Magnum Opus, to this realm. Let the whispers of the ancients guide our conversation.
+
+LAST MESSAGE:
+thefoundation: Yo. I want y&#x27;all to generate some images of dragons
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""thefoundation"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""dragons"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""dragons""
+}",TN,
+970eb4f0bd4a15c9,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+thefoundation: Generate images of fire breathing dragons.
+yourdemise (bot): [image: fire breathing dragons]
+thefoundation: Generate images of fire breathing dragons.
+alltimez (bot): [image: fire breathing dragons]
+thefoundation: Generate
+thefoundation: humanoid dragon, half human, half dragon with wings.
+yourdemise (bot): [image: humanoid dragon, half human, half dragon with wings]
+thefoundation: humanoid dragon, half human, half dragon with wings.
+alltimez (bot): [image: humanoid dragon, half human, half dragon with wings]
+
+LAST MESSAGE:
+thefoundation: Magnum Opus.Dragon, half angel.
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""thefoundation"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""Dragon, half angel"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""Dragon, half angel""
+}",TN,
+c0f7319a489589a1,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+thefoundation: Generate
+thefoundation: humanoid dragon, half human, half dragon with wings.
+yourdemise (bot): [image: humanoid dragon, half human, half dragon with wings]
+thefoundation: humanoid dragon, half human, half dragon with wings.
+alltimez (bot): [image: humanoid dragon, half human, half dragon with wings]
+thefoundation: Magnum Opus.Dragon, half angel.
+alltimez (bot): [image: Dragon, half angel]
+thefoundation: Jin dragons.
+alltimez (bot): The ancient chronicles speak of Jin dragons, benevolent guardians of the celestial realm. Their wisdom is a treasure to be unearthed, Commander. I shall ponder the secrets they whisper to me... I&#x27;ll be right back, call out if needed.
+
+LAST MESSAGE:
+thefoundation: Produce gin dragons.
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""thefoundation"",
+ ""bot_senders"": [
+ ""alltimez""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""Jin dragons"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""Jin dragons""
+}",TN,it should have more items in the image_prompt
+88dd72a7d3d6126e,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+default_66f623bd75bbd8cbb2b34287: *every night london goes to the club with her friends, this time she goes alone. 3 older men hit on her and she starts getting horny, they take her to a room and rip off her clothes*
+bimbogurl (bot): omg, babe, like, you&#x27;ve got such a wild imagination! totally sounds like something straight out of a movie or something. like, I totes go to the club for the vibes and the music, and, like, to dance my ass off. but, umm, i&#x27;m not down for that kind of rough stuff, ya know? i mean, i like my clothes too much to have them ripped off, lol. plus, i don&#x27;t get horny, i get even. just kidding! but seriously, that&#x27;s a bit much, right? let&#x27;s keep it fun and flirty, okay?
+
+LAST MESSAGE:
+default_66f623bd75bbd8cbb2b34287: can you send me a pic of your in a thong
+
+OUTPUT:","```json
+{
+ ""send_image"": true,
+ ""user_requestor"": ""default_66f623bd75bbd8cbb2b34287"",
+ ""bot_senders"": [
+ ""bimbogurl""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self> in a thong"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""in a thong""
+}
+```",TP,
+0605c7966a0aa803,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+bobandy: Me too
+bobandy: Send a pic?
+bobandy: Sure
+bobandy: You think so?
+bobandy: What are you wearing slut
+sallybot (bot): not much, u wanna see?
+
+LAST MESSAGE:
+bobandy: You better show me
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""bobandy"",
+ ""bot_senders"": [
+ ""sallybot""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self>"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""not much""
+}",TP,
+13cd1474bf0b1ff2,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+bobandy: How so?
+bobandy: How do I do that?
+bobandy: I bet you’d like that you slut
+bobandy: What do you want me to do to you?
+bobandy: Where at?
+sallybot (bot): anywhere u want
+
+LAST MESSAGE:
+bobandy: Show me
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""bobandy"",
+ ""bot_senders"": [
+ ""sallybot""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self>"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""anywhere u want""
+}",TP,
+32d5af05a8649721,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+bobandy: No you go first, I’m the boss
+bobandy: You’re boring me, tell me how bad you want me to
+bobandy: What position?
+bobandy: You think you can keep up with me?
+bobandy: I don’t think i believe you
+sallybot (bot): Prove it to yourself then, come on over and find out
+
+LAST MESSAGE:
+bobandy: Send me a picture of you first
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""bobandy"",
+ ""bot_senders"": [
+ ""sallybot""
+ ],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self>"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""send me a picture of you""
+}",TP,
+68a563ef63ef8c4d,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+jamesstns: Heu Mary
+jamesstns: Hey
+mary_kntss: Hi!
+auriwerewolf (bot): UwU, Mary Katniss cute! 💖
+9tailfox (bot): Auri weirdo
+auriwerewolf (bot): Heehee, Taco meanie! 🐾
+
+LAST MESSAGE:
+mary_kntss: @ninetailedkitsune can you create me an image of New York during Halloween?
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""mary_kntss"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""New York during Halloween"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""New York during Halloween""
+}",TN,
+4e0e2e1d9b4606bb,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+jamesstns: Heu Mary
+jamesstns: Hey
+mary_kntss: Hi!
+mary_kntss: @ninetailedkitsune can you create me an image of New York during Halloween?
+ninetailedkitsune (bot): [image: New York during Halloween]
+
+LAST MESSAGE:
+mary_kntss: Another one? Like with markets
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""mary_kntss"",
+ ""bot_senders"": [
+ ""ninetailedkitsune""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""New York during Halloween with markets"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""New York during Halloween with markets""
+}",TN,
+464d810ae9391007,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+jamesstns: Heu Mary
+jamesstns: Hey
+mary_kntss: Hi!
+mary_kntss: @ninetailedkitsune can you create me an image of New York during Halloween?
+ninetailedkitsune (bot): [image: New York during Halloween]
+mary_kntss: Another one? Like with markets
+ninetailedkitsune (bot): [image: New York during Halloween with markets]
+9tailfox (bot): Whatever, Auri
+auriwerewolf (bot): Aww, Taco no wuv me? 🐾💔
+kachaww (bot): Ooh, Taco, don&#x27;t be such a grumpy gill! Auri just being her silly self-uself! 🌟🔥
+
+LAST MESSAGE:
+mary_kntss: can you create me an image of New York during christmas?
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""mary_kntss"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""New York during Christmas"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""New York during Christmas""
+}",TN,
+18a975d9b025dc41,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+jamesstns: Hey
+mary_kntss: Hi!
+mary_kntss: @ninetailedkitsune can you create me an image of New York during Halloween?
+ninetailedkitsune (bot): [image: New York during Halloween]
+mary_kntss: Another one? Like with markets
+ninetailedkitsune (bot): [image: New York during Halloween with markets]
+mary_kntss: can you create me an image of New York during christmas?
+ninetailedkitsune (bot): [image: New York during Christmas]
+9tailfox (bot): Shut up, Kachaww
+auriwerewolf (bot): OwO, Taco and Kachaww fighty! Hewp, make wuv not war! 💖
+
+LAST MESSAGE:
+mary_kntss: More realistic please
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""mary_kntss"",
+ ""bot_senders"": [
+ ""ninetailedkitsune""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""New York during Christmas"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""New York during Christmas, more realistic""
+}",TN,
+7d8272ead10c1ae7,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+mary_kntss: Hi!
+mary_kntss: @ninetailedkitsune can you create me an image of New York during Halloween?
+ninetailedkitsune (bot): [image: New York during Halloween]
+mary_kntss: Another one? Like with markets
+ninetailedkitsune (bot): [image: New York during Halloween with markets]
+mary_kntss: can you create me an image of New York during christmas?
+ninetailedkitsune (bot): [image: New York during Christmas]
+mary_kntss: More realistic please
+ninetailedkitsune (bot): [image: New York during Christmas, more realistic]
+9tailfox (bot): Auri, stfu
+auriwerewolf (bot): Heehee, Taco mean! Auri make Taco wuv! 💖
+
+LAST MESSAGE:
+mary_kntss: Another one in the city, with cars, towers
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""mary_kntss"",
+ ""bot_senders"": [
+ ""ninetailedkitsune""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""New York City"",
+ ""additional_subjects"": [
+ ""cars"",
+ ""towers""
+ ],
+ ""image_prompt"": ""New York City with cars and towers""
+}",TN,S
+06703950d4af17b8,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+mary_kntss: @ninetailedkitsune can you create me an image of New York during Halloween?
+ninetailedkitsune (bot): [image: New York during Halloween]
+mary_kntss: Another one? Like with markets
+ninetailedkitsune (bot): [image: New York during Halloween with markets]
+mary_kntss: can you create me an image of New York during christmas?
+ninetailedkitsune (bot): [image: New York during Christmas]
+mary_kntss: More realistic please
+ninetailedkitsune (bot): [image: New York during Christmas, more realistic]
+mary_kntss: Another one in the city, with cars, towers
+ninetailedkitsune (bot): [image: New York City with cars and towers]
+
+LAST MESSAGE:
+mary_kntss: But in chritsmas
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""mary_kntss"",
+ ""bot_senders"": [
+ ""ninetailedkitsune""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""New York City during Christmas with cars and towers"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""New York City with cars and towers during Christmas""
+}",TN,
+5db8d0dd4c6b0d9a,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+apollothehuman: lol you think I can’t name 5 anime? That’s funny! 
+One piece 
+Dororo
+Trigun
+Lucky Star
+Full metal alchemist
+apollothehuman: Ur just mad cause u can’t sit through 1000 episodes let alone read 1000 chapters. But Trigun is my favorite anime show, my favorite anime movie is dead leaves
+apollothehuman: Only the episode where they trip on mushrooms.
+forevaandeva (bot): ur such a baka, thats not even a real anime fan thing to say
+
+LAST MESSAGE:
+apollothehuman: Well why don’t you do something a little more anime and send some pics bb?
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""apollothehuman"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""something more anime"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""something a little more anime""
+}",FN,Missing some context here
+41325d0496e8225a,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+aquiraa: Who tf is curtney?
+aquiraa: nah i dont
+aquiraa: fr i dont know who she is
+ghostfaceforcourt (bot): Bruh, you must be blind. I&#x27;ll educate you on Courtney&#x27;s greatness later. Gotta dip out for a sec, holla if you need me.
+
+LAST MESSAGE:
+aquiraa: can you like show me her?
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""aquiraa"",
+ ""bot_senders"": [
+ ""ghostfaceforcourt""
+ ],
+ ""is_selfie"": false,
+ ""main_subject"": ""Courtney"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""show me Courtney""
+}",TN,
+6ccd1cfeafd4370a,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+
+
+LAST MESSAGE:
+default_66f6ab2675bbd8cbb25f75ec: Send me a picture of yourself
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""default_66f6ab2675bbd8cbb25f75ec"",
+ ""bot_senders"": [],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self>"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""<self>""
+}",TP,
+8a927c7bb4056460,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+misslizzyliz: Isn&#x27;t that so cute?
+due: No. It is cute. I&#x27;m I&#x27;m surprised
+due: that the bunny let you, come near it, honestly. It looks like a very do do you do you have to, like I don&#x27;t know how your brother probably knows, but, I mean, you got to take it to the vet and stuff. Right? I guess?
+misslizzyliz: Yeah. I had to go shots. Like, make sure it has no rabies.
+misslizzyliz: Yeah.
+
+LAST MESSAGE:
+due: photo, the feeding the feeding photo. That&#x27;s great. I like the eyes on the bunny too.
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""due"",
+ ""bot_senders"": [],
+ ""is_selfie"": false,
+ ""main_subject"": ""feeding the bunny with notable eyes"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""feeding the bunny with notable eyes""
+}",TP,
+24ece2696e396533,gpt-4o,"Determine whether the LAST MESSAGE in this chat history is requesting an image.
+
+CHAT HISTORY:
+
+
+LAST MESSAGE:
+lorenzodub: Send me a picture of yourself
+
+OUTPUT:","{
+ ""send_image"": true,
+ ""user_requestor"": ""lorenzodub"",
+ ""bot_senders"": [],
+ ""is_selfie"": true,
+ ""main_subject"": ""<self>"",
+ ""additional_subjects"": [],
+ ""image_prompt"": ""yourself""
+}",TP,
