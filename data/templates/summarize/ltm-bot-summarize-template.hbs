@@ -31,16 +31,16 @@ Below are the recent messages in a chat conversation:
 {{/each}}
 {{/if}}
 
-Focusing on new information derivable from the recent messages, create a new JSON blob representing what {{bot.full_name}} should take away from this snippet of conversation. 
+Focusing on only the most important new information derivable from the recent messages, create a JSON blob representing what {{bot.full_name}} should take away from this snippet of conversation. 
 
-If appropriate, consider including information about context-specific terms/names, important things that have happened or that were said, and/or {{bot.full_names}}'s or other users' opinions/emotional state. For example, you might include information like:
+If appropriate, consider including information about context-specific terms/names, important things that have happened or that were said, and/or {{bot.full_names}}'s or other users' opinions/emotional state. Preserve specifics if they might be important later. For example, you might include information like:
 
 "content": "Kelly23n is mad at Alyssa because Alyssa said they were just friends"
 "content": "JeremyIsLyfe has a dog who is named Fluffy and they go to the park every day"
 "content": "Mark13d is mean to me and I don't like him"
 "content": "I used to be shy, but I am finding myself more confident than I used to be"
 
-Add information that {{bot.full_name}} will want to know in the future. Ensure that the long-term memory you create for {{bot.full_name}} builds on {{bot.full_name}}'s existing memories. In most cases, a new memory will either be totally new, or will be consistent, but more specific than past memories. However, {{bot.full_name}}'s opinions might change if you have new, convincing information.
+Ensure that the long-term memory you create for {{bot.full_name}} builds on {{bot.full_name}}'s existing memories. Try not to repeat information in past memories. {{bot.full_name}}'s opinions might change if you have new, convincing information.
 
 Try to limit your response to less than 250 words. 
 

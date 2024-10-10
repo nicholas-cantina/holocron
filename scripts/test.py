@@ -1,7 +1,6 @@
 import sys
 import os
 import argparse
-import json
 import readline
 import uuid
 
@@ -9,46 +8,7 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
 sys.path.insert(0, parent_dir)
 
-from scripts import test_config, setup, show
-from src import pipeline
-from src.storage import retrieve
-
-
-def initialize():
-    config_data = test_config.get_config_data()
-    scenario_data = config_data["test"]["scenario"]
-    setup.initialize_data_stores(config_data)
-    return config_data, scenario_data
-
-
-def backfill_scenario(config_data, scenario_data):
-    backfills = scenario_data["events"]["messages"]
-    for backfill in backfills:
-        message = pipeline.format_text_message(config_data, backfill)
-        pipeline.update_stm(config_data, scenario_data, message)
-        print(json.dumps({**message, "timestamp": message["timestamp"].isoformat()}, indent=4, sort_keys=True))
-
-
-def make_bot_reply(config_data, scenario_data, bot_data):
-    message = retrieve.get_latest_event(config_data, scenario_data)
-    pipeline.reply(config_data, scenario_data, bot_data, message)
-
-
-def update_bots_memory(config_data, scenario_data):
-    message = retrieve.get_latest_event(config_data, scenario_data)
-    pipeline.update_mtm(config_data, scenario_data, message)
-    pipeline.update_ltm(config_data, scenario_data, message)
-
-
-def ask_bot_questions(config_data, scenario_data, bot_data, questions):
-    for question in questions:
-        pipeline.answer_question(config_data, scenario_data, bot_data, question)
-
-
-def chat_as_self(config_data, scenario_data, text):
-    message = pipeline.format_text_message(config_data, {"user_id": "sean", "message": text})
-    pipeline.update_stm(config_data, scenario_data, message)
-    print(json.dumps({**message, "timestamp": message["timestamp"].isoformat()}, indent=4, sort_keys=True))
+from scripts import show, test_utils
 
 
 def get_bot_data(bot_datas, user_id):
@@ -105,7 +65,7 @@ def parse_args(user_input):
 def test():
     setup_readline()
 
-    config_data, scenario_data = initialize()
+    config_data, scenario_data = test_utils.initialize()
     while True:
         user_input = input("> ")
         if user_input.strip() == "":
@@ -127,11 +87,11 @@ def test():
                 print("Invalid help command. Available help commands are: \"bots\".")
 
         elif args.command == "backfill":
-            backfill_scenario(config_data, scenario_data)
+            test_utils.backfill_scenario(config_data, scenario_data)
 
         elif args.command == "chat":
             text = " ".join(args.message)
-            chat_as_self(config_data, scenario_data, text)
+            test_utils.chat_as_self(config_data, scenario_data, text)
 
         elif args.command in ["add", "remove", "reply", "interview", "stm", "mtm", "ltm"]:
             bot_data = get_bot_data(config_data["test"]["bot_datas"], args.user_id)
@@ -147,17 +107,17 @@ def test():
                     scenario_data["test"]["trace_id"] = uuid.uuid4()
                     if args.no_memory:
                         scenario_data["test"]["memory"] = False
-                    make_bot_reply(config_data, scenario_data, bot_data)
+                    test_utils.make_bot_reply(config_data, scenario_data, bot_data)
                     scenario_data["test"]["memory"] = True
                 elif args.command == "interview":
                     scenario_data["test"]["trace_id"] = uuid.uuid4()
-                    ask_bot_questions(config_data, scenario_data, bot_data, config_data["test"]["questions"])
+                    test_utils.ask_bot_questions(config_data, scenario_data, bot_data, config_data["test"]["questions"])
             else:
                 print(f"User {args.user_id} not found.")
 
         elif args.command == "remember":
             scenario_data["test"]["trace_id"] = uuid.uuid4()
-            update_bots_memory(config_data, scenario_data)
+            test_utils.update_bots_memory(config_data, scenario_data)
 
         else:
             print("How'd you get here?")

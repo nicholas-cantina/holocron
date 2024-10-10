@@ -11,15 +11,15 @@ $$;
 CREATE SCHEMA IF NOT EXISTS stm;
 
 CREATE TABLE IF NOT EXISTS stm.messages (
-    bot_in_conversation_identity_id VARCHAR(255) NOT NULL,  -- bot id (optimization -- messages will be duplicated for each bot in room)
+    bot_in_conversation_user_id VARCHAR(255) NOT NULL,  -- bot id (optimization -- messages will be duplicated for each bot in room)
     conversation_id VARCHAR(255) NOT NULL,  -- room id
     user_id VARCHAR(255) NOT NULL,  -- user id of message sender
     id VARCHAR(255) NOT NULL,  -- message id
     timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
     metadata JSONB NOT NULL,  -- (message, ...)
-    PRIMARY KEY (bot_in_conversation_identity_id, conversation_id, id)
+    PRIMARY KEY (bot_in_conversation_user_id, conversation_id, id)
 )
-PARTITION BY HASH (bot_in_conversation_identity_id);
+PARTITION BY HASH (bot_in_conversation_user_id);
 
 DO $func$
 BEGIN
@@ -30,8 +30,8 @@ END;
 $func$ language 'plpgsql';
 
 CREATE UNIQUE INDEX IF NOT EXISTS 
-messages_user_id_conversation_id_bot_in_conversation_identity_id_id_idx
-ON stm.messages (bot_in_conversation_identity_id, conversation_id, user_id, id);
+messages_user_id_conversation_id_bot_in_conversation_user_id_id_idx
+ON stm.messages (bot_in_conversation_user_id, conversation_id, user_id, id);
 
 CREATE SCHEMA IF NOT EXISTS mtm;
 
@@ -52,16 +52,16 @@ CREATE TABLE IF NOT EXISTS mtm.relationship_summaries (
 CREATE SCHEMA IF NOT EXISTS ltm;
 
 CREATE TABLE IF NOT EXISTS ltm.summaries (
-    bot_in_conversation_identity_id VARCHAR(255) NOT NULL,  -- bot id (optimization -- summaries will be duplicated for each bot in room)
+    bot_in_conversation_user_id VARCHAR(255) NOT NULL,  -- bot id (optimization -- summaries will be duplicated for each bot in room)
     conversation_id VARCHAR(255) NOT NULL,
     id VARCHAR(255) NOT NULL,  -- summary id
     user_id VARCHAR(255) NOT NULL,  -- user id of summary creator
     timestamp TIMESTAMP WITH TIME ZONE NOT NULL,
     embedding vector(1536) NOT NULL,  -- summary embedding
     metadata JSONB NOT NULL,  -- (summary, ...)
-    PRIMARY KEY (bot_in_conversation_identity_id, conversation_id, id)
+    PRIMARY KEY (bot_in_conversation_user_id, conversation_id, id)
 )
-PARTITION BY HASH (bot_in_conversation_identity_id, conversation_id);
+PARTITION BY HASH (bot_in_conversation_user_id, conversation_id);
 
 DO $func$
 BEGIN
@@ -72,11 +72,11 @@ END;
 $func$ language 'plpgsql';
 
 CREATE UNIQUE INDEX IF NOT EXISTS 
-summaries_conversation_id_bot_in_conversation_identity_id_id_idx
-ON ltm.summaries (bot_in_conversation_identity_id, conversation_id, id);
+summaries_conversation_id_bot_in_conversation_user_id_id_idx
+ON ltm.summaries (bot_in_conversation_user_id, conversation_id, id);
 
 CREATE INDEX IF NOT EXISTS 
-summaries_conversation_id_bot_in_conversation_identity_id_embedding_idx
+summaries_conversation_id_bot_in_conversation_user_id_embedding_idx
 ON ltm.summaries USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
 
 CREATE SCHEMA IF NOT EXISTS logs;

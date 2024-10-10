@@ -78,7 +78,7 @@ def save_memory_to_ltm(
                 f"""
                 INSERT INTO {config_data["database"]["ltm_schema"]}.{config_data["database"]["ltm_table"]} 
                 (
-                    bot_in_conversation_identity_id, 
+                    bot_in_conversation_user_id, 
                     conversation_id, 
                     user_id, 
                     id, 
@@ -89,7 +89,7 @@ def save_memory_to_ltm(
                 VALUES (%s, %s, %s, %s, %s, %s::vector, %s)
                 """,
                 (
-                    query_data["bot_in_conversation_identity_id"],
+                    query_data["bot_in_conversation_user_id"],
                     query_data["conversation_id"],
                     query_data["user_id"],
                     query_data["id"],
@@ -166,7 +166,7 @@ def get_stm_conversation_query_data(scenario_data):
 def get_stm_bot_query_data(scenario_data, bot_data):
     return {
         **get_stm_conversation_query_data(scenario_data),
-        "bot_in_conversation_identity_id": bot_data["id"],
+        "bot_in_conversation_user_id": bot_data["id"],
     }
 
 
@@ -192,7 +192,7 @@ def save_message_to_stm(
                 f"""
                 INSERT INTO {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]} 
                 (
-                    bot_in_conversation_identity_id, 
+                    bot_in_conversation_user_id, 
                     conversation_id, 
                     user_id, 
                     id, 
@@ -202,7 +202,7 @@ def save_message_to_stm(
                 VALUES (%s, %s, %s, %s, %s, %s)
                 """,
                 (
-                    query_data["bot_in_conversation_identity_id"],
+                    query_data["bot_in_conversation_user_id"],
                     query_data["conversation_id"],
                     query_data["user_id"],
                     query_data["id"],

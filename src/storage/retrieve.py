@@ -20,7 +20,8 @@ def _fetch_similar_ltms(
     num_messages,
 ):
     query_data = storage.get_ltm_bot_message_query_data(scenario_data, bot_data, message)
-    embedding = generate.get_embeddings(config_data, scenario_data, message["metadata"]["message"], config_data["search"]["embedding_model"], "fetch")
+    embedding = generate.get_embeddings(
+        config_data, scenario_data, message["metadata"]["message"], config_data["search"]["embedding_model"], "fetch")
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
         with connection.cursor() as cursor:
@@ -40,7 +41,7 @@ def _fetch_similar_ltms(
                         embedding <=> %s::vector AS distance,
                         ROW_NUMBER() OVER (ORDER BY embedding <=> %s::vector) as rn
                     FROM {config_data["database"]["ltm_schema"]}.{config_data["database"]["ltm_table"]}
-                    WHERE bot_in_conversation_identity_id = %s
+                    WHERE bot_in_conversation_user_id = %s
                         AND conversation_id = %s
                 ) subquery
                 WHERE rn <= %s
@@ -48,7 +49,7 @@ def _fetch_similar_ltms(
             """, (
                 embedding,
                 embedding,
-                query_data["bot_in_conversation_identity_id"],
+                query_data["bot_in_conversation_user_id"],
                 query_data["conversation_id"],
                 num_messages
             )
@@ -123,7 +124,7 @@ def get_stm_conversation_query_data(scenario_data):
 def get_stm_bot_query_data(scenario_data, bot_data):
     return {
         **get_stm_conversation_query_data(scenario_data),
-        "bot_in_conversation_identity_id": bot_data["id"],
+        "bot_in_conversation_user_id": bot_data["id"],
     }
 
 
@@ -151,14 +152,14 @@ def _fetch_recent_stms(
                         timestamp, 
                         user_id
                     FROM {config_data["database"]["stm_schema"]}.{config_data["database"]["stm_table"]}
-                    WHERE bot_in_conversation_identity_id = %s
+                    WHERE bot_in_conversation_user_id = %s
                         AND conversation_id = %s
                     ORDER BY timestamp DESC
                     LIMIT %s
                 ) subquery
                 ORDER BY timestamp ASC
             """, (
-                query_data["bot_in_conversation_identity_id"],
+                query_data["bot_in_conversation_user_id"],
                 query_data["conversation_id"],
                 num_messages
             )
