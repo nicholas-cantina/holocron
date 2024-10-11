@@ -98,6 +98,8 @@ def _get_test_data(config, root_dir):
     scenario = common.read_json_file(os.path.join(root_dir, config["Test"]["scenario_file"]))
     bot_datas = list(common.read_jsonl_file(os.path.join(root_dir, config["Test"]["bots_file"])))
     bots_data_dict = {bot["id"]: bot for bot in bot_datas}
+    user_datas = list(common.read_jsonl_file(os.path.join(root_dir, config["Test"]["users_file"])))
+    users_data_dict = {bot["id"]: bot for bot in user_datas}
     questions_dict = common.read_json_file(os.path.join(root_dir, config["Test"]["questions_file"]))
     questions = [question for questions in questions_dict.values() for question in questions]
 
@@ -109,6 +111,7 @@ def _get_test_data(config, root_dir):
     return {
         "scenario": scenario,
         "bot_datas": bots_data_dict,
+        "user_datas": users_data_dict,
         "questions": questions,
         "openai_client": openai_client
     }

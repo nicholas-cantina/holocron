@@ -1,6 +1,7 @@
 import sys
 import os
 import uuid
+import json
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
@@ -20,20 +21,25 @@ def initialize():
 
 
 def format_text_message(config_data, backfill):
-    bot_data = config_data["test"]["bot_datas"][backfill["user_id"]]
+    user_data = {}
+    if backfill["user_id"] in config_data["test"]["user_datas"]:
+        user_data = config_data["test"]["user_datas"][backfill["user_id"]]
+    else:
+        user_data = config_data["test"]["bot_datas"][backfill["user_id"]]
     backfill = {
         "user_id": backfill["user_id"],
-        "first_name": bot_data["first_name"],
-        "full_name": bot_data["full_name"],
+        "first_name": user_data["first_name"],
+        "full_name": user_data["full_name"],
         "message": backfill["message"],
         "id": storage.hash_string(backfill["user_id"] + ":" + backfill["message"]),
     }
-    return storage.format_message(config_data, backfill)
+    return storage.format_message_for_bot_data(config_data, backfill, user_data)
 
 
 def backfill_scenario(config_data, scenario_data):
     backfills = scenario_data["events"]["messages"]
     for backfill in backfills:
+        
         message = format_text_message(config_data, backfill)
         pipeline.update_stm(config_data, scenario_data, message)
         print(json.dumps({**message, "timestamp": message["timestamp"].isoformat()}, indent=4, sort_keys=True))
@@ -55,7 +61,7 @@ def ask_bot_questions(config_data, scenario_data, bot_data, questions):
         pipeline.answer_question(config_data, scenario_data, bot_data, question)
 
 
-def chat_as_self(config_data, scenario_data, text):
-    message = format_text_message(config_data, {"user_id": "sean", "message": text})
+def chat_as_self(config_data, scenario_data, user_data, text):
+    message = format_text_message(config_data, {"user_id": "nicholas", "message": text})
     pipeline.update_stm(config_data, scenario_data, message)
     print(json.dumps({**message, "timestamp": message["timestamp"].isoformat()}, indent=4, sort_keys=True))

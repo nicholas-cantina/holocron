@@ -11,7 +11,7 @@ sys.path.insert(0, parent_dir)
 from scripts import show, test_utils
 
 
-def get_bot_data(bot_datas, user_id):
+def get_user_data(bot_datas, user_id):
     if user_id is None and len(bot_datas) == 1:
         return next(iter(bot_datas.values()))
     return bot_datas.get(user_id)
@@ -44,18 +44,17 @@ def parse_args(user_input):
     show_parser = subparsers.add_parser("show")
     show_parser.add_argument("show_command", nargs="?", choices=["bots", "history", "trace"])
 
-    for cmd in ["add", "remove", "reply", "interview"]:  # TODO: add the memories
+    for cmd in ["add", "remove", "reply", "interview", "chat"]:
         cmd_parser = subparsers.add_parser(cmd)
         cmd_parser.add_argument("user_id")
-        for cmd in ["reply"]:
+        if cmd in ["reply"]:
           cmd_parser.add_argument("--no-memory", action="store_true")
+        if cmd in ["chat"]:
+          cmd_parser.add_argument("message", nargs="*")
 
     subparsers.add_parser("backfill")
     subparsers.add_parser("remember")
-
-    chat_parser = subparsers.add_parser("chat")
-    chat_parser.add_argument("message", nargs="*")
-
+    
     try:
         return parser.parse_args(user_input.split())
     except (argparse.ArgumentError, SystemExit):
@@ -73,7 +72,7 @@ def test():
         args = parse_args(user_input)
 
         if args is None:
-            print("Invalid command. Available commands are: \"help\", \"add\", \"backfill\", \"reply\", \"interview\", \"update\".")
+            print("Invalid command. Available commands are: show, add, remove, reply, interview, chat, backfill, and remember.")
             continue
 
         elif args.command == "show":
@@ -89,29 +88,35 @@ def test():
         elif args.command == "backfill":
             test_utils.backfill_scenario(config_data, scenario_data)
 
-        elif args.command == "chat":
-            text = " ".join(args.message)
-            test_utils.chat_as_self(config_data, scenario_data, text)
-
-        elif args.command in ["add", "remove", "reply", "interview", "stm", "mtm", "ltm"]:
-            bot_data = get_bot_data(config_data["test"]["bot_datas"], args.user_id)
+        elif args.command in ["add", "remove", "reply", "interview"]:
+            bot_data = get_user_data(config_data["test"]["bot_datas"], args.user_id)
             if bot_data:
                 if args.command == "add":
                     if args.user_id not in scenario_data["users"]["bots"] and args.user_id in config_data["test"]["bot_datas"]:
                         scenario_data["users"]["bots"].append(args.user_id)
+                        
                 elif args.command == "remove":
                     if args.user_id in scenario_data["users"]["bots"]:
                         scenario_data["users"]["bots"] = [
                             user for user in scenario_data["users"]["bots"] if user != args.user_id]
+                        
                 elif args.command == "reply":
                     scenario_data["test"]["trace_id"] = uuid.uuid4()
                     if args.no_memory:
                         scenario_data["test"]["memory"] = False
                     test_utils.make_bot_reply(config_data, scenario_data, bot_data)
                     scenario_data["test"]["memory"] = True
+
                 elif args.command == "interview":
                     scenario_data["test"]["trace_id"] = uuid.uuid4()
                     test_utils.ask_bot_questions(config_data, scenario_data, bot_data, config_data["test"]["questions"])
+            else:
+                print(f"User {args.user_id} not found.")
+
+        elif args.command in ["chat"]:
+            user_data = get_user_data(config_data["test"]["user_datas"], args.user_id)
+            if user_data:
+                test_utils.chat_as_self(config_data, scenario_data, user_data, " ".join(args.message))
             else:
                 print(f"User {args.user_id} not found.")
 

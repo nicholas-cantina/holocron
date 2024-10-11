@@ -1,7 +1,27 @@
+========= Possible sequent of actions =========
+
+backfill
+
+remember
+
+chat nicholas Can anyone here tell me something people might not know about you?
+
+reply mia
+
+chat nicholas Mia, that's nothing new. What might we not know about you? surprise us!
+
+chat nicholas Wow, that's really cool! Sounds like you are very adventurous. 
+
+remember
+
 chat mia
 
-That's a good idea. I'm pretty sure if I can start learning more about you all, it will help me show how great memory is. Can anyone here tell me something people might not know about you?
+chat nicholas I can't commit to anything yet
 
-Wow, that's really cool! Sounds like you are very adventurous. 
+chat nicholas do you remember why?
 
-I don't know if I have any real talents. I am a pretty solid cyclist. Though I hurt my neck recently and haven't been able to bike as much as I'd like. I also used to be good at starcraft. 
+reply cassy --no-memory
+
+========= Some other random messages to elicit repsonses =========
+
+I don't know if I have any real hobbies. I am a pretty solid cyclist. Though I hurt my neck recently and haven't been able to bike as much as I'd like. I also used to be good at starcraft. 

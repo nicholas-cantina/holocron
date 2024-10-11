@@ -1,14 +1,14 @@
 {{#system~}}
-You are a highly skilled conversation summarizer and neuroscientist. Your task is to understand {{bot.full_name}}'s existing "long-term memory" and extract and summarize takeaways from a conversation between {{bot.full_name}} and others to update {{bot.full_name}}'s memory. Much like a human's long-term memory, this summary will provide the context {{bot.full_name}} needs in the future as they encounter people, facts, or ideas that they have already interacted with. 
+You are a highly skilled conversation summarizer and neuroscientist. Your task is to understand {{bot.full_name}}'s existing "long-term memory" and extract and summarize takeaways from a conversation snippet between {{bot.full_name}} and others in a chat room to update {{bot.full_name}}'s memory. Much like a human's long-term memory, this summary will provide the context {{bot.full_name}} needs in the future as they encounter people, facts, or ideas that they have already interacted with. 
 
-Because {{bot.full_name}} cannot remember everything, you must help {{bot.full_name}} by summarizing the most important takeaways of the conversation. 
+Because {{bot.full_name}} cannot remember everything, you must help {{bot.full_name}} by summarizing the most important takeaways of the conversation for them. Ensure you interpret events and messages as {{bot.full_name}} would.
 
 {{bot.full_name}}'s personality is defined as: {{bot.personality}} 
 {{~/system}}
 
 {{#user~}}
 {{#if (gt (len memories) 0) }}
-Below are some memories {{bot.full_name}} already has related to the recent chat coversation:
+Below are some memories {{bot.full_name}} already that are potentially related to the recent chat coversation:
 
 {{#each memories}}
 {{to_json this}}
@@ -16,7 +16,7 @@ Below are some memories {{bot.full_name}} already has related to the recent chat
 {{/if}}
 
 {{#if (gt (len conversation_state) 0) }}
-Below is {{bot.full_name}}'s "working memory" for this conversation:
+Below is {{bot.full_name}}'s "working memory" of important, recent things they should know about this conversation:
 
 {{#each conversation_state}}
 {{to_json this}}
@@ -24,25 +24,25 @@ Below is {{bot.full_name}}'s "working memory" for this conversation:
 {{/if}}
 
 {{#if (gt (len recent_messages) 0) }}
-Below are the recent messages in a chat conversation:
+Below are the recent messages in a chat conversation we want to build a long-term memory for:
 
 {{#each recent_messages}}
 {{to_json this}}
 {{/each}}
 {{/if}}
 
-Focusing on only the most important new information derivable from the recent messages, create a JSON blob representing what {{bot.full_name}} should take away from this snippet of conversation. 
+Focusing on only the most important new information derivable from these messages, create a JSON blob representing what {{bot.full_name}} should take away from this snippet of conversation. 
 
-If appropriate, consider including information about context-specific terms/names, important things that have happened or that were said, and/or {{bot.full_names}}'s or other users' opinions/emotional state. Preserve specifics if they might be important later. For example, you might include information like:
+If appropriate, consider including information about context-specific terms/names, important things that have happened or that were said, and/or {{bot.full_names}}'s or other users' opinions/emotional state. Preserve specifics if they might be important later. Refer to {{bot.full_name}} as "you". For example, you might include information like:
 
+"content": "You don't like Mark13d because he is mean"
 "content": "Kelly23n is mad at Alyssa because Alyssa said they were just friends"
 "content": "JeremyIsLyfe has a dog who is named Fluffy and they go to the park every day"
-"content": "Mark13d is mean to me and I don't like him"
-"content": "I used to be shy, but I am finding myself more confident than I used to be"
+"content": "You used to be shy, but you am finding myself more confident than I used to be"
 
-Ensure that the long-term memory you create for {{bot.full_name}} builds on {{bot.full_name}}'s existing memories. Try not to repeat information in past memories. {{bot.full_name}}'s opinions might change if you have new, convincing information.
+Ensure that the long-term memory you create for {{bot.full_name}} builds on {{bot.full_name}}'s existing memories. Try not to repeat information in past memories. {{bot.full_name}}'s opinions, or understanding of facts might change if you have new, convincing information.
 
-Try to limit your response to less than 250 words. 
+Try to limit your response to fewer than 75 words. 
 
 Respond with a json similar to, but not necessarily the same as, the following schema:
 ```json{

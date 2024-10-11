@@ -45,9 +45,7 @@ def format_message_with_content(config_data, message_without_metadata, content):
     }
 
 
-def format_message(config_data, message_without_metadata):
-    bot_data = config_data["test"]["bot_datas"][message_without_metadata["user_id"]]
-
+def format_message_for_bot_data(config_data, message_without_metadata, bot_data):
     content = {
         "message": message_without_metadata["message"],
         "full_name": bot_data["full_name"],
@@ -55,6 +53,11 @@ def format_message(config_data, message_without_metadata):
         "user_id": message_without_metadata["user_id"],
     }
     return format_message_with_content(config_data, message_without_metadata, content)
+
+
+def format_message(config_data, message_without_metadata):
+    bot_data = config_data["test"]["bot_datas"][message_without_metadata["user_id"]]
+    return format_message_for_bot_data(config_data, message_without_metadata, bot_data)
 
 
 def get_ltm_bot_message_query_data(scenario_data, bot_data, message):

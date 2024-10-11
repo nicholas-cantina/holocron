@@ -88,12 +88,12 @@ def _fetch_mtm(config_data, scenario_data, bot_data):
                 SELECT 
                     state
                 FROM {config_data["database"]["mtm_schema"]}.{config_data["database"]["mtm_table"]}
-                WHERE conversation_id = %s
-                    AND user_id = %s
+                WHERE user_id = %s
+                    AND conversation_id = %s
                 LIMIT 1
                 """, (
-                query_data["conversation_id"],
                 query_data["user_id"],
+                query_data["conversation_id"],
             )
             )
             results = cursor.fetchall()
