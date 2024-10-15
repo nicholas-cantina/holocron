@@ -34,8 +34,8 @@ def perform_intent_detection(config_data, model, temperature, messages):
 
 
 def evaluate_response(intent_response, dataset_response):
-    intent_response = parse.cleanup_and_load_json(intent_response)
-    dataset_response = parse.cleanup_and_load_json(dataset_response)
+    intent_response = parse.parse_raw_json_response(intent_response)
+    dataset_response = parse.parse_raw_json_response(dataset_response)
 
     if intent_response is None:
         raise ValueError("Invalid intent response data")
