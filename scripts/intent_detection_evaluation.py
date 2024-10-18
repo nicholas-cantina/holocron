@@ -7,73 +7,15 @@ parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
 sys.path.insert(0, parent_dir)
 
 from scripts import test_config
-from src.utils import parse, common, handlebars, generate
-
-
-def extract_messages(messages):
-    chat_history = messages
-
-    chat_history = chat_history.replace("CHAT HISTORY:", "")
-    chat_history = chat_history.replace(
-        "Determine whether the LAST MESSAGE in this chat history is requesting an image.", "")
-    chat_history = chat_history.replace("LAST MESSAGE:", "")
-    chat_history = chat_history.replace("OUTPUT:", "")
-
-    messages = chat_history.strip().split("\n")
-
-    chat_history_only = "\n".join(messages[:-1])
-
-    last_message = messages[-1]
-
-    return {"chat_history": chat_history_only, "last_message": last_message}
-
-
-def perform_intent_detection(config_data, model, temperature, messages):
-    response = generate.get_simple_completion(config_data, messages, model, temperature)
-    return response
-
-
-def evaluate_response(intent_response, dataset_response):
-    intent_response = parse.parse_raw_json_response(intent_response)
-    dataset_response = parse.parse_raw_json_response(dataset_response)
-
-    if intent_response is None:
-        raise ValueError("Invalid intent response data")
-
-    if dataset_response is None:
-        raise ValueError("Invalid dataset response data")
-
-    if intent_response['send_image'] is False and dataset_response['send_image'] is False:
-        return True
-
-    if intent_response['send_image'] != dataset_response['send_image']:
-        return False
-
-    if intent_response['is_selfie'] != dataset_response['is_selfie']:
-        return False
-
-    return True
-
-
-def generate_report(correct_predictions, incorrect_predictions, incorrect_span_ids):
-    report = f"Correct predictions: {correct_predictions}\n"
-    report += f"Incorrect predictions: {incorrect_predictions}\n"
-    total_predictions = correct_predictions + incorrect_predictions
-    accuracy = (correct_predictions / total_predictions) * 100
-    report += f"Accuracy: {accuracy:.2f}%\n"
-    report += "Incorrect span IDs:\n"
-    for span_id in incorrect_span_ids:
-        report += f"- {span_id}\n"
-    return report
-
-
-def initialize():
-    config_data = test_config.get_config_data()
-    return config_data
+from src.utils import parse, common, handlebars, generate, intent
 
 
 def main():
-    config_data = initialize()
+    config_data = test_config.get_config_data()
+
+    correct_predictions = 0
+    incorrect_predictions = 0
+    incorrect_span_ids = []
 
     system_prompt_path = config_data["intent_detection"]["system_prompt_path"]
     user_prompt_path = config_data["intent_detection"]["user_prompt_path"]
@@ -93,10 +35,6 @@ def main():
         print("No Dataset data found.")
         return
 
-    correct_predictions = 0
-    incorrect_predictions = 0
-    incorrect_span_ids = []
-
     user_prompt_content = common.read_file(os.path.join(parent_dir, user_prompt_path))
 
     if user_prompt_content is None:
@@ -104,7 +42,7 @@ def main():
         return
 
     for i in range(len(csv_data)):
-        messages = extract_messages(csv_data[i]['user_prompt'])
+        messages = intent.extract_messages(csv_data[i]['user_prompt'])
         chat_history_only = messages['chat_history']
         last_message = messages['last_message']
 
@@ -121,10 +59,15 @@ def main():
             {"role": "user", "content": user_prompt_rendered},
         ]
 
-        intent_response = perform_intent_detection(config_data, model, temperature, messages)
+        intent_response = generate.get_simple_completion(config_data, messages, model, temperature)
+
+        # Canned response to avoid calling the API
+        # intent_response = """{
+# "send_image": false
+# }"""
 
         try:
-            isCorrect = evaluate_response(intent_response, csv_data[i]['response'])
+            isCorrect = intent.evaluate_response(intent_response, csv_data[i]['response'])
 
             if (isCorrect):
                 correct_predictions += 1
@@ -140,7 +83,7 @@ def main():
 
         print(".", end="")
 
-    report = generate_report(correct_predictions, incorrect_predictions, incorrect_span_ids)
+    report = intent.generate_report(correct_predictions, incorrect_predictions, incorrect_span_ids)
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     report_path = f"report_{timestamp}.txt"
