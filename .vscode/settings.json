@@ -1,5 +1,4 @@
 {
-<<<<<<< Updated upstream
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 500,  // Auto saves the file .5 seconds after changes
     "editor.wordWrap": "on",
@@ -7,15 +6,8 @@
         "editor.defaultFormatter": "ms-python.autopep8",
         "editor.formatOnSave": true
     },
-    "autopep8.args": ["--ignore", "E402", "--max-line-length=120"],
-=======
     "autopep8.args": [
-        "--max-line-length", "119",
-        "--ignore=D,E302"
+        "--ignore=D", "E402", 
+        "--max-line-length", "120"
     ],
-    "editor.formatOnSave": true,
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.autopep8"
-    }
->>>>>>> Stashed changes
 }
