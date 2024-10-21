@@ -1,11 +1,4 @@
-import sys
-import os
 import json
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
-if parent_dir not in sys.path:
-    sys.path.insert(0, parent_dir)
 
 from src.memory import summarize
 from src.storage import storage, retrieve

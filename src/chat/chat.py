@@ -1,10 +1,4 @@
-import sys
-import os
 import json
-
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-if parent_dir not in sys.path:
-    sys.path.insert(0, parent_dir)
 
 from src.utils import generate, handlebars, parse
 from src.memory import memory
@@ -30,7 +24,7 @@ def _generate_next_message(config_data, scenario_data, bot_data, memories, conve
             "bot": bot_data
         }
     )
-    response = generate.get_completion(
+    response = generate.get_completion_with_logs(
         config_data,
         scenario_data,
         messages,

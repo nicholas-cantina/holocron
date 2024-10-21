@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "anthropic": "^0.0.0",
+    "requests": "^0.3.0"
+  }
+}

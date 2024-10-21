@@ -15,40 +15,28 @@ Holocron is a Python testing playground for generating bot responses. If offers 
     pip3 install -r requirements.txt
     xargs brew install < my_brew.txt
     ```
-
 Note: if you don't have brew installed, run 
 ```
 xcode-select --install
 ```
 
-
-3. Add keys
+3. Add API keys
     Create a `config.ini` file at the root level with the following content:
     ```ini
-    [OPENAI]
+    [Api]
     OPENAI_API_KEY = sk-<your-key>
     ```
 
-To update the list of dependencies, run:
-```sh
-pipreqs . --force
-pip freeze > requirements.txt
-```
-```sh
-brew leaves > my_brews.txt
-```
+### Run from command line
 
-### Run in command line
+1. Run `python scripts/chat/test.py` to start a conversation between bots
+2. Run `python scripts/intent_detection/evaluate.py` to evaluate the intent detection prompt
 
-1. Run `python ./test.py` to start a conversation between bots
-
-2. Run `python ./intent_detection_evaluation.py` to evaluate the intent detection prompt
-
-### Run in VSCode
+### Run with VSCode
 
 1. Switch to the virtual environment kernel (use the button on the top right)
 2. Install `ipykernel` if prompted
-4. Open and execute the available iPython notebook (e.g., scripts/ipython_notbooks/test.ipynb)
+4. Open and execute the available iPython notebook (e.g., scripts/chat/ipython_notbooks/test.ipynb)
 
 ### Set up memory
 

@@ -1,11 +1,5 @@
-import os
-import sys
 import time
 import json
-
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-if parent_dir not in sys.path:
-    sys.path.insert(0, parent_dir)
 
 from src.storage import storage
 from src.utils import generate, handlebars, parse
@@ -38,7 +32,7 @@ def _generate_mtm_events_summary(config_data, scenario_data, bot_data, memories)
         )
     )
 
-    summary_response = generate.get_completion(
+    summary_response = generate.get_completion_with_logs(
         config_data,
         scenario_data,
         prompt_messages,
@@ -89,7 +83,7 @@ def _generate_ltm_summary(config_data, scenario_data, bot_data, memories):
         )
     )
 
-    summary_response = generate.get_completion(
+    summary_response = generate.get_completion_with_logs(
         config_data,
         scenario_data,
         prompt_messages,

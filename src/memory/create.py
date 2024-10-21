@@ -1,11 +1,4 @@
-
-import sys
-import os
 import json
-
-parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-if parent_dir not in sys.path:
-    sys.path.insert(0, parent_dir)
 
 from src.memory import memory, summarize
 from src.storage import storage
@@ -54,7 +47,7 @@ def _generate_reframed_question(config_data, scenario_data, bot_data, question):
         config_data["create"]["question_reframe_template"],
         _get_reframe_question_template_data(config_data, scenario_data, bot_data, question)
     )
-    reframed_question_response = generate.get_completion(
+    reframed_question_response = generate.get_completion_with_logs(
         config_data,
         scenario_data,
         prompt_messages,
@@ -86,7 +79,7 @@ def _generate_answer(config_data, scenario_data, bot_data, question):
         config_data["create"]['answer_template'],
         _get_answer_template_data(config_data, scenario_data, bot_data, memories, question)
     )
-    answer_response = generate.get_completion(
+    answer_response = generate.get_completion_with_logs(
         config_data,
         scenario_data,
         prompt_messages,

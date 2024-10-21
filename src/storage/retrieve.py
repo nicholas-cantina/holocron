@@ -1,11 +1,4 @@
-import os
-import sys
 import psycopg2
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.abspath(os.path.join(script_dir, ".."))
-if parent_dir not in sys.path:
-    sys.path.insert(0, parent_dir)
 
 from src.utils import logging, generate
 from src.storage import storage
@@ -20,7 +13,7 @@ def _fetch_similar_ltms(
     num_messages,
 ):
     query_data = storage.get_ltm_bot_message_query_data(scenario_data, bot_data, message)
-    embedding = generate.get_embeddings(
+    embedding = generate.get_embeddings_with_logs(
         config_data, scenario_data, message["metadata"]["message"], config_data["search"]["embedding_model"], "fetch")
     try:
         connection = psycopg2.connect(**config_data["database"]["params"])
