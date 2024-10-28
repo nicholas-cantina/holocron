@@ -18,22 +18,24 @@ def main():
     incorrect_predictions = 0
     incorrect_span_ids = []
 
-    dataset_path = config_data["intent_detection"]["test_dataset"]
+    dataset_path = config_data["intent_detection"]["intent_detection_test_dataset"]
     csv_data = common.read_csv_file(os.path.join(parent_dir, dataset_path))
     if csv_data is None:
         print("No dataset found.")
         return
+    
+    prompt_template = config_data["intent_detection"]["prompt_path"]
+    prompt_content = common.read_file(os.path.join(parent_dir, prompt_template))
 
     for idx in range(len(csv_data)):
         messages = intent.extract_messages(csv_data[idx]['user_prompt'])
         chat_history_only = messages['chat_history']
         last_message = messages['last_message']
 
-        prompt_template = config_data["intent_detection"]["template"]
         prompt_data = {'chat_history': chat_history_only, 'last_message': last_message}
         model = config_data["intent_detection"]["model"]
 
-        prompt_messages = handlebars.get_prompt_messages(prompt_template, prompt_data)
+        prompt_messages = handlebars.get_prompt_messages(prompt_content, prompt_data)
 
         intent_response = generate.get_completion(
             config_data,

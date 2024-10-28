@@ -1,26 +1,23 @@
 import os
 import configparser
 
-from src.utils import common
 
-
-def _get_config_data(config, root_dir):
-    template = common.read_file(os.path.join(root_dir, config["intent_detection"]["template_file"]))
+def _get_config_data(config):
     return {
-        **config["intent_detection"],
-        "template": template,
+        **config["IntentDetection"],
+        "template": config["IntentDetection"]["prompt_path"],
         "model_params": {
-            "model": config["intent_detection"]["model"],
-            "temperature": config["intent_detection"]["temperature"]
+            "model": config["IntentDetection"]["model"],
+            "temperature": config["IntentDetection"]["temperature"]
         }
     }
 
 
 def _get_test_data(config, root_dir):
     root_config = configparser.ConfigParser()
-    root_config.read(os.path.join(root_dir, config["common"]["root_config_file"]))
+    root_config.read(os.path.join(root_dir, "config.ini"))
     return {
-        "openai_key": root_config["api"]["OPENAI_API_KEY"]
+        "openai_key": root_config["Api"]["OPENAI_API_KEY"]
     }
 
 
@@ -29,8 +26,8 @@ def get_config_data():
     root_dir = os.path.join(file_dir, "..", "..")
 
     config = configparser.ConfigParser()
-    config.read(os.path.join(file_dir, "config.ini"))
+    config.read(os.path.join(file_dir, "test_config.ini"))
     return {
-        "intent_detection": _get_config_data(config, root_dir),
+        "intent_detection": _get_config_data(config),
         "test": _get_test_data(config, root_dir)
     }
