@@ -14,8 +14,6 @@ from src.intent import intent
 def main():
     config_data = config.get_config_data()
 
-    correct_predictions = 0
-    incorrect_predictions = 0
     incorrect_span_ids = []
 
     dataset_path = config_data["intent_detection"]["intent_detection_test_dataset"]
@@ -27,7 +25,11 @@ def main():
     prompt_template = config_data["intent_detection"]["prompt_path"]
     prompt_content = common.read_file(os.path.join(parent_dir, prompt_template))
 
-    for idx in range(len(csv_data)):
+    csv_data_len = len(csv_data)
+
+    print(f"Evaluating {csv_data_len} examples...")
+
+    for idx in range(csv_data_len):
         messages = intent.extract_messages(csv_data[idx]['user_prompt'])
         chat_history_only = messages['chat_history']
         last_message = messages['last_message']
@@ -44,37 +46,49 @@ def main():
             prompt_messages
         )
 
-        # Canned response to avoid calling the API
-        # intent_response = """{
+        # Canned response false to avoid calling the API
+#         intent_response = """{
 # "send_image": false
 # }"""
 
-        try:
-            is_correct = intent.evaluate_response(intent_response, csv_data[idx]['response'])
+    # Canned response true to avoid calling the API
+#         intent_response = """{
+#  "send_image": true,
+#  "user_requestor": "jacob8601",
+#  "bot_senders": [],
+#  "is_selfie": true,
+#  "main_subject": "<self> #dolphins",
+#  "additional_subjects": [],
+#  "image_prompt": "#dolphins"
+#  }"""
 
-            if is_correct:
-                correct_predictions += 1
-            else:
-                incorrect_predictions += 1
+        try:
+            response = intent.evaluate_response(intent_response, csv_data[idx]['response'])
+
+            is_correct = response['is_correct']
+            
+            if is_correct == 0:
                 incorrect_span_ids.append(csv_data[idx]['span_id'])
 
             csv_data[idx]['new_model'] = model
             csv_data[idx]['new_response'] = intent_response
             csv_data[idx]['is_correct'] = is_correct
+            csv_data[idx]['image_prompt_cosine_similarity'] = response['image_prompt_cosine_similarity']
         except ValueError as e:
             print(f"\nWarning: evaluating response failed: {str(e)} on span_id {csv_data[idx]['span_id']}")
 
         print(".", end="")
-
-    report = intent.generate_report(correct_predictions, incorrect_predictions, incorrect_span_ids)
+        sys.stdout.flush()
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    report_path = f"report_{timestamp}.txt"
-
-    common.save_file(report_path, report)
-
     evaluation_output_path = f"evaluation_{timestamp}.csv"
     common.save_csv_file(evaluation_output_path, csv_data)
+
+    print("Generating report...")
+    report = intent.generate_report(csv_data, incorrect_span_ids)
+    report_path = f"evaluation_report_{timestamp}.json"
+
+    common.save_json_file(report_path, report)
 
 
 if __name__ == "__main__":
