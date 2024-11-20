@@ -36,13 +36,14 @@ def main():
 
         prompt_data = {'chat_history': chat_history_only, 'last_message': last_message}
         model = config_data["intent_detection"]["model"]
+        temperature = float(config_data["intent_detection"]["temperature"])
 
         prompt_messages = handlebars.get_prompt_messages(prompt_content, prompt_data)
 
         intent_response = generate.get_completion(
             config_data,
             config_data["intent_detection"]["api_provider"],
-            {"model": model, "temperature": float(config_data["intent_detection"]["temperature"])},
+            {"model": model, "temperature": temperature},
             prompt_messages
         )
 
@@ -65,15 +66,16 @@ def main():
         try:
             response = intent.evaluate_response(intent_response, csv_data[idx]['response'])
 
-            is_correct = response['is_correct']
+            is_response_correct = response['is_response_correct']
             
-            if is_correct == 0:
+            if is_response_correct == 0:
                 incorrect_span_ids.append(csv_data[idx]['span_id'])
 
             csv_data[idx]['new_model'] = model
             csv_data[idx]['new_response'] = intent_response
-            csv_data[idx]['is_correct'] = is_correct
+            csv_data[idx]['is_response_correct'] = is_response_correct
             csv_data[idx]['image_prompt_cosine_similarity'] = response['image_prompt_cosine_similarity']
+            csv_data[idx]['is_senders_correct'] = response['is_senders_correct']
         except ValueError as e:
             print(f"\nWarning: evaluating response failed: {str(e)} on span_id {csv_data[idx]['span_id']}")
 
@@ -85,7 +87,17 @@ def main():
     common.save_csv_file(evaluation_output_path, csv_data)
 
     print("Generating report...")
-    report = intent.generate_report(csv_data, incorrect_span_ids)
+    report = intent.generate_report(csv_data, incorrect_span_ids, model, temperature)
+
+    baseline_path = config_data["intent_detection"]["baseline_path"]
+
+    if baseline_path is None:
+        print("Warning: no baseline found.")
+    else:
+        baseline_data = common.read_json_file(baseline_path)
+        baseline_comparison = intent.compare_with_baseline(report, baseline_data)
+        report = report | baseline_comparison
+
     report_path = f"evaluation_report_{timestamp}.json"
 
     common.save_json_file(report_path, report)

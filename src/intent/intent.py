@@ -53,50 +53,92 @@ def evaluate_response(intent_response, dataset_response):
     if dataset_response is None:
         raise ValueError("Invalid dataset response data")
     
-    response['is_correct'] = 1
+    # Response
+    response['is_response_correct'] = 1
 
     if intent_response['send_image'] is False and dataset_response['send_image'] is False:
-        response['is_correct'] = 1
+        response['is_response_correct'] = 1
     elif intent_response['send_image'] != dataset_response['send_image']:
-        response['is_correct'] =  0
+        response['is_response_correct'] =  0
     elif intent_response['is_selfie'] != dataset_response['is_selfie']:
-        response['is_correct'] =  0
+        response['is_response_correct'] =  0
 
+    # Cosine Similarity
     response['image_prompt_cosine_similarity'] = 0.0
 
     if intent_response['send_image'] is True and dataset_response['send_image'] is True:
         response['image_prompt_cosine_similarity'] = calculate_cosine_similarity(
             intent_response['image_prompt'], dataset_response['image_prompt'])
 
+    # Senders
+    if 'bot_senders' in intent_response and 'bot_senders' in dataset_response:
+        intent_senders = set(intent_response['bot_senders'])
+        dataset_senders = set(dataset_response['bot_senders'])
+        intent_senders_len = len(intent_senders)
+        dataset_senders_len = len(dataset_senders)
+        if intent_senders_len == 0 and dataset_senders_len == 0:
+            response['is_senders_correct'] = 1
+        else:
+            intersection = intent_senders.intersection(dataset_senders)
+            intersection_len = len(intersection)
+            if intersection_len == 0:
+                response['is_senders_correct'] = 0
+            elif intersection_len == len(intent_senders) and intersection_len == len(dataset_senders):
+                response['is_senders_correct'] = 1
+            else:
+                max_len = max(intent_senders_len, dataset_senders_len)
+                response['is_senders_correct'] = intersection_len / max_len
+    else:
+        response['is_senders_correct'] = 0
+
     return response
 
 
-def generate_report(csv_data, incorrect_span_ids):
+def generate_report(csv_data, incorrect_span_ids, model, temperature):
     report = dict()
 
     csv_data_len = len(csv_data)
 
-    is_correct = np.zeros(csv_data_len)
+    is_response_correct = np.zeros(csv_data_len)
     image_prompt_cosine_similarity = np.zeros(csv_data_len)
+    is_sender_correct = np.zeros(csv_data_len)
 
     for idx in range(csv_data_len):
-        if 'is_correct' in csv_data[idx]:
-            is_correct[idx] = int(csv_data[idx]['is_correct'])
+        if 'is_response_correct' in csv_data[idx]:
+            is_response_correct[idx] = int(csv_data[idx]['is_response_correct'])
 
         if 'image_prompt_cosine_similarity' in csv_data[idx]:
             image_prompt_cosine_similarity[idx] = float(csv_data[idx]['image_prompt_cosine_similarity'])
 
+        if 'is_senders_correct' in csv_data[idx]:
+            is_sender_correct[idx] = float(csv_data[idx]['is_senders_correct'])
 
+    
+    report['model'] = model
+    report['temperature'] = temperature
     report['total_examples'] = csv_data_len
-    report['response_accuracy'] = round(is_correct.mean()  * 100, 2)
-    report['response_accuracy_std'] = is_correct.std()
+    report['response_accuracy'] = round(is_response_correct.mean()  * 100, 2)
     report['image_prompt_cosine_similarity_avg'] = round(image_prompt_cosine_similarity.mean(), 2)
-    report['image_prompt_cosine_similarity_std'] = image_prompt_cosine_similarity.std()
+    report['senders_accuracy'] = round(is_sender_correct.mean() * 100, 2)
 
     report['incorrect_span_ids'] = incorrect_span_ids
 
     return report
 
+def compare_with_baseline(report, baseline_data):
+    if baseline_data is None:
+        return
+    
+    updated_report = dict()
+
+    if 'response_accuracy' in report and 'response_accuracy' in baseline_data:
+        updated_report['response_accuracy_change'] = float(report['response_accuracy']) - float(baseline_data['response_accuracy'])
+    if 'image_prompt_cosine_similarity_avg' in report and 'image_prompt_cosine_similarity_avg' in baseline_data:
+        updated_report['image_prompt_cosine_similarity_change'] = float(report['image_prompt_cosine_similarity_avg']) - float(baseline_data['image_prompt_cosine_similarity_avg'])
+    if 'senders_accuracy' in report and 'senders_accuracy' in baseline_data:
+        updated_report['senders_accuracy_change'] = float(report['senders_accuracy']) - float(baseline_data['senders_accuracy'])
+
+    return updated_report
 
 def get_intent(_config_data, scenario_data, latest_event):
     eligible_bots = [bot for bot in scenario_data["users"]["bots"] 
