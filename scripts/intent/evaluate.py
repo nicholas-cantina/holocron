@@ -41,16 +41,16 @@ def main():
         prompt_messages = handlebars.get_prompt_messages(prompt_content, prompt_data)
 
         intent_response = generate.get_completion(
-            config_data,
-            config_data["intent_detection"]["api_provider"],
-            {"model": model, "temperature": temperature},
-            prompt_messages
+           config_data,
+           config_data["intent_detection"]["api_provider"],
+           {"model": model, "temperature": temperature},
+           prompt_messages
         )
 
         # Canned response false to avoid calling the API
 #         intent_response = """{
-# "send_image": false
-# }"""
+#  "send_image": false
+#  }"""
 
     # Canned response true to avoid calling the API
 #         intent_response = """{
@@ -76,6 +76,7 @@ def main():
             csv_data[idx]['is_response_correct'] = is_response_correct
             csv_data[idx]['image_prompt_cosine_similarity'] = response['image_prompt_cosine_similarity']
             csv_data[idx]['is_senders_correct'] = response['is_senders_correct']
+            csv_data[idx]['is_requestor_correct'] = response['is_requestor_correct']
         except ValueError as e:
             print(f"\nWarning: evaluating response failed: {str(e)} on span_id {csv_data[idx]['span_id']}")
 

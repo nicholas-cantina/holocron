@@ -41,6 +41,48 @@ def extract_messages(messages):
     return {"chat_history": chat_history_only, "last_message": last_message}
 
 
+def evaluate_intent_response(intent_response, dataset_response):
+    if intent_response['send_image'] is False and dataset_response['send_image'] is False:
+        return 1
+    elif intent_response['send_image'] != dataset_response['send_image']:
+        return  0
+    elif intent_response['is_selfie'] != dataset_response['is_selfie']:
+        return  0
+
+    return 1
+
+def evaluate_senders(intent_response, dataset_response):
+    if 'bot_senders' not in intent_response or 'bot_senders' not in dataset_response:
+        return 0
+
+    # TODO: convert to lowercase
+    intent_senders = set(intent_response['bot_senders'])
+    dataset_senders = set(dataset_response['bot_senders'])
+    intent_senders_len = len(intent_senders)
+    dataset_senders_len = len(dataset_senders)
+
+    if intent_senders_len == 0 and dataset_senders_len == 0:
+        return 1
+    else:
+        intersection = intent_senders.intersection(dataset_senders)
+        intersection_len = len(intersection)
+        if intersection_len == 0:
+            return 0
+        elif intersection_len == len(intent_senders) and intersection_len == len(dataset_senders):
+            return 1
+        else:
+            max_len = max(intent_senders_len, dataset_senders_len)
+            return intersection_len / max_len
+
+def evaluate_requestor(intent_response, dataset_response):
+    if 'user_requester' not in intent_response or 'user_requestor' not in dataset_response:
+        return 0
+
+    if intent_response['user_requester'].lower() == dataset_response['user_requestor'].lower():
+        return 1
+    else:
+        return 0
+
 def evaluate_response(intent_response, dataset_response):
     response = dict()
 
@@ -54,14 +96,7 @@ def evaluate_response(intent_response, dataset_response):
         raise ValueError("Invalid dataset response data")
     
     # Response
-    response['is_response_correct'] = 1
-
-    if intent_response['send_image'] is False and dataset_response['send_image'] is False:
-        response['is_response_correct'] = 1
-    elif intent_response['send_image'] != dataset_response['send_image']:
-        response['is_response_correct'] =  0
-    elif intent_response['is_selfie'] != dataset_response['is_selfie']:
-        response['is_response_correct'] =  0
+    response['is_response_correct'] = evaluate_intent_response(intent_response, dataset_response)
 
     # Cosine Similarity
     response['image_prompt_cosine_similarity'] = 0.0
@@ -71,25 +106,10 @@ def evaluate_response(intent_response, dataset_response):
             intent_response['image_prompt'], dataset_response['image_prompt'])
 
     # Senders
-    if 'bot_senders' in intent_response and 'bot_senders' in dataset_response:
-        intent_senders = set(intent_response['bot_senders'])
-        dataset_senders = set(dataset_response['bot_senders'])
-        intent_senders_len = len(intent_senders)
-        dataset_senders_len = len(dataset_senders)
-        if intent_senders_len == 0 and dataset_senders_len == 0:
-            response['is_senders_correct'] = 1
-        else:
-            intersection = intent_senders.intersection(dataset_senders)
-            intersection_len = len(intersection)
-            if intersection_len == 0:
-                response['is_senders_correct'] = 0
-            elif intersection_len == len(intent_senders) and intersection_len == len(dataset_senders):
-                response['is_senders_correct'] = 1
-            else:
-                max_len = max(intent_senders_len, dataset_senders_len)
-                response['is_senders_correct'] = intersection_len / max_len
-    else:
-        response['is_senders_correct'] = 0
+    response['is_senders_correct'] = evaluate_senders(intent_response, dataset_response)
+
+    # Requestor
+    response['is_requestor_correct'] = evaluate_requestor(intent_response, dataset_response)
 
     return response
 
@@ -102,6 +122,7 @@ def generate_report(csv_data, incorrect_span_ids, model, temperature):
     is_response_correct = np.zeros(csv_data_len)
     image_prompt_cosine_similarity = np.zeros(csv_data_len)
     is_sender_correct = np.zeros(csv_data_len)
+    is_requestor_correct = np.zeros(csv_data_len)
 
     for idx in range(csv_data_len):
         if 'is_response_correct' in csv_data[idx]:
@@ -113,6 +134,8 @@ def generate_report(csv_data, incorrect_span_ids, model, temperature):
         if 'is_senders_correct' in csv_data[idx]:
             is_sender_correct[idx] = float(csv_data[idx]['is_senders_correct'])
 
+        if 'is_requestor_correct' in csv_data[idx]:
+            is_requestor_correct[idx] = float(csv_data[idx]['is_requestor_correct'])
     
     report['model'] = model
     report['temperature'] = temperature
@@ -120,6 +143,7 @@ def generate_report(csv_data, incorrect_span_ids, model, temperature):
     report['response_accuracy'] = round(is_response_correct.mean()  * 100, 2)
     report['image_prompt_cosine_similarity_avg'] = round(image_prompt_cosine_similarity.mean(), 2)
     report['senders_accuracy'] = round(is_sender_correct.mean() * 100, 2)
+    report['requestor_accuracy'] = round(is_requestor_correct.mean() * 100, 2)
 
     report['incorrect_span_ids'] = incorrect_span_ids
 
@@ -137,6 +161,8 @@ def compare_with_baseline(report, baseline_data):
         updated_report['image_prompt_cosine_similarity_change'] = float(report['image_prompt_cosine_similarity_avg']) - float(baseline_data['image_prompt_cosine_similarity_avg'])
     if 'senders_accuracy' in report and 'senders_accuracy' in baseline_data:
         updated_report['senders_accuracy_change'] = float(report['senders_accuracy']) - float(baseline_data['senders_accuracy'])
+    if 'requestor_accuracy' in report and 'requestor_accuracy' in baseline_data:
+        updated_report['requestor_accuracy_change'] = float(report['requestor_accuracy']) - float(baseline_data['requestor_accuracy'])
 
     return updated_report
 
