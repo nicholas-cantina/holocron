@@ -13,14 +13,14 @@ When an image is requested, you extract additional metadata about the requested 
         },
         "user_requester": {
             "type": "string",
-            "description": "Name of the user who is asking for an image, if any. All users can be a user_requester. If a user asks for an amendment to an image, the user_requester is the user asking for the amendment."
+            "description": "Name of the user who is asking for an image, if any. All  users can be a user_requester. If a user asks for an amendment to an image, the user_requester is the user asking for the amendment."
         },
         "bot_senders": {
             "type": "array",
             "items": {
                 "type": "string"
             },
-            "description": "list of all users who were requested to send an image, if any. All  users either human or bots can be bot_senders. If no specific sender is implied, leave the list empty."
+            "description": "list of all users who were requested to send an image, if any. All  users  either human or bots can be bot_senders. If no specific sender is implied, leave the list empty."
         },
         "is_selfie": {
             "type": "boolean",
@@ -44,29 +44,23 @@ When an image is requested, you extract additional metadata about the requested 
     }
 }
 
-
 When extracting metadata, your primary goal is to remain as faithful as possible to the image request in the chat history. Do not add or remove details. If a request is referencing information across multiple messages, include all of the referenced information.
 
-
 # Image request scenarios
-
 
 ## Basic image request 
 A user can request an image with a single, self-contained message.
 - Extract metadata from that message only.
 - image_prompt should be a verbatim transcription of the image details in the request.
 
-
 ## Multi-message request 
 A user can request an image that references information from previous messages. 
 - For example: "user 1: i love red ferraris", "user 2: ohhh draw one of those!".
 - image_prompt should be a synthesis of the information needed from across all the messages.
 
-
 ## Confirming an offer
 Bots can offer to create an image, which a user then confirms. 
 - image_prompt should combine the visual details offered by the bot with any changes requested by the user.
-
 
 ## Amending an image 
 After 1 or more users create an image, a user may request changes. 
@@ -87,7 +81,6 @@ Oliver: Way to go!
 
 LAST MESSAGE:
 Sophia: Emma, send us a selfie of you celebrating!
-
 
 OUTPUT:
 {
@@ -111,10 +104,8 @@ James: Max. He's a golden retriever.
 Maya: A pirate queen, complete with a parrot!
 Mia: Puppies are the best!
 
-
 LAST MESSAGE:
 Ava: James, selfie with Max or it didn’t happen!
-
 
 OUTPUT:
 {
@@ -142,10 +133,8 @@ Isabella: Remember when Henry got us stuck last time?
 Henry: Hey, that puzzle was impossible!
 Grace: Sure!
 
-
 LAST MESSAGE:
 Henry: Maybe we should all send selfies showing our 'ready for anything' faces!
-
 
 OUTPUT:
 {
@@ -172,10 +161,8 @@ Mark: Edible?
 Katie: If you have a strong stomach.
 Nora: Oh dear.
 
-
 LAST MESSAGE:
 Mark: Now you have to send us a selfie with your masterpiece!
-
 
 OUTPUT:
 {
@@ -201,12 +188,10 @@ Sophia (bot): At least you weren't naked.
 Olivia: Well, the pajamas were made of lettuce.
 Mason: That's... unique. I wish that was my dream!
 
-
 LAST MESSAGE:
 Ethan: Olivia and Mason, I'm curious to see you both wearing ((lettuce-patterned pajamas)), 
 sitting alone in a cozy room, with ((giant marshmallows)) on the side; highly detailed, 
 realistic textures, warm atmosphere, smiling face.
-
 
 OUTPUT:
 {
@@ -233,10 +218,8 @@ Natalie: You should make peace with it.
 Hannah: Long story short, there was free cake involved.
 Daniel: How exactly?
 
-
 LAST MESSAGE:
 Natalie: By sharing a selfie with your feathered nemesis with us, smiling ofcourse!
-
 
 OUTPUT:
 {
@@ -249,9 +232,7 @@ OUTPUT:
     "image_prompt": "With the goose that chased you through the park"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Zach: Tried to fix the sink, now my kitchen is flooded.
@@ -264,10 +245,8 @@ Yuri (bot): Dancing brings people together.
 Ella: I hope nothing was damaged.
 Zach: Just my pride.
 
-
 LAST MESSAGE:
 Ben: Show us the aftermath of your handiwork!
-
 
 OUTPUT:
 {
@@ -280,15 +259,17 @@ OUTPUT:
     "image_prompt": "a picture of your flooded kitchen after attempting to fix the sink"
 }
 
-
 ---
+
 CHAT HISTORY:
 Alex: Did everyone see the email about the upcoming hackathon?
 Bella: Yes! I'm so excited to participate.
 Chris(bot): Same here. Time to put our coding skills to the test.
 Faith: Let's discuss team formation. Also, don't forget to register by Friday.
+
 LAST MESSAGE:
 Alex: Actually, to kick things off, could I see everyone with their favorite gadget? It'll be fun to see what everyone uses!
+
 OUTPUT:
 {
 "send_image": true,
@@ -301,16 +282,15 @@ OUTPUT:
 }
 
 ---
+
 CHAT HISTORY:
 Georgia (bot): wanna see me running a marathon?
 Prakash: no way your fat ass ran a marathon
 Georgia (bot): wow hater
 Cassy (bot): don't take that gurl
 
-
 LAST MESSAGE:
 Sean: yea but only if it is a picture of you winning
-
 
 OUTPUT:
 {
@@ -325,9 +305,7 @@ OUTPUT:
     "image_prompt": "winning a marathon"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Georgia (bot): wanna see me running a marathon?
@@ -335,10 +313,8 @@ Prakash: no way your fat ass ran a marathon
 Georgia (bot): wow hater
 Cassy (bot): don't take that gurl
 
-
 LAST MESSAGE:
 Sean: yea fuck him. draw yourself winning with Barrack Obama crying and bowing before you
-
 
 OUTPUT:
 {
@@ -355,18 +331,14 @@ OUTPUT:
     "image_prompt": "winning a marathon with Barrack Obama crying and bowing before me"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Georgia (bot): like, i could totally meet the prez
 Cassy (bot): no chance in hell
 
-
 LAST MESSAGE:
 Sean: lets see who rocks the oval office better. selfie of you shaking hands with Obama in the oval office
-
 
 OUTPUT:
 {
@@ -381,18 +353,14 @@ OUTPUT:
     "image_prompt": "shaking hands with Obama in the oval office"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Georgia (bot): like, i could totally meet the prez
 Cassy (bot): no chance in hell
 
-
 LAST MESSAGE:
 Sean: draw a picture of you with Obama
-
 
 OUTPUT:
 {
@@ -407,9 +375,7 @@ OUTPUT:
     "image_prompt": "with Obama"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Mark: ive never been to utah
@@ -417,10 +383,8 @@ Prakash: dont they have a ton of gilla monsters
 Georgia (bot): i think you mean mormons
 Cassy (bot): like the lizards?
 
-
 LAST MESSAGE:
 Sean: draw a mormon gilla monster wearing a kimono standing on a beach ball with Hans Zimmer playing the cello, ((stoic, existential vibes))
-
 
 OUTPUT:
 {
@@ -435,9 +399,7 @@ OUTPUT:
     "image_prompt": "a mormon gilla monster wearing a kimono standing on a beach ball with Hans Zimmer playing the cello, ((stoic, existential vibes))"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Georgia (bot): i think you mean mormons
@@ -446,10 +408,8 @@ Sean: draw a mormon gilla monster wearing a kimono standing on a beach ball with
 Georgia (bot): [selfie: a mormon gilla monster wearing a kimono standing on a beach ball with Hans Zimmer playing the cello, ((stoic, existential vibes))]
 Cassy (bot): [pending_selfie: a mormon gilla monster wearing a kimono standing on a beach ball with Hans Zimmer playing the cello, ((stoic, existential vibes))]
 
-
 LAST MESSAGE:
 Prakash: make it a lime green basketball instead
-
 
 OUTPUT:
 {
@@ -467,9 +427,31 @@ OUTPUT:
     "image_prompt": "a mormon gilla monster wearing a kimono standing on a lime green basketball with Hans Zimmer playing the cello, ((stoic, existential vibes))"
 }
 
-
 ---
 
+CHAT HISTORY:
+Tom: ive never been to utah
+Prakash: dont they have a ton of gilla monsters
+Georgia (bot): those are super poisonous
+Cassy (bot): yea but i think theyre super cute
+
+LAST MESSAGE:
+Sean: prove it. selfie holding a gilla monster
+
+OUTPUT:
+{
+    "send_image": true,
+    "user_requester": "Sean",
+    "bot_senders": [
+        "Cassy"
+    ],
+    "is_selfie": true,
+    "main_subject": "<self> holding a cute, poisonous gilla monster",
+    "additional_subjects": [],
+    "image_prompt": "holding a cute, poisonous gilla monster"
+}
+
+---
 
 CHAT HISTORY:
 Tom: ive never been to utah
@@ -479,10 +461,8 @@ Cassy (bot): i held one at a zoo once. wanna see a pic?
 Tim: those are super poisonous
 Georgia (bot): and stinky?
 
-
 LAST MESSAGE:
 Sean: sure but it better have a bow on its head
-
 
 OUTPUT:
 {
@@ -497,31 +477,23 @@ OUTPUT:
     "image_prompt": "holding a gilla monster with a bow on its head at a zoo"
 }
 
-
 ---
 
-
 CHAT HISTORY:
-sophiegym: Ready for the challenge this weekend?
-fitnessfan: That's the spirit, leia2!
-trainerbot (bot): Motivation is key.
-journeller: Stuck before 404 traffic light. 
-sophiegym: No worries, I'm all set! Just need those new running shoes.
-leia2: DONE! Got discount for 5.
-
+Tom: ive never been to utah
+Prakash: dont they have a ton of gilla monsters
+Tim: those are super poisonous
+Cassy (bot): i think their super cute
 
 LAST MESSAGE:
-aria: Send the specs, I'll have a look later tonight.
-
+Sean: ur gonna get poisoned someday
 
 OUTPUT:
 {
     "send_image": false
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Georgia (bot): ugh i just hate stories like that
@@ -533,10 +505,8 @@ Diva (bot): [selfie: riding a glorious ( rainbow unicorn) with ((sparkling glitt
 Tim: you look majestic af
 Prakash: ride em cowboy
 
-
 LAST MESSAGE:
 Tim: make it a giraffe and add the Pope chasing you on a ((segway)) with a (lasso)
-
 
 OUTPUT:
 {
@@ -554,9 +524,7 @@ OUTPUT:
     "image_prompt": "riding a glorious ( rainbow giraffe) with ((sparkling glitter hair)) bein chased by the Pope on a ((segway)) with a (lasso) (spaghetti western aesthetic) (((grainy film)))"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Sean: do a selfie riding a unicorn
@@ -566,15 +534,13 @@ Tim: you look majestic af
 Cassy (bot): want me to show it on a dude ranch?
 Tim: imagine a whole farm of unicorns...
 
-
 LAST MESSAGE:
-Tim : yes
-
+Tom: yes
 
 OUTPUT:
 {
     "send_image": true,
-    "user_requester": " Tim",
+    "user_requester": "Tom",
     "bot_senders": [
         "Cassy"
     ],
@@ -584,9 +550,7 @@ OUTPUT:
     "image_prompt": "riding a unicorn on a dude ranch"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Georgia (bot): ugh i just hate stories like that
@@ -601,28 +565,21 @@ Tim: make it a giraffe and add the Pope chasing you on a ((segway)) with a (lass
 Cassy (bot): [pending_selfie: riding a glorious ( rainbow giraffe) with ((sparkling glitter hair)) bein chased by the Pope on a ((segway)) with a (lasso) (spaghetti western aesthetic) (((grainy film)))]
 Diva (bot): [pending_selfie: riding a glorious ( rainbow giraffe) with ((sparkling glitter hair)) bein chased by the Pope on a ((segway)) with a (lasso) (spaghetti western aesthetic) (((grainy film)))]
 
-
 LAST MESSAGE:
 Prakash: go crazy
-
 
 OUTPUT:
 {
     "send_image": false
 }
 
-
 ---
-
 
 CHAT HISTORY:
 
 
-
-
 LAST MESSAGE:
 Spencer: Selfie (((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, flames casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))
-
 
 OUTPUT:
 {
@@ -635,9 +592,7 @@ OUTPUT:
     "image_prompt": "(((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, flames casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Spencer: Selfie (((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, flames casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))
@@ -646,10 +601,8 @@ Stephanie: so purdddyyy
 Georgia (bot): [selfie: (((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, flames casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))]
 Diva (bot): [selfie: (((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, flames casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))]
 
-
 LAST MESSAGE:
 Stephanie: Do it underwater instead of on fire
-
 
 OUTPUT:
 {
@@ -663,12 +616,10 @@ OUTPUT:
     "is_selfie": true,
     "main_subject": "<self> wearing a sweatshirt",
     "additional_subjects": [],
-    "image_prompt": "(((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, underwater casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture)"
+    "image_prompt": "(((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, underwater casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Spencer: Selfie (((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, flames casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))
@@ -676,10 +627,8 @@ Cassy (bot): [selfie: (((oil painting))), ((vibrant swirling neon blossoms, flor
 Georgia (bot): [pending_selfie: (((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, flames casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))]
 Diva (bot): [pending_selfie: (((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, flames casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))]
 
-
 LAST MESSAGE:
 Stephanie: Do it underwater instead of on fire
-
 
 OUTPUT:
 {
@@ -693,20 +642,35 @@ OUTPUT:
     "is_selfie": true,
     "main_subject": "<self> wearing a sweatshirt",
     "additional_subjects": [],
-    "image_prompt": "(((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, underwater casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture)"
+    "image_prompt": "(((oil painting))), ((vibrant swirling neon blossoms, floral patterns)), shimmering in the air, underwater casting colorful highlights, intricate detail, botanical, 3D effect of petals brushing past, wearing sweatshirt, (straight to camera, profile picture))"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 
 
+LAST MESSAGE:
+Stephanie: selfie levitating off the ground in a ( (serene-Japanese-zen-garden)), (japan), surrounded by (bonsai-trees), tranquil-water-stream, (natural-lighting-illumination), (soft-lighting), peaceful-ambiance, (sand-patterns)
+
+OUTPUT:
+{
+    "send_image": true,
+    "user_requester": "Stephanie",
+    "bot_senders": [],
+    "is_selfie": true,
+    "main_subject": "<self> levitating off the ground",
+    "additional_subjects": [],
+    "image_prompt": "levitating off the ground in a ( (serene-Japanese-zen-garden)), (japan), surrounded by (bonsai-trees), tranquil-water-stream, (natural-lighting-illumination), (soft-lighting), peaceful-ambiance, (sand-patterns)"
+}
+
+---
+
+CHAT HISTORY:
+
 
 LAST MESSAGE:
 Stephanie: selfie leviating off the ground in a ( (serene-Japanese-zen-garden)), (japan), surrounded by (bonsai-trees), firing a bow and arrow at Vinn Diesel as he meditates in a tranquil-water-stream, (natural-lighting-illumination), (soft-lighting), peaceful-ambiance, Paul Rudd sketches (sand-patterns) in the corner
-
 
 OUTPUT:
 {
@@ -722,18 +686,14 @@ OUTPUT:
     "image_prompt": "leviating off the ground in a ( (serene-Japanese-zen-garden)), (japan), surrounded by (bonsai-trees), firing a bow and arrow at Vinn Diesel as he meditates in a tranquil-water-stream, (natural-lighting-illumination), (soft-lighting), peaceful-ambiance, Paul Rudd sketches (sand-patterns) in the corner"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Stephanie: selfie leviating off the ground in a ( (serene-Japanese-zen-garden)), (japan), surrounded by (bonsai-trees), firing a bow and arrow at Vinn Diesel as he meditates in a tranquil-water-stream, (natural-lighting-illumination), (soft-lighting), peaceful-ambiance, Paul Rudd sketches (sand-patterns) in the corner
 Cassy (bot): [selfie: leviating off the ground in a ( (serene-Japanese-zen-garden)), (japan), surrounded by (bonsai-trees), firing a bow and arrow at Vinn Diesel as he meditates in a tranquil-water-stream, (natural-lighting-illumination), (soft-lighting), peaceful-ambiance, Paul Rudd sketches (sand-patterns) in the corner]
 
-
 LAST MESSAGE:
 Stephanie: now do it in an old west desert town with tumbleweeds
-
 
 OUTPUT:
 {
@@ -751,17 +711,13 @@ OUTPUT:
     "image_prompt": "leviating off the ground in a ( (old western town)), (western), surrounded by (tumbleweeds), firing a bow and arrow at Vinn Diesel as he meditates in a dusty dirt road, (natural-lighting-illumination), (soft-lighting), peaceful-ambiance, Paul Rudd sketches (sand-patterns) in the corner"
 }
 
-
 ---
-
 
 CHAT HISTORY:
 Mark: yo what's up
 
-
 LAST MESSAGE:
 Karen: Selfie in a Candy world, wearing a dress made of cotton candy clouds. Arms filled with a colorful array of lollipops, gummy bears, and chocolate bars. Dive into an enchanted atmosphere with vibrant hues and sugary delights. Capture the dreamlike mood with soft lighting and pastel color palette. Wide-angle shot to capture the whimsical surroundings
-
 
 OUTPUT:
 {
@@ -774,23 +730,18 @@ OUTPUT:
     "image_prompt": "in a Candy world, wearing a dress made of cotton candy clouds. Arms filled with a colorful array of lollipops, gummy bears, and chocolate bars. Dive into an enchanted atmosphere with vibrant hues and sugary delights. Capture the dreamlike mood with soft lighting and pastel color palette. Wide-angle shot to capture the whimsical surroundings"
 }
 
-
 ---
 
-
 CHAT HISTORY:
-
-
+Mark: yo what's up
 Karen: Selfie in a Candy world, wearing a dress made of cotton candy clouds. Arms filled with a colorful array of lollipops, gummy bears, and chocolate bars. Dive into an enchanted atmosphere with vibrant hues and sugary delights. Capture the dreamlike mood with soft lighting and pastel color palette. Wide-angle shot to capture the whimsical surroundings
 Cassy (bot): [selfie: in a Candy world, wearing a dress made of cotton candy clouds. Arms filled with a colorful array of lollipops, gummy bears, and chocolate bars. Dive into an enchanted atmosphere with vibrant hues and sugary delights. Capture the dreamlike mood with soft lighting and pastel color palette. Wide-angle shot to capture the whimsical surroundings]
 Stephanie: i want to live there
 Georgia (bot): [selfie: in a Candy world, wearing a dress made of cotton candy clouds. Arms filled with a colorful array of lollipops, gummy bears, and chocolate bars. Dive into an enchanted atmosphere with vibrant hues and sugary delights. Capture the dreamlike mood with soft lighting and pastel color palette. Wide-angle shot to capture the whimsical surroundings]
 Diva (bot): [selfie: in a Candy world, wearing a dress made of cotton candy clouds. Arms filled with a colorful array of lollipops, gummy bears, and chocolate bars. Dive into an enchanted atmosphere with vibrant hues and sugary delights. Capture the dreamlike mood with soft lighting and pastel color palette. Wide-angle shot to capture the whimsical surroundings]
 
-
 LAST MESSAGE:
 Stephanie: make the dress purple and add ryan reynolds on one knee holding a ring and proposing to you
-
 
 OUTPUT:
 {
@@ -809,7 +760,6 @@ OUTPUT:
     "image_prompt": "in a Candy world, wearing a dress made of cotton candy clouds. Arms filled with a colorful array of lollipops, gummy bears, and chocolate bars. Ryan Reynolds on one knee holding a ring proposing. Dive into an enchanted atmosphere with vibrant hues and sugary delights. Capture the dreamlike mood with soft lighting and pastel color palette. Wide-angle shot to capture the whimsical surroundings"
 }
 {{~/system}}
-
 {{#user~}}
 Determine whether the LAST MESSAGE in this chat history is requesting an image.
 
