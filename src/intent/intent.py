@@ -145,8 +145,6 @@ def generate_report(csv_data, incorrect_span_ids, model, temperature):
     report['senders_accuracy'] = round(is_sender_correct.mean() * 100, 2)
     report['requestor_accuracy'] = round(is_requestor_correct.mean() * 100, 2)
 
-    report['incorrect_span_ids'] = incorrect_span_ids
-
     return report
 
 def compare_with_baseline(report, baseline_data):
