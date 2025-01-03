@@ -30,7 +30,6 @@ xcode-select --install
 ### Run from command line
 
 1. Run `python scripts/chat/test.py` to start a conversation between bots
-2. Run `python scripts/intent_detection/evaluate.py` to evaluate the intent detection prompt
 
 ### Run with VSCode
 
